@@ -1,0 +1,29 @@
+/* ===== VARIABLES GLOBALES ===== */
+:root {
+    --color-fondo: #F5F0E8;
+    --color-acento: #87CEEB;
+    --color-dorado: #C9A84C;
+    --color-texto: #2C2C2C;
+    --color-ui: #4A90D9;
+    --color-fondo-fate: #1a1a2e;
+}
+
+/* ===== TIPOGRAFIAS ===== */
+.titulo {
+    font-family: "IM Fell DW Pica SC", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.nombre-personaje {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.ui {
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}

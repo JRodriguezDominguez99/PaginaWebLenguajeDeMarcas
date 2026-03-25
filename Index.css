@@ -1,0 +1,18 @@
+/* ===== IMPORTAMOS EL CSS GLOBAL ===== */
+@import url('global.css');
+
+#pantalla-seleccion {
+    display: flex;
+    flex-direction: row;
+    gap: 0;
+    padding: 0;
+    height: 100vh;
+}
+
+#lado-axis{
+    width: 50%;
+}
+
+#lado-fate{
+    width: 50%;
+}

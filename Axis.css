@@ -1,12 +1,3 @@
-/* ===== VARIABLES GLOBALES ===== */
-:root {
-    --color-fondo: #F5F0E8;
-    --color-acento: #87CEEB;
-    --color-dorado: #C9A84C;
-    --color-texto: #2C2C2C;
-    --color-ui: #4A90D9;
-}
-
 /* ===== ESTILOS GENERALES ===== */
 body {
     background-color: var(--color-fondo);
@@ -58,37 +49,6 @@ body {
 #nav-enlaces a:hover {
     color: var(--color-dorado);
     transition: color 0.3s ease;
-}
-
-#cerrar-menu {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    background: none;
-    border: none;
-    color: white;
-    font-size: 24px;
-    cursor: pointer;
-}
-
-/* ===== TIPOGRAFIAS ===== */
-.titulo {
-    font-family: "IM Fell DW Pica SC", serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.nombre-personaje {
-    font-family: "Bebas Neue", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-}
-
-.ui {
-    font-family: "Orbitron", sans-serif;
-    font-optical-sizing: auto;
-    font-weight: 400;
-    font-style: normal;
 }
 
 /* ===== HEADER ===== */
