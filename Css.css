@@ -1,0 +1,300 @@
+/* ===== VARIABLES GLOBALES ===== */
+:root {
+    --color-fondo: #F5F0E8;
+    --color-acento: #87CEEB;
+    --color-dorado: #C9A84C;
+    --color-texto: #2C2C2C;
+    --color-ui: #4A90D9;
+}
+
+/* ===== ESTILOS GENERALES ===== */
+body {
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+}
+
+/* ===== MENÚ HAMBURGUESA ===== */
+#hamburguesa {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: rgba(0,0,0,0.5);
+    border: none;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 20;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+#nav-enlaces {
+    position: fixed;
+    top: 0;
+    right: -30%;
+    width: 30%;
+    height: 100vh;
+    background-color: rgba(20, 20, 20, 0.97);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;
+    z-index: 15;
+    transition: right 0.4s ease;
+}
+
+#nav-enlaces.abierto {
+    right: 0;
+}
+
+#nav-enlaces a {
+    color: white;
+    font-size: 20px;
+    text-decoration: none;
+    letter-spacing: 2px;
+}
+
+#nav-enlaces a:hover {
+    color: var(--color-dorado);
+    transition: color 0.3s ease;
+}
+
+#cerrar-menu {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: none;
+    border: none;
+    color: white;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+/* ===== TIPOGRAFIAS ===== */
+.titulo {
+    font-family: "IM Fell DW Pica SC", serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.nombre-personaje {
+    font-family: "Bebas Neue", sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.ui {
+    font-family: "Orbitron", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* ===== HEADER ===== */
+header {
+    background-image: url(img/the-night-furry-ljTf4NZ8kPU-unsplash.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+}
+
+header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.3);
+}
+
+header nav,
+header h1,
+header p {
+    position: relative;
+    z-index: 1;
+}
+
+header h1,
+header p {
+    color: white;
+}
+
+/* ===== PERSONAJES ===== */
+#personajes {
+    background-color: var(--color-dorado);
+    padding: 80px 20px;
+}
+
+#personajes-carrusel {
+    display: flex;
+    flex-direction: row;
+    overflow-x: auto;
+    gap: 20px;
+    padding: 20px 0;
+}
+
+#personajes-carrusel article {
+    min-width: 280px;
+    height: 400px;
+    background-color: white;
+    border-radius: 16px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    transition: transform 0.3s ease;
+}
+
+#personajes-carrusel article:hover {
+    transform: translateY(-10px);
+}
+
+/* ===== HABILIDADES Y PODERES ===== */
+#habilidades-y-poderes {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    padding: 80px 20px;
+}
+
+#habilidades-y-poderes img {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+}
+
+#habilidades-y-poderes h2 {
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+#habilidades-y-poderes article {
+    text-align: center;
+}
+
+/* ===== LUGARES Y MAPA ===== */
+#lugares-y-mapa {
+    padding: 80px 20px;
+    text-align: center;
+}
+
+#mapa {
+    max-width: 1000px;
+    width: 90%;
+    height: 300px;
+    border-radius: 50%;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 4px solid var(--color-dorado);
+}
+
+#zona-alta {
+    flex: 1;
+    background-color: #87CEEB;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#zona-media {
+    flex: 1;
+    background-color: #7cb87c;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#zona-baja {
+    flex: 1;
+    background-color: #8B6355;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.zona:hover {
+    filter: brightness(1.2);
+}
+
+.zona-nombre {
+    font-family: "IM Fell DW Pica SC", serif;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+.ciudades {
+    display: none;
+}
+
+.zona:hover .ciudades {
+    display: flex;
+    gap: 10px;
+    margin-left: 15px;
+}
+
+.ciudad {
+    background-color: rgba(255,255,255,0.3);
+    padding: 4px 10px;
+    border-radius: 20px;
+    color: white;
+    font-size: 13px;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    background-color: var(--color-texto);
+    color: white;
+    padding: 20px 10px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+
+footer h3 {
+    color: var(--color-dorado);
+    margin-bottom: 10px;
+}
+
+footer ul {
+    list-style: none;
+    padding: 0;
+}
+
+footer ul li {
+    color: rgba(255,255,255,0.8);
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+#footer-links a,
+#footer-top a {
+    color: var(--color-dorado);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+#footer-links a:hover,
+#footer-top a:hover {
+    color: white;
+    transition: color 0.3s ease;
+}
+
+#footer-copy {
+    color: rgba(255,255,255,0.4);
+    font-size: 12px;
+}
