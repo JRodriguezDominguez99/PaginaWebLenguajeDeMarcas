@@ -1,0 +1,419 @@
+/* Fondo general neutro para la zona de fichas. */
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at top, rgba(135, 206, 235, 0.18), transparent 26%),
+        linear-gradient(180deg, #f7f1e8 0%, #ede2d0 100%);
+    color: var(--color-texto);
+}
+
+/* Hero simple que presenta la funcionalidad. */
+.fichas-hero {
+    position: relative;
+    padding: 64px 16px 132px;
+    background:
+        radial-gradient(circle at top, rgba(74, 144, 217, 0.18), transparent 28%),
+        linear-gradient(180deg, #18283f 0%, #101929 100%);
+    color: white;
+    text-align: center;
+    overflow: hidden;
+}
+
+.fichas-hero::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: 28px;
+    width: min(820px, calc(100% - 48px));
+    height: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.46) 50%, transparent 100%);
+    opacity: 0.8;
+}
+
+.fichas-hero-contenido {
+    width: min(860px, calc(100% - 16px));
+    margin: 0 auto;
+}
+
+.fichas-etiqueta,
+.fichas-subtitulo {
+    margin: 0 0 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.fichas-hero h1 {
+    margin: 0;
+    font-size: clamp(2.8rem, 8vw, 5rem);
+}
+
+.fichas-texto {
+    max-width: 700px;
+    margin: 18px auto 0;
+    line-height: 1.8;
+    color: rgba(255, 255, 255, 0.86);
+}
+
+.fichas-acciones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 28px;
+}
+
+.boton-fichas {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 190px;
+    padding: 14px 20px;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.92);
+    color: #142033;
+}
+
+.boton-fichas-secundario {
+    background: transparent;
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.36);
+}
+
+/* Layout general de la pagina de fichas. */
+.fichas-layout {
+    width: min(1200px, calc(100% - 32px));
+    margin: -72px auto 0;
+    padding: 0 0 88px;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 24px;
+    position: relative;
+    z-index: 2;
+}
+
+.fichas-panel {
+    padding: 28px 24px;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.84);
+    border: 1px solid rgba(19, 38, 62, 0.08);
+    box-shadow: 0 18px 38px rgba(19, 38, 62, 0.08);
+    backdrop-filter: blur(10px);
+}
+
+.fichas-panel h2 {
+    margin: 0 0 14px;
+    font-size: clamp(2rem, 4.5vw, 3rem);
+}
+
+.fichas-panel p {
+    line-height: 1.7;
+}
+
+.form-intro {
+    margin-top: 0;
+    margin-bottom: 20px;
+    color: rgba(44, 44, 44, 0.82);
+}
+
+.datos-jugador-resumen {
+    margin-bottom: 18px;
+    padding: 18px 18px 16px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(19, 38, 62, 0.08) 0%, rgba(74, 144, 217, 0.12) 100%);
+    border: 1px solid rgba(19, 38, 62, 0.1);
+}
+
+.resumen-etiqueta {
+    display: inline-flex;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: #13263e;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+}
+
+.datos-jugador-resumen h3 {
+    margin: 0 0 8px;
+    font-size: 2rem;
+    color: #13263e;
+}
+
+.datos-jugador-resumen p {
+    margin: 0;
+}
+
+.fichas-panel-ancho {
+    grid-column: 1 / -1;
+}
+
+/* Estado visual del panel de Firebase. */
+.estado-firebase {
+    margin: 0;
+    padding: 14px 16px;
+    border-radius: 18px;
+    background: rgba(201, 168, 76, 0.12);
+    border: 1px solid rgba(201, 168, 76, 0.28);
+}
+
+.estado-firebase.ok {
+    background: rgba(124, 184, 124, 0.14);
+    border-color: rgba(124, 184, 124, 0.34);
+}
+
+.estado-firebase.error {
+    background: rgba(175, 79, 79, 0.12);
+    border-color: rgba(175, 79, 79, 0.28);
+}
+
+.nota-firebase {
+    margin-bottom: 0;
+    color: rgba(44, 44, 44, 0.76);
+}
+
+/* Formulario principal. */
+.character-form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.campo label {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+    width: 100%;
+    padding: 13px 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(19, 38, 62, 0.14);
+    background: rgba(255, 255, 255, 0.92);
+    color: var(--color-texto);
+    font: inherit;
+    box-sizing: border-box;
+}
+
+.campo-ancho {
+    grid-column: 1 / -1;
+}
+
+/* Caja visual para separar claramente los datos del jugador de la ficha del personaje. */
+.datos-jugador-box {
+    margin: 0;
+    padding: 22px 20px 12px;
+    border-radius: 22px;
+    border: 1px solid rgba(19, 38, 62, 0.16);
+    background:
+        linear-gradient(180deg, rgba(19, 38, 62, 0.06) 0%, rgba(74, 144, 217, 0.09) 100%);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.45);
+}
+
+.datos-jugador-box legend {
+    padding: 0 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #13263e;
+}
+
+.datos-jugador-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.stats-grid {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 14px;
+}
+
+.form-acciones {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
+.boton-formulario {
+    border: none;
+    padding: 14px 20px;
+    border-radius: 999px;
+    background: #13263e;
+    color: white;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.boton-formulario-secundario {
+    background: rgba(19, 38, 62, 0.14);
+    color: #13263e;
+}
+
+.form-status {
+    grid-column: 1 / -1;
+    margin: 0;
+    color: rgba(44, 44, 44, 0.76);
+}
+
+.form-status.ok {
+    color: #2f6e2f;
+}
+
+.form-status.error {
+    color: #8e3131;
+}
+
+/* Cabecera del listado con filtro. */
+.cabecera-listado {
+    display: flex;
+    justify-content: space-between;
+    gap: 18px;
+    align-items: end;
+    margin-bottom: 20px;
+}
+
+.cabecera-listado h2 {
+    margin: 0;
+}
+
+.filtro-campo {
+    min-width: 220px;
+}
+
+/* Tarjetas de personajes cargadas desde Firestore. */
+.characters-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 18px;
+}
+
+.character-card,
+.character-empty {
+    padding: 22px 20px;
+    border-radius: 24px;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 242, 232, 0.96) 100%);
+    border: 1px solid rgba(19, 38, 62, 0.08);
+}
+
+.character-card h3,
+.character-empty h3 {
+    margin: 0 0 12px;
+    font-size: 2rem;
+}
+
+.character-meta {
+    display: inline-flex;
+    margin-bottom: 14px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(135, 206, 235, 0.18);
+    color: #173b59;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+}
+
+.character-card p,
+.character-empty p {
+    margin: 0 0 12px;
+    line-height: 1.7;
+}
+
+.character-stats {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+    padding: 0;
+    margin: 16px 0 0;
+}
+
+.character-stats li {
+    padding: 10px 12px;
+    border-radius: 14px;
+    background: rgba(19, 38, 62, 0.06);
+    text-align: center;
+}
+
+/* Reutilizamos el reveal del resto del proyecto.
+   Ojo: por defecto los paneles son visibles.
+   Solo se ocultan si JS anade la clase de mejora progresiva al body. */
+.reveal-on-scroll {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+body.js-reveal .reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+body.js-reveal .reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ajustes responsive para no romper el formulario. */
+@media (max-width: 980px) {
+    .fichas-layout {
+        margin-top: -52px;
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 760px) {
+    .fichas-hero {
+        padding: 56px 16px 110px;
+    }
+
+    .fichas-layout {
+        margin-top: -42px;
+    }
+
+    .character-form {
+        grid-template-columns: 1fr;
+    }
+
+    .datos-jugador-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .cabecera-listado {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filtro-campo {
+        min-width: 0;
+    }
+
+    .character-stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

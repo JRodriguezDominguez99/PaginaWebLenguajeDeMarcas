@@ -1,4 +1,4 @@
-/* ===== VARIABLES GLOBALES ===== */
+/* Variables compartidas entre todas las paginas para mantener una identidad visual comun. */
 :root {
     --color-fondo: #F5F0E8;
     --color-acento: #87CEEB;
@@ -8,19 +8,21 @@
     --color-fondo-fate: #1a1a2e;
 }
 
-/* ===== TIPOGRAFIAS ===== */
+/* Fuente pensada para titulos y nombres de seccion. */
 .titulo {
     font-family: "IM Fell DW Pica SC", serif;
     font-weight: 400;
     font-style: normal;
 }
 
+/* Fuente mas impactante para nombres de personajes y clases. */
 .nombre-personaje {
     font-family: "Bebas Neue", sans-serif;
     font-weight: 400;
     font-style: normal;
 }
 
+/* Fuente de interfaz para botones, menus y microtextos. */
 .ui {
     font-family: "Orbitron", sans-serif;
     font-optical-sizing: auto;

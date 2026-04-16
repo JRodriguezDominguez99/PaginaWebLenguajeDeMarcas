@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fichas de personaje</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+DW+Pica+SC&family=Orbitron:wght@400..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="Ficha.css">
+</head>
+
+<body>
+    <!-- Hero simple para presentar la zona de gestion de fichas. -->
+    <header class="fichas-hero">
+        <div class="fichas-hero-contenido">
+            <p class="ui fichas-etiqueta">Firebase + Firestore</p>
+            <h1 class="titulo">Archivo de Personajes</h1>
+            <p class="fichas-texto">
+                Aqui podremos guardar y consultar personajes de Axis y Fate. La estructura ya queda preparada para
+                conectar con Firebase y almacenar fichas reales.
+            </p>
+            <div class="fichas-acciones">
+                <a class="ui boton-fichas" href="Axis.html">Volver a Axis</a>
+                <a class="ui boton-fichas boton-fichas-secundario" href="Fate.html">Volver a Fate</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="fichas-layout">
+        <!-- Panel con estado de conexion para saber si Firebase esta configurado. -->
+        <section class="fichas-panel reveal-on-scroll">
+            <p class="ui fichas-subtitulo">Estado</p>
+            <h2 class="titulo">Conexion con Firebase</h2>
+            <p id="firebase-status" class="estado-firebase">
+                Pendiente de configurar credenciales de Firebase.
+            </p>
+            <p class="nota-firebase">
+                Este estado cambiara automaticamente cuando se rellene bien el archivo de configuracion y Firestore
+                este disponible.
+            </p>
+        </section>
+
+        <!-- Formulario principal para guardar una ficha de personaje. -->
+        <section class="fichas-panel reveal-on-scroll">
+            <p class="ui fichas-subtitulo">Formulario</p>
+            <h2 class="titulo">Guardar personaje</h2>
+            <p class="form-intro">
+                Empieza completando los datos del jugador. Ese bloque identifica quien crea la ficha antes de pasar a
+                los datos del personaje.
+            </p>
+
+            <!-- Resumen visual fijo para que esta parte se identifique aunque falle el JS del reveal. -->
+            <div class="datos-jugador-resumen">
+                <span class="ui resumen-etiqueta">Paso 1</span>
+                <h3 class="nombre-personaje">Datos del jugador</h3>
+                <p>
+                    Aqui van tu nombre, contacto y grupo de juego. Despues rellenas la ficha del personaje debajo.
+                </p>
+            </div>
+
+            <form id="character-form" class="character-form">
+                <!-- Caja pequena para los datos del jugador que crea la ficha. -->
+                <fieldset class="datos-jugador-box campo-ancho">
+                    <legend class="ui">Datos del jugador</legend>
+
+                    <div class="datos-jugador-grid">
+                        <div class="campo">
+                            <label for="jugador" class="ui">Jugador</label>
+                            <input id="jugador" name="jugador" type="text" placeholder="Nombre del jugador" required>
+                        </div>
+
+                        <div class="campo">
+                            <label for="contacto" class="ui">Contacto</label>
+                            <input id="contacto" name="contacto" type="text"
+                                placeholder="Discord, correo o red social">
+                        </div>
+
+                        <div class="campo">
+                            <label for="grupo" class="ui">Grupo / mesa</label>
+                            <input id="grupo" name="grupo" type="text" placeholder="Nombre de la mesa o grupo">
+                        </div>
+                    </div>
+                </fieldset>
+
+                <div class="campo">
+                    <label for="mundo" class="ui">Mundo</label>
+                    <select id="mundo" name="mundo" required>
+                        <option value="Axis">Axis</option>
+                        <option value="Fate">Fate</option>
+                    </select>
+                </div>
+
+                <div class="campo">
+                    <label for="nombre" class="ui">Personaje</label>
+                    <input id="nombre" name="nombre" type="text" placeholder="Nombre del personaje" required>
+                </div>
+
+                <div class="campo">
+                    <label for="rol" class="ui">Clase o faccion</label>
+                    <input id="rol" name="rol" type="text" placeholder="Ej. Saber, Black Rose..." required>
+                </div>
+
+                <div class="campo">
+                    <label for="origen" class="ui">Zona o procedencia</label>
+                    <input id="origen" name="origen" type="text" placeholder="Ciudad, barrio o region">
+                </div>
+
+                <div class="campo campo-ancho">
+                    <label for="descripcion" class="ui">Descripcion</label>
+                    <textarea id="descripcion" name="descripcion" rows="5"
+                        placeholder="Resumen del personaje, historia o motivacion"></textarea>
+                </div>
+
+                <!-- Bloque de estadisticas preparado para guardar numeros simples. -->
+                <div class="stats-grid">
+                    <div class="campo">
+                        <label for="str" class="ui">STR</label>
+                        <input id="str" name="str" type="number" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="campo">
+                        <label for="con" class="ui">CON</label>
+                        <input id="con" name="con" type="number" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="campo">
+                        <label for="agi" class="ui">AGI</label>
+                        <input id="agi" name="agi" type="number" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="campo">
+                        <label for="mgi" class="ui">MGI</label>
+                        <input id="mgi" name="mgi" type="number" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="campo">
+                        <label for="lck" class="ui">LCK</label>
+                        <input id="lck" name="lck" type="number" min="0" max="100" value="50">
+                    </div>
+
+                    <div class="campo">
+                        <label for="np" class="ui">NP</label>
+                        <input id="np" name="np" type="number" min="0" max="100" value="50">
+                    </div>
+                </div>
+
+                <div class="form-acciones">
+                    <button id="save-character" class="ui boton-formulario" type="submit">Guardar ficha</button>
+                    <button id="clear-form" class="ui boton-formulario boton-formulario-secundario"
+                        type="reset">Limpiar</button>
+                </div>
+
+                <p id="form-status" class="form-status" aria-live="polite">
+                    Completa la configuracion de Firebase para activar el guardado real.
+                </p>
+            </form>
+        </section>
+
+        <!-- Listado de fichas guardadas o recuperadas desde Firestore. -->
+        <section class="fichas-panel fichas-panel-ancho reveal-on-scroll">
+            <div class="cabecera-listado">
+                <div>
+                    <p class="ui fichas-subtitulo">Listado</p>
+                    <h2 class="titulo">Personajes guardados</h2>
+                </div>
+
+                <div class="campo filtro-campo">
+                    <label for="filter-world" class="ui">Filtrar por mundo</label>
+                    <select id="filter-world" name="filter-world">
+                        <option value="todos">Todos</option>
+                        <option value="Axis">Axis</option>
+                        <option value="Fate">Fate</option>
+                    </select>
+                </div>
+            </div>
+
+            <div id="characters-list" class="characters-list">
+                <article class="character-empty">
+                    <h3 class="nombre-personaje">Sin fichas todavia</h3>
+                    <p>
+                        Cuando Firebase este configurado y se guarde la primera ficha, apareceran aqui las tarjetas de
+                        los personajes.
+                    </p>
+                </article>
+            </div>
+        </section>
+    </main>
+
+    <!-- Script principal de la zona de fichas con integracion preparada para Firebase. -->
+    <script type="module" src="Ficha.js"></script>
+</body>
+
+</html>

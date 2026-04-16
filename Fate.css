@@ -1,0 +1,642 @@
+/* Suaviza el desplazamiento interno por anclas. */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Fondo general oscuro con matices frios. */
+body {
+    margin: 0;
+    background:
+        radial-gradient(circle at top, rgba(92, 108, 148, 0.22), transparent 28%),
+        linear-gradient(180deg, #0f1220 0%, #15192a 52%, #0d101a 100%);
+    color: #e6e2eb;
+}
+
+/* Evita que imagenes o elementos similares desborden. */
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Hero principal de Fate con un tono mas opresivo. */
+#fate-hero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+/* Todas las capas de fondo se colocan detras del contenido. */
+.fate-fondo,
+.fate-niebla,
+.fate-overlay {
+    position: absolute;
+    inset: 0;
+}
+
+/* Fondo base con gradientes en lugar de imagen para simular noche y profundidad. */
+.fate-fondo {
+    background:
+        radial-gradient(circle at 50% 25%, rgba(97, 106, 146, 0.55), transparent 22%),
+        linear-gradient(180deg, #1a1f33 0%, #0f1322 45%, #090c15 100%);
+    transform: translateY(var(--hero-parallax, 0px)) scale(1.12);
+    transform-origin: center;
+    will-change: transform;
+}
+
+/* Capa de niebla con transparencias para dar atmosfera. */
+.fate-niebla {
+    background:
+        radial-gradient(circle at 20% 40%, rgba(255, 255, 255, 0.09), transparent 18%),
+        radial-gradient(circle at 72% 32%, rgba(255, 255, 255, 0.08), transparent 20%),
+        radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.07), transparent 24%);
+    filter: blur(12px);
+    opacity: 0.9;
+}
+
+/* Capa oscura final para asegurar contraste y dramatismo. */
+.fate-overlay {
+    background:
+        linear-gradient(180deg, rgba(4, 6, 12, 0.28) 0%, rgba(4, 6, 12, 0.72) 100%);
+}
+
+/* Boton del menu compartido, adaptado a la estetica de Fate. */
+#hamburguesa {
+    position: fixed;
+    top: 24px;
+    right: 24px;
+    width: 52px;
+    height: 52px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    background: rgba(8, 10, 18, 0.5);
+    color: white;
+    font-size: 1.6rem;
+    cursor: pointer;
+    z-index: 30;
+    backdrop-filter: blur(10px);
+    transition: background-color 0.25s ease, transform 0.25s ease;
+}
+
+#hamburguesa:hover {
+    background: rgba(8, 10, 18, 0.82);
+    transform: scale(1.04);
+}
+
+/* Menu lateral reutilizando la misma logica de Axis. */
+#nav-enlaces {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: min(360px, 85vw);
+    height: 100vh;
+    padding: 120px 32px 32px;
+    background: rgba(8, 10, 18, 0.96);
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    z-index: 25;
+    transform: translateX(100%);
+    transition: transform 0.35s ease;
+    backdrop-filter: blur(16px);
+    box-shadow: -18px 0 40px rgba(0, 0, 0, 0.35);
+}
+
+#nav-enlaces.abierto {
+    transform: translateX(0);
+}
+
+#nav-enlaces a {
+    color: #efe8f5;
+    text-decoration: none;
+    font-size: 0.95rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 14px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 14px;
+    transition: border-color 0.25s ease, color 0.25s ease, background-color 0.25s ease;
+}
+
+#nav-enlaces a:hover,
+#nav-enlaces a:focus-visible {
+    color: #c9a84c;
+    border-color: rgba(201, 168, 76, 0.5);
+    background-color: rgba(255, 255, 255, 0.03);
+}
+
+/* Bloque central del hero. */
+.fate-hero-contenido {
+    position: relative;
+    z-index: 2;
+    width: min(820px, calc(100% - 40px));
+    text-align: center;
+    color: white;
+    padding: 48px 24px;
+}
+
+.fate-etiqueta,
+.fate-subtitulo {
+    margin: 0 0 12px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.fate-hero-contenido h1 {
+    margin: 0;
+    font-size: clamp(4rem, 12vw, 8rem);
+    letter-spacing: 0.08em;
+}
+
+.fate-hero-texto {
+    max-width: 700px;
+    margin: 20px auto 0;
+    font-size: clamp(1rem, 2.2vw, 1.2rem);
+    line-height: 1.8;
+    color: rgba(240, 236, 246, 0.88);
+}
+
+/* Botones principales de entrada a secciones. */
+.fate-hero-acciones {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 32px;
+}
+
+.boton-fate {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 230px;
+    padding: 14px 22px;
+    border-radius: 999px;
+    text-decoration: none;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(230, 226, 235, 0.92);
+    color: #121726;
+    border: 1px solid transparent;
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.boton-fate:hover,
+.boton-fate:focus-visible {
+    transform: translateY(-2px);
+    background: white;
+}
+
+.boton-fate-secundario {
+    background: transparent;
+    color: #f0ecf6;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.boton-fate-secundario:hover,
+.boton-fate-secundario:focus-visible {
+    background: rgba(255, 255, 255, 0.08);
+    color: white;
+}
+
+/* Contenedor general de cada seccion de Fate. */
+.fate-seccion {
+    width: min(1180px, calc(100% - 32px));
+    margin: 0 auto;
+    padding: 96px 0;
+}
+
+.fate-encabezado {
+    max-width: 720px;
+    margin-bottom: 32px;
+}
+
+.fate-encabezado h2 {
+    margin: 0 0 14px;
+    font-size: clamp(2rem, 5vw, 3.4rem);
+    color: #f5f0f7;
+}
+
+.fate-encabezado p:last-child {
+    margin: 0;
+    line-height: 1.8;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+/* Paneles introductorios del mundo Fate. */
+.fate-paneles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.fate-panel {
+    padding: 26px 22px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(33, 39, 61, 0.84) 0%, rgba(17, 21, 34, 0.9) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 22px 46px rgba(0, 0, 0, 0.22);
+}
+
+.fate-panel h3,
+.fate-carta h3,
+.anomalia h3,
+.frontera h3 {
+    margin: 0 0 10px;
+    color: #f2edf6;
+    font-size: 1.9rem;
+}
+
+.fate-panel p,
+.fate-carta p,
+.anomalia p,
+.frontera p {
+    margin: 0;
+    line-height: 1.75;
+    color: rgba(230, 226, 235, 0.8);
+}
+
+/* Cartas de personajes o arquetipos de Fate. */
+.carrusel-barra-fate {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 18px;
+}
+
+.carrusel-control-fate {
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    background: #101525;
+    color: white;
+    font-size: 1.35rem;
+    cursor: pointer;
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.22);
+    transition: transform 0.25s ease, background-color 0.25s ease;
+}
+
+.carrusel-control-fate:hover,
+.carrusel-control-fate:focus-visible {
+    transform: translateY(-2px);
+    background: #080b14;
+}
+
+.fate-cartas {
+    display: grid;
+    grid-auto-flow: column;
+    grid-auto-columns: minmax(260px, 1fr);
+    gap: 18px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 10px 4px 24px;
+}
+
+.fate-cartas::-webkit-scrollbar {
+    height: 10px;
+}
+
+.fate-cartas::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+}
+
+.fate-carta {
+    scroll-snap-align: start;
+    padding: 26px 22px;
+    border-radius: 26px;
+    background:
+        linear-gradient(180deg, rgba(24, 28, 44, 0.95) 0%, rgba(13, 16, 26, 0.98) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.18);
+    transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+}
+
+.fate-carta:hover {
+    transform: translateY(-8px);
+    border-color: rgba(201, 168, 76, 0.35);
+    box-shadow: 0 20px 38px rgba(0, 0, 0, 0.25);
+}
+
+.fate-carta-etiqueta {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    color: #cfd4ea;
+    font-size: 0.78rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+.fate-tensiones {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 18px;
+}
+
+.tension-card {
+    padding: 24px 20px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(25, 29, 45, 0.88) 0%, rgba(10, 13, 22, 0.96) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.16);
+    box-shadow: 0 18px 34px rgba(0, 0, 0, 0.18);
+}
+
+.tension-card h3 {
+    margin: 0 0 10px;
+    color: #f2edf6;
+    font-size: 1.9rem;
+}
+
+.tension-card p {
+    margin: 0;
+    line-height: 1.75;
+    color: rgba(230, 226, 235, 0.8);
+}
+
+/* Grid de anomalias con aspecto de registro de amenazas. */
+.anomalias-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 18px;
+}
+
+.anomalia {
+    padding: 22px 20px;
+    border-left: 3px solid rgba(201, 168, 76, 0.55);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+/* Mapa conceptual de fronteras. */
+.fronteras-mapa {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 18px;
+}
+
+.frontera {
+    padding: 28px 22px;
+    border-radius: 28px;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+}
+
+.frontera-niebla {
+    background: linear-gradient(180deg, rgba(88, 95, 126, 0.28) 0%, rgba(22, 26, 41, 0.92) 100%);
+}
+
+.frontera-centro {
+    background: linear-gradient(180deg, rgba(56, 62, 87, 0.35) 0%, rgba(19, 22, 34, 0.96) 100%);
+}
+
+.frontera-axis {
+    background: linear-gradient(180deg, rgba(111, 125, 176, 0.35) 0%, rgba(26, 31, 49, 0.96) 100%);
+}
+
+/* Estado de campana para reflejar rapidamente el punto actual de la historia en Fate. */
+.estado-fate-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    gap: 18px;
+}
+
+.objetivo-fate-card {
+    padding: 28px 24px;
+    border-radius: 26px;
+    background: linear-gradient(180deg, rgba(24, 28, 44, 0.92) 0%, rgba(10, 13, 22, 0.98) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.16);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+}
+
+.objetivo-fate-card h3 {
+    margin: 0 0 12px;
+    color: #f2edf6;
+    font-size: clamp(2rem, 4vw, 2.5rem);
+}
+
+.objetivo-fate-card p {
+    margin: 0;
+    line-height: 1.75;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.fate-objetivos-lista {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 14px;
+    line-height: 1.7;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+/* Ficha web de Fate con un tono mas tecnico y contenido. */
+.ficha-web-fate {
+    display: grid;
+    gap: 18px;
+    padding: 28px;
+    border-radius: 30px;
+    background: linear-gradient(180deg, rgba(21, 25, 39, 0.94) 0%, rgba(9, 12, 20, 0.98) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.16);
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
+}
+
+.ficha-fate-hero {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 22px;
+    align-items: center;
+}
+
+.ficha-retrato-fate {
+    background:
+        radial-gradient(circle at 30% 20%, rgba(255, 255, 255, 0.18), transparent 18%),
+        linear-gradient(180deg, rgba(143, 152, 200, 0.24) 0%, rgba(8, 10, 18, 0.24) 100%),
+        linear-gradient(135deg, #313955 0%, #161b2a 100%);
+}
+
+.ficha-retrato-fate span {
+    color: rgba(255, 255, 255, 0.92);
+}
+
+.ficha-fate-datos h3 {
+    margin: 12px 0;
+    font-size: clamp(2.4rem, 5vw, 3.4rem);
+    color: #f2edf6;
+}
+
+.ficha-fate-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.ficha-fate-datos p:last-child {
+    margin: 16px 0 0;
+    line-height: 1.8;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.ficha-fate-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+}
+
+.fate-bloque {
+    padding: 22px 20px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fate-secundarios-grid,
+.fate-atributos-grid,
+.skills-fate-web {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.fate-secundarios-grid div,
+.fate-atributos-grid div,
+.skills-fate-web div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(230, 226, 235, 0.84);
+}
+
+.relaciones-fate-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 16px;
+    margin-top: 14px;
+}
+
+.relacion-fate-card {
+    display: grid;
+    grid-template-columns: 72px 1fr;
+    gap: 16px;
+    align-items: start;
+    padding: 18px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.03);
+}
+
+.relacion-avatar-fate {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 1;
+    border-radius: 18px;
+    background: linear-gradient(135deg, #485173 0%, #1b2032 100%);
+    color: rgba(255, 255, 255, 0.9);
+    font-family: "Orbitron", sans-serif;
+}
+
+.relacion-fate-card h4 {
+    margin: 0 0 8px;
+    font-size: 1.7rem;
+    color: #f2edf6;
+}
+
+.relacion-fate-card p {
+    margin: 0;
+    line-height: 1.75;
+    color: rgba(230, 226, 235, 0.8);
+}
+
+/* Footer final en la misma linea estetica del resto. */
+.fate-footer {
+    padding: 72px 16px 42px;
+    text-align: center;
+    background: linear-gradient(180deg, #0a0d16 0%, #080a12 100%);
+    color: #f0ecf6;
+}
+
+.fate-footer p {
+    max-width: 680px;
+    margin: 0 auto 16px;
+    line-height: 1.8;
+    color: rgba(230, 226, 235, 0.8);
+}
+
+.fate-footer a {
+    color: #c9a84c;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.fate-footer a:hover,
+.fate-footer a:focus-visible {
+    color: white;
+}
+
+/* Estado inicial para entradas suaves al hacer scroll. */
+.reveal-on-scroll {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.65s ease, transform 0.65s ease;
+}
+
+/* Estado visible cuando el elemento ya ha entrado en viewport. */
+.reveal-on-scroll.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Ajustes de tablet y movil. */
+@media (max-width: 700px) {
+    .fate-seccion {
+        padding: 72px 0;
+    }
+
+    .fate-hero-contenido {
+        padding: 32px 18px;
+    }
+
+    .fate-hero-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .boton-fate {
+        min-width: 0;
+    }
+
+    .carrusel-barra-fate {
+        grid-template-columns: 1fr;
+    }
+
+    .carrusel-control-fate {
+        display: none;
+    }
+
+    .estado-fate-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .ficha-fate-hero,
+    .ficha-fate-grid,
+    .fate-secundarios-grid,
+    .fate-atributos-grid,
+    .skills-fate-web {
+        grid-template-columns: 1fr;
+    }
+}

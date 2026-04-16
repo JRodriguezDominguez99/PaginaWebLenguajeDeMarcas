@@ -3,24 +3,101 @@
 
 <head>
     <meta charset="UTF-8">
-    <title>Axis</title>
+    <title>Axis & Fate</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+DW+Pica+SC&family=Orbitron:wght@400..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="Index.css">
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <div id="pantalla-seleccion">
-        <div id="lado-axis"> → mitad izquierda
-            <h1>Axis</h1>
-            <p>"Pulsa aqui para entrar"</p>
+    <!-- Intro cinematica inicial para presentar el cruce entre ambos mundos antes de mostrar la seleccion. -->
+    <div id="intro-cinematica" class="intro-cinematica" aria-hidden="true">
+        <div class="intro-fondo intro-fondo-axis" aria-hidden="true"></div>
+        <div class="intro-fondo intro-fondo-fate" aria-hidden="true"></div>
+        <div class="intro-niebla" aria-hidden="true"></div>
+        <div class="intro-reticula" aria-hidden="true"></div>
+        <div class="intro-linea-central" aria-hidden="true"></div>
+        <div class="intro-marco" aria-hidden="true">
+            <span class="marco-esquina esquina-superior-izquierda"></span>
+            <span class="marco-esquina esquina-superior-derecha"></span>
+            <span class="marco-esquina esquina-inferior-izquierda"></span>
+            <span class="marco-esquina esquina-inferior-derecha"></span>
         </div>
-        <div id="lado-fate"> → mitad derecha
-            <h1>Fate</h1>
-            <p>"Pulsa aqui para entrar"</p>
+        <div class="intro-particulas" aria-hidden="true">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="intro-contenido">
+            <p class="ui intro-etiqueta">Campana de rol</p>
+            <h1 class="titulo">Axis & Fate</h1>
+            <p class="ui intro-capitulo">World Select / Prologue</p>
+            <p class="intro-texto">
+                Dos mundos se rozan. Uno promete esperanza. El otro se niega a desaparecer.
+            </p>
+            <div class="intro-estados" aria-hidden="true">
+                <div class="intro-panel intro-panel-axis">
+                    <span class="ui intro-panel-etiqueta">Axis</span>
+                    <strong class="nombre-personaje">Hope Signal</strong>
+                    <span class="intro-barra"><span></span></span>
+                </div>
+                <div class="intro-vs ui">VS</div>
+                <div class="intro-panel intro-panel-fate">
+                    <span class="ui intro-panel-etiqueta">Fate</span>
+                    <strong class="nombre-personaje">Fog Pressure</strong>
+                    <span class="intro-barra"><span></span></span>
+                </div>
+            </div>
+            <div class="intro-ui-franja" aria-hidden="true">
+                <span class="ui">WORLD GATE INITIALIZING</span>
+                <span class="intro-loading"><span></span></span>
+                <span class="ui">PRESS ENTER</span>
+            </div>
+            <button id="intro-skip" class="ui intro-boton" type="button">Entrar</button>
         </div>
     </div>
+
+    <!-- Pantalla inicial de seleccion. Cada mitad es un enlace completo. -->
+    <main id="pantalla-seleccion">
+        <a id="lado-axis" href="Axis.html">
+            <span class="panel-etiqueta ui">Mundo luminoso</span>
+            <h1 class="titulo">Axis</h1>
+            <p class="panel-texto">
+                Esperanza, fantasia heroica y la promesa de un final mejor.
+            </p>
+            <span class="panel-cta ui">Entrar en Axis</span>
+            <div class="panel-detalles" aria-hidden="true">
+                <span class="panel-chip ui">Heroismo</span>
+                <span class="panel-chip ui">Clases</span>
+                <span class="panel-chip ui">Esperanza</span>
+            </div>
+        </a>
+
+        <a id="lado-fate" href="Fate.html">
+            <span class="panel-etiqueta ui">Mundo en ruinas</span>
+            <h1 class="titulo">Fate</h1>
+            <p class="panel-texto">
+                Niebla, facciones y una realidad que se resiste a desaparecer.
+            </p>
+            <span class="panel-cta ui">Entrar en Fate</span>
+            <div class="panel-detalles" aria-hidden="true">
+                <span class="panel-chip ui">Niebla</span>
+                <span class="panel-chip ui">Facciones</span>
+                <span class="panel-chip ui">Ruina</span>
+            </div>
+        </a>
+    </main>
+
+    <!-- JS compartido: aqui controla el fade antes de la redireccion. -->
+    <script src="JavaScript.js"></script>
 </body>
+
+</html>

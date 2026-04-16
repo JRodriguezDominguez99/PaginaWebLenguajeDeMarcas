@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fate</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+DW+Pica+SC&family=Orbitron:wght@400..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="Global.css">
+    <link rel="stylesheet" href="Fate.css">
+</head>
+
+<body>
+    <!-- Hero oscuro de Fate con una presentacion mas opresiva que la de Axis. -->
+    <header id="fate-hero" data-parallax-hero="true">
+        <!-- Fondo y niebla en capas para poder separarlos visualmente del contenido. -->
+        <div class="fate-fondo" aria-hidden="true"></div>
+        <div class="fate-niebla" aria-hidden="true"></div>
+        <div class="fate-overlay" aria-hidden="true"></div>
+
+        <!-- Boton del menu lateral compartido con la misma logica JS de Axis. -->
+        <button id="hamburguesa" class="ui" aria-expanded="false" aria-controls="nav-enlaces"
+            aria-label="Abrir navegacion">
+            &#9776;
+        </button>
+
+        <!-- Menu interno de la pagina Fate, ya orientado a politica y facciones. -->
+        <nav id="nav-enlaces" aria-label="Navegacion principal">
+            <a class="ui" href="#mundo-fate">El mundo</a>
+            <a class="ui" href="#facciones">Facciones</a>
+            <a class="ui" href="#anomalias">Anomalias</a>
+            <a class="ui" href="#fronteras">Fronteras</a>
+            <a class="ui" href="Ficha.html?mundo=Fate">Fichas</a>
+        </nav>
+
+        <!-- Mensaje principal del hero. -->
+        <div class="fate-hero-contenido">
+            <p class="ui fate-etiqueta">Mundo consumido por la niebla</p>
+            <h1 class="titulo">Fate</h1>
+            <p class="fate-hero-texto">
+                El mundo real se agrieta mientras Axis lo devora para sobrevivir. Aqui no hay servants:
+                solo facciones, miedo, memoria y grupos que pelean por decidir como debe morir o resistir Fate.
+            </p>
+            <div class="fate-hero-acciones">
+                <a class="boton-fate ui" href="#mundo-fate">Explorar el mundo</a>
+                <a class="boton-fate boton-fate-secundario ui" href="#facciones">Ver las facciones</a>
+                <a class="boton-fate boton-fate-secundario ui" href="Ficha.html?mundo=Fate">Guardar personaje</a>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <!-- Introduccion general al tono y al conflicto del mundo Fate. -->
+        <section id="mundo-fate" class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Estado del mundo</p>
+                <h2 class="titulo">Una realidad al borde</h2>
+                <p>
+                    Fate ya no es un reino de fantasia limpia, sino una version herida de lo real. La niebla borra
+                    calles, recuerdos y certezas mientras la presencia de Axis se expande sobre su mapa.
+                </p>
+            </div>
+
+            <div class="fate-paneles">
+                <article class="fate-panel reveal-on-scroll">
+                    <h3 class="nombre-personaje">Niebla Viva</h3>
+                    <p>
+                        La niebla no solo oculta: distorsiona la percepcion, altera rutas y deja a la gente atrapada
+                        entre lo que recuerda y lo que teme.
+                    </p>
+                </article>
+
+                <article class="fate-panel reveal-on-scroll">
+                    <h3 class="nombre-personaje">Expansion de Axis</h3>
+                    <p>
+                        Lo brillante y epico de Axis avanza sobre Fate como una necesidad biologica. Lo que para uno es
+                        esperanza, para el otro se siente como desaparicion.
+                    </p>
+                </article>
+
+                <article class="fate-panel reveal-on-scroll">
+                    <h3 class="nombre-personaje">Guerra de Facciones</h3>
+                    <p>
+                        La supervivencia no depende de heroes legendarios, sino de alianzas rotas, territorios y grupos
+                        que intentan imponer su propia forma de salvar lo que queda.
+                    </p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Facciones que organizan el conflicto interno de Fate. -->
+        <section id="facciones" class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Poderes en conflicto</p>
+                <h2 class="titulo">Facciones</h2>
+                <p>
+                    Fate no se sostiene sobre servants, sino sobre grupos que luchan por recursos, control territorial
+                    y una manera concreta de entender el fin del mundo.
+                </p>
+            </div>
+
+            <div class="carrusel-barra-fate">
+                <button class="carrusel-control-fate ui" type="button" data-carrusel-dir="-1"
+                    data-carrusel-target="fate-facciones-carrusel" aria-label="Ver facciones anteriores">
+                    &larr;
+                </button>
+
+                <div id="fate-facciones-carrusel" class="fate-cartas" data-reveal-children="true"
+                    aria-label="Facciones de Fate">
+                <article class="fate-carta reveal-child">
+                    <span class="ui fate-carta-etiqueta">Faccion urbana</span>
+                    <h3 class="nombre-personaje">Black Rose</h3>
+                    <p>
+                        Red clandestina que opera entre callejones, refugios y zonas de contrabando. Controlan
+                        informacion, rutas seguras y favores, y convierten el secreto en su principal arma.
+                    </p>
+                </article>
+
+                <article class="fate-carta reveal-child">
+                    <span class="ui fate-carta-etiqueta">Faccion religiosa</span>
+                    <h3 class="nombre-personaje">Iron Chapel</h3>
+                    <p>
+                        Orden severa que interpreta la caida de Fate como una prueba moral. Defienden enclaves,
+                        juzgan desertores y levantan disciplina donde el resto solo ve ruina.
+                    </p>
+                </article>
+
+                <article class="fate-carta reveal-child">
+                    <span class="ui fate-carta-etiqueta">Faccion oportunista</span>
+                    <h3 class="nombre-personaje">Ash Market</h3>
+                    <p>
+                        Mercado gris que trafica con reliquias, medicina, tecnologia rota y secretos. Nadie confia en
+                        ellos del todo, pero casi todos acaban necesitando algo que solo ellos pueden conseguir.
+                    </p>
+                </article>
+
+                <article class="fate-carta reveal-child">
+                    <span class="ui fate-carta-etiqueta">Faccion fronteriza</span>
+                    <h3 class="nombre-personaje">Fogbound Wardens</h3>
+                    <p>
+                        Guardianes de las zonas de niebla mas densas. No dominan grandes barrios, pero sostienen las
+                        ultimas rutas entre distritos y conocen el terreno mejor que nadie.
+                    </p>
+                </article>
+                </div>
+
+                <button class="carrusel-control-fate ui" type="button" data-carrusel-dir="1"
+                    data-carrusel-target="fate-facciones-carrusel" aria-label="Ver facciones siguientes">
+                    &rarr;
+                </button>
+            </div>
+        </section>
+
+        <section class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Termometro del conflicto</p>
+                <h2 class="titulo">Tensiones activas</h2>
+                <p>
+                    Estas lineas de presion ayudan a que Fate se sienta mas vivo: no solo hay facciones, tambien hay
+                    crisis simultaneas que cambian el tono de la campaña.
+                </p>
+            </div>
+
+            <div class="fate-tensiones">
+                <article class="tension-card reveal-on-scroll">
+                    <span class="ui fate-carta-etiqueta">Distrito central</span>
+                    <h3 class="nombre-personaje">Apagones de memoria</h3>
+                    <p>Barrios enteros despiertan sin recordar las ultimas horas, lo que hace que los pactos politicos duren cada vez menos.</p>
+                </article>
+
+                <article class="tension-card reveal-on-scroll">
+                    <span class="ui fate-carta-etiqueta">Periferia</span>
+                    <h3 class="nombre-personaje">Avance de la niebla</h3>
+                    <p>Las rutas seguras se estrechan y obligan a las facciones a negociar o pelear por pasos concretos.</p>
+                </article>
+
+                <article class="tension-card reveal-on-scroll">
+                    <span class="ui fate-carta-etiqueta">Frontera con Axis</span>
+                    <h3 class="nombre-personaje">Zonas de absorcion</h3>
+                    <p>Pequenos sectores empiezan a parecerse demasiado a Axis, como si el mundo rival ya hubiese plantado raiz.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Seccion centrada en fenomenos, peligros y rarezas del mundo Fate. -->
+        <section id="anomalias" class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Peligros del entorno</p>
+                <h2 class="titulo">Anomalias</h2>
+                <p>
+                    Fate no cae solo por un enemigo directo: se descompone por dentro mediante senales, ecos y zonas
+                    donde la realidad deja de obedecer.
+                </p>
+            </div>
+
+            <div class="anomalias-grid">
+                <article class="anomalia reveal-on-scroll">
+                    <h3 class="nombre-personaje">Ecos de Memoria</h3>
+                    <p>Calles que repiten escenas del pasado hasta quebrar la voluntad de quien las atraviesa.</p>
+                </article>
+
+                <article class="anomalia reveal-on-scroll">
+                    <h3 class="nombre-personaje">Sombras Quietas</h3>
+                    <p>Figuras inmoviles que aparecen al borde de la niebla y desaparecen cuando alguien las mira.</p>
+                </article>
+
+                <article class="anomalia reveal-on-scroll">
+                    <h3 class="nombre-personaje">Zonas Muertas</h3>
+                    <p>Lugares donde el sonido cae, el tiempo pesa y la presencia de Axis se nota como una fiebre.</p>
+                </article>
+
+                <article class="anomalia reveal-on-scroll">
+                    <h3 class="nombre-personaje">Lluvia Gris</h3>
+                    <p>Una precipitacion fina que mancha, enfria y acelera la sensacion de agotamiento emocional.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Mapa conceptual de las fronteras y regiones de Fate. -->
+        <section id="fronteras" class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Geografia quebrada</p>
+                <h2 class="titulo">Fronteras de Fate</h2>
+                <p>
+                    El territorio ya no se organiza por prosperidad, sino por grados de perdida, aislamiento y
+                    contacto con la expansion de Axis.
+                </p>
+            </div>
+
+            <div class="fronteras-mapa">
+                <article class="frontera frontera-niebla reveal-on-scroll">
+                    <h3 class="nombre-personaje">Corona de Niebla</h3>
+                    <p>La periferia donde la visibilidad cae y los caminos dejan de confiar en el viajero.</p>
+                </article>
+
+                <article class="frontera frontera-centro reveal-on-scroll">
+                    <h3 class="nombre-personaje">Centro Herido</h3>
+                    <p>Antiguas avenidas, plazas vacias y barrios donde la vida insiste en no apagarse del todo.</p>
+                </article>
+
+                <article class="frontera frontera-axis reveal-on-scroll">
+                    <h3 class="nombre-personaje">Linea de Consumo</h3>
+                    <p>La zona donde Fate siente mas cerca el avance de Axis y la realidad se vuelve inestable.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Estado de campana para que Fate tambien tenga un bloque editable de progreso narrativo. -->
+        <section class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Estado de campana</p>
+                <h2 class="titulo">Presion actual</h2>
+                <p>
+                    Esta seccion os permite reflejar rapidamente que esta pasando en Fate: que crisis aprieta mas y
+                    que tareas tiene pendientes el grupo.
+                </p>
+            </div>
+
+            <div class="estado-fate-grid">
+                <article class="objetivo-fate-card reveal-on-scroll">
+                    <span class="ui fate-carta-etiqueta">Objetivo actual</span>
+                    <h3 class="nombre-personaje">Sostener los pasos entre distritos</h3>
+                    <p>
+                        Las facciones necesitan mantener abiertas las ultimas rutas seguras antes de que la niebla y la
+                        absorcion de Axis vuelvan incomunicadas varias zonas de Fate.
+                    </p>
+                </article>
+
+                <div class="objetivo-fate-card reveal-on-scroll">
+                    <span class="ui fate-carta-etiqueta">Objetivos secundarios</span>
+                    <ul class="fate-objetivos-lista">
+                        <li>Negociar una tregua temporal entre Black Rose y Iron Chapel.</li>
+                        <li>Recuperar un enclave perdido antes de que lo altere por completo la niebla.</li>
+                        <li>Determinar si una nueva zona de consumo viene de Axis o de una anomalia propia.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ficha destacada inspirada en la hoja real del personaje de Fate. -->
+        <section class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Ficha destacada</p>
+                <h2 class="titulo">Roxxton Luxxwel</h2>
+                <p>
+                    En Fate la ficha se vuelve mas tecnica: atributos, secundarios, historia, relaciones e inventario
+                    en una lectura que mezcla hoja de sistema y perfil narrativo.
+                </p>
+            </div>
+
+            <article class="ficha-web-fate reveal-on-scroll">
+                <div class="ficha-fate-hero">
+                    <div class="ficha-retrato ficha-retrato-fate" aria-hidden="true">
+                        <span class="nombre-personaje">RX</span>
+                    </div>
+
+                    <div class="ficha-fate-datos">
+                        <p class="ui fate-carta-etiqueta">Fate Character Sheet</p>
+                        <h3 class="nombre-personaje">Roxxton Luxxwel</h3>
+                        <div class="ficha-fate-meta">
+                            <span><strong>Genero:</strong> Masculino</span>
+                            <span><strong>Edad:</strong> 25</span>
+                            <span><strong>Nacionalidad:</strong> Grecia</span>
+                            <span><strong>Nivel:</strong> 6 aprox.</span>
+                        </div>
+                        <p>
+                            Version mas dura y contenida del legado Luxxwel, construida para resistir, negociar y
+                            sobrevivir en un mundo donde la niebla convierte cada decision en coste real.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="ficha-fate-grid">
+                    <section class="fate-bloque">
+                        <p class="ui fate-carta-etiqueta">Secundarios</p>
+                        <div class="fate-secundarios-grid">
+                            <div><span>Vida</span><strong>12</strong></div>
+                            <div><span>Energia</span><strong>14</strong></div>
+                            <div><span>Daño fisico</span><strong>2</strong></div>
+                            <div><span>Reduccion fisica</span><strong>1</strong></div>
+                            <div><span>Daño magico</span><strong>1</strong></div>
+                            <div><span>Acciones</span><strong>2</strong></div>
+                        </div>
+                    </section>
+
+                    <section class="fate-bloque">
+                        <p class="ui fate-carta-etiqueta">Atributos</p>
+                        <div class="fate-atributos-grid">
+                            <div><span>Fuerza</span><strong>2</strong></div>
+                            <div><span>Habilidad</span><strong>3</strong></div>
+                            <div><span>Constitucion</span><strong>1</strong></div>
+                            <div><span>Agilidad</span><strong>2</strong></div>
+                            <div><span>Mentalidad</span><strong>3</strong></div>
+                            <div><span>Voluntad</span><strong>1</strong></div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="ficha-fate-grid">
+                    <section class="fate-bloque">
+                        <p class="ui fate-carta-etiqueta">Historia</p>
+                        <p>
+                            Roxxton crece entre dos realidades: el peso del apellido y la necesidad de definirse en un
+                            entorno cada vez menos estable. Su historia funciona mejor cuando se cruza con familia,
+                            legado, expectativas y supervivencia.
+                        </p>
+                    </section>
+
+                    <section class="fate-bloque">
+                        <p class="ui fate-carta-etiqueta">Inventario</p>
+                        <ul class="fate-objetivos-lista">
+                            <li>Recuerdos familiares y objetos de valor narrativo.</li>
+                            <li>Equipo personal util para moverse entre distritos.</li>
+                            <li>Notas, contactos y pistas ligadas a la trama principal.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <section class="fate-bloque">
+                    <p class="ui fate-carta-etiqueta">Relaciones</p>
+                    <div class="relaciones-fate-grid">
+                        <article class="relacion-fate-card">
+                            <div class="relacion-avatar-fate" aria-hidden="true">PL</div>
+                            <div>
+                                <h4 class="nombre-personaje">Petra Luxxwel</h4>
+                                <p>Relacion central para entender memoria, familia y herencia dentro del conflicto.</p>
+                            </div>
+                        </article>
+
+                        <article class="relacion-fate-card">
+                            <div class="relacion-avatar-fate" aria-hidden="true">GS</div>
+                            <div>
+                                <h4 class="nombre-personaje">Giselle Vigneron</h4>
+                                <p>Vinculo delicado que mezcla apoyo, expectativas y una lectura emocional inestable.</p>
+                            </div>
+                        </article>
+
+                        <article class="relacion-fate-card">
+                            <div class="relacion-avatar-fate" aria-hidden="true">RL</div>
+                            <div>
+                                <h4 class="nombre-personaje">Richard Luxxwel</h4>
+                                <p>Figura del legado Luxxwel que condiciona la forma en la que Roxxton se posiciona.</p>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="fate-bloque">
+                    <p class="ui fate-carta-etiqueta">Habilidades</p>
+                    <div class="skills-fate-web">
+                        <div><span>Punteria</span><strong>2</strong></div>
+                        <div><span>Armas</span><strong>2</strong></div>
+                        <div><span>Atletismo</span><strong>2</strong></div>
+                        <div><span>Sigilo</span><strong>2</strong></div>
+                        <div><span>Medicina</span><strong>1</strong></div>
+                        <div><span>Socializar</span><strong>4</strong></div>
+                        <div><span>Cocinar</span><strong>1</strong></div>
+                        <div><span>Determinar</span><strong>2</strong></div>
+                    </div>
+                </section>
+            </article>
+        </section>
+
+        <!-- Acceso rapido a la zona de fichas enfocada al mundo Fate. -->
+        <section class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Zona de jugadores</p>
+                <h2 class="titulo">Archivo de personajes</h2>
+                <p>
+                    La base para guardar fichas en Firebase ya queda preparada tambien para Fate, de forma que cada
+                    jugador pueda registrar faccion, procedencia y datos del personaje.
+                </p>
+            </div>
+
+            <div class="fate-hero-acciones">
+                <a class="boton-fate ui" href="Ficha.html?mundo=Fate">Abrir fichas de Fate</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer sencillo para reforzar el tono y facilitar la vuelta arriba. -->
+    <footer class="fate-footer">
+        <p class="ui fate-subtitulo">Axis & Fate</p>
+        <p>
+            Fate representa lo humano, lo roto y lo real: un mundo donde las facciones luchan por territorio,
+            sentido y supervivencia mientras la niebla lo devora todo.
+        </p>
+        <a class="ui" href="#fate-hero">Volver arriba</a>
+    </footer>
+
+    <!-- JS compartido: menu y parallax. -->
+    <script src="JavaScript.js"></script>
+</body>
+
+</html>

@@ -3,207 +3,596 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Axis</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+DW+Pica+SC&family=Orbitron:wght@400..900&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="Global.css">
     <link rel="stylesheet" href="Axis.css">
 </head>
 
 <body>
+    <!-- Hero principal con menu, fondo y mensaje de bienvenida. -->
+    <header id="axis-hero" data-parallax-hero="true">
+        <!-- Fondo y overlay separados para poder aplicar parallax y contraste. -->
+        <div class="hero-fondo" aria-hidden="true"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
 
-    <!-- HEADER -->
-    <header>
-        <button id="hamburguesa">☰</button>
-        <div id="nav-enlaces">
+        <!-- Boton flotante que abre el menu lateral. -->
+        <button id="hamburguesa" class="ui" aria-expanded="false" aria-controls="nav-enlaces"
+            aria-label="Abrir navegacion">
+            &#9776;
+        </button>
+
+        <!-- Menu interno para moverse por las secciones de la landing. -->
+        <nav id="nav-enlaces" aria-label="Navegacion principal">
             <a class="ui" href="#personajes">Personajes</a>
             <a class="ui" href="#habilidades-y-poderes">Habilidades y poderes</a>
             <a class="ui" href="#lugares-y-mapa">Lugares y mapa</a>
+            <a class="ui" href="Ficha.html?mundo=Axis">Fichas</a>
+            <a class="ui" href="#equipo-axis">Equipo Axis</a>
+        </nav>
+
+        <!-- Contenido visible del hero. -->
+        <div class="hero-contenido">
+            <p class="hero-etiqueta ui">Mundo de esperanza y gloria</p>
+            <h1 class="titulo">Axis</h1>
+            <p class="hero-texto">
+                Un mundo luminoso donde cada decision empuja la historia hacia su mejor final posible.
+            </p>
+            <div class="hero-acciones">
+                <a class="boton-hero ui" href="#personajes">Conocer al grupo</a>
+                <a class="boton-hero boton-secundario ui" href="#habilidades-y-poderes">Ver las clases</a>
+                <a class="boton-hero boton-secundario ui" href="Ficha.html?mundo=Axis">Guardar personaje</a>
+            </div>
         </div>
-        <h1 class="titulo">Axis</h1>
-        <p>Frase de bienvenida preestablecida</p>
     </header>
 
-    <!-- MAIN -->
     <main>
+        <!-- Seccion del grupo principal en formato carrusel. -->
+        <section id="personajes" class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Protagonistas de Axis</p>
+                <h2 class="titulo">Personajes</h2>
+                <p>
+                    El grupo que sostiene el mundo entre la fantasia heroica y la tragedia que se acerca desde Fate.
+                </p>
+            </div>
 
-        <!-- SECCIÓN PERSONAJES -->
-        <section id="personajes">
-            <h2 class="titulo">Personajes</h2>
-            <div id="personajes-carrusel">
-                <article>
-                    <h3 class="nombre-personaje">Roxxane Luxxwel</h3>
-                    <p>Personaje de Waton</p>
-                </article>
-                <article>
-                    <h3 class="nombre-personaje">Ami</h3>
-                    <p>Personaje de Jesus</p>
-                </article>
-                <article>
-                    <h3 class="nombre-personaje">Hans</h3>
-                    <p>Personaje de Lolillo</p>
-                </article>
-                <article>
-                    <h3 class="nombre-personaje">Edmund d' Tula</h3>
-                    <p>Personaje de Burpe</p>
-                </article>
+            <div class="carrusel-barra">
+                <!-- Estos botones desplazan horizontalmente el carrusel con JS. -->
+                <button class="carrusel-control ui" type="button" data-carrusel-dir="-1"
+                    data-carrusel-target="personajes-carrusel"
+                    aria-label="Ver personajes anteriores">
+                    &larr;
+                </button>
+
+                <div id="personajes-carrusel" aria-label="Listado de personajes" data-reveal-children="true">
+                    <article class="personaje-card reveal-child">
+                        <span class="personaje-rol ui">Jesus Rodriguez / Waton</span>
+                        <h3 class="nombre-personaje">Roxxane Luxxwel</h3>
+                        <p>
+                            Presencia radiante del grupo, elegante y decidida, con energia de heroina destinada a
+                            cambiar el curso de la campana.
+                        </p>
+                    </article>
+
+                    <article class="personaje-card reveal-child">
+                        <span class="personaje-rol ui">Jesus Naranjo</span>
+                        <h3 class="nombre-personaje">Ami</h3>
+                        <p>
+                            Pieza emocional del equipo, siempre cerca del conflicto principal y de las decisiones que
+                            pueden romper o salvar el futuro.
+                        </p>
+                    </article>
+
+                    <article class="personaje-card reveal-child">
+                        <span class="personaje-rol ui">Manuel</span>
+                        <h3 class="nombre-personaje">Hans</h3>
+                        <p>
+                            Fuerza contenida, humor seco y mirada practica. Un personaje que equilibra el grupo cuando
+                            todo empieza a ir demasiado lejos.
+                        </p>
+                    </article>
+
+                    <article class="personaje-card reveal-child">
+                        <span class="personaje-rol ui">Alberto Burpe</span>
+                        <h3 class="nombre-personaje">Edmund d' Tula</h3>
+                        <p>
+                            Figura noble y misteriosa, marcada por el peso de las decisiones dificiles y por un pasado
+                            que todavia no ha dicho su ultima palabra.
+                        </p>
+                    </article>
+                </div>
+
+                <button class="carrusel-control ui" type="button" data-carrusel-dir="1"
+                    data-carrusel-target="personajes-carrusel"
+                    aria-label="Ver personajes siguientes">
+                    &rarr;
+                </button>
             </div>
         </section>
 
-        <!-- SECCIÓN HABILIDADES Y PODERES -->
-        <section id="habilidades-y-poderes">
-            <h2 class="titulo">Habilidades y poderes</h2>
-            <article>
-                <img src="img/Icono-Saber.png" alt="Icono de la clase Saber">
-                <h3 class="nombre-personaje">Saber</h3>
-                <ul>
-                    <li>Muramasa</li>
-                    <li>Anduril</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Archer.png" alt="Icono de la clase Archer">
-                <h3 class="nombre-personaje">Archer</h3>
-                <ul>
-                    <li>Memory partition</li>
-                    <li>Arco largo</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Lancer.png" alt="Icono de la clase Lancer">
-                <h3 class="nombre-personaje">Lancer</h3>
-                <ul>
-                    <li>Tren</li>
-                    <li>Monstruous strength</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Rider.png" alt="Icono de la clase Rider">
-                <h3 class="nombre-personaje">Rider</h3>
-                <ul>
-                    <li>Tren</li>
-                    <li>Monstruous strength</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Caster.png" alt="Icono de la clase Caster">
-                <h3 class="nombre-personaje">Caster</h3>
-                <ul>
-                    <li>Canciones</li>
-                    <li>Libro de root</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Assasin.png" alt="Icono de la clase Assassin">
-                <h3 class="nombre-personaje">Assassin</h3>
-                <ul>
-                    <li>DPT</li>
-                    <li>Dagas de curar vida</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Berserker.png" alt="Icono de la clase Berserker">
-                <h3 class="nombre-personaje">Berserker</h3>
-                <ul>
-                    <li>Badges Baki</li>
-                    <li>Arma berserker</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Avenger.png" alt="Icono de la clase Avenger">
-                <h3 class="nombre-personaje">Avenger</h3>
-                <ul>
-                    <li>Scorch</li>
-                    <li>Armadura de vida</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Ruler.png" alt="Icono de la clase Ruler">
-                <h3 class="nombre-personaje">Ruler</h3>
-                <ul>
-                    <li>Anillo de Aragon</li>
-                    <li>Bandera</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-AlterEgo.png" alt="Icono de la clase Alter Ego">
-                <h3 class="nombre-personaje">Alter Ego</h3>
-                <ul>
-                    <li>Default 1</li>
-                    <li>Default 2</li>
-                </ul>
-            </article>
-            <article>
-                <img src="img/Icono-Foreigner.png" alt="Icono de la clase Foreigner">
-                <h3 class="nombre-personaje">Foreigner</h3>
-                <ul>
-                    <li>Default 1</li>
-                    <li>Default 2</li>
-                </ul>
-            </article>
+        <!-- Nueva seccion para dar mas cuerpo a Axis y aprovechar el mismo sistema de desplazamiento. -->
+        <section class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Pulso del mundo</p>
+                <h2 class="titulo">Frentes abiertos</h2>
+                <p>
+                    Axis no vive solo en sus heroes. Cada frente del mundo empuja la campana hacia un tono distinto:
+                    politica, misterio, viaje o batalla abierta.
+                </p>
+            </div>
+
+            <div class="carrusel-barra">
+                <button class="carrusel-control ui" type="button" data-carrusel-dir="-1"
+                    data-carrusel-target="axis-frentes-carrusel" aria-label="Ver frentes anteriores">
+                    &larr;
+                </button>
+
+                <div id="axis-frentes-carrusel" class="carrusel-secundario" data-reveal-children="true"
+                    aria-label="Frentes abiertos de Axis">
+                    <article class="frente-card reveal-child">
+                        <span class="personaje-rol ui">Trama politica</span>
+                        <h3 class="nombre-personaje">Consejo Dorado</h3>
+                        <p>Las decisiones nobles prometen orden, pero cada pacto puede empujar a Axis a sacrificar mas de lo que admite.</p>
+                    </article>
+
+                    <article class="frente-card reveal-child">
+                        <span class="personaje-rol ui">Exploracion</span>
+                        <h3 class="nombre-personaje">Rutas Azules</h3>
+                        <p>Caminos abiertos hacia zonas nuevas donde las playas, ruinas y pasos comerciales esconden ventajas para quien llegue primero.</p>
+                    </article>
+
+                    <article class="frente-card reveal-child">
+                        <span class="personaje-rol ui">Conflicto social</span>
+                        <h3 class="nombre-personaje">Grieta Interior</h3>
+                        <p>La separacion entre zonas altas y bajas sigue creciendo, y el grupo puede acabar decidiendo a quien beneficia realmente la esperanza.</p>
+                    </article>
+                </div>
+
+                <button class="carrusel-control ui" type="button" data-carrusel-dir="1"
+                    data-carrusel-target="axis-frentes-carrusel" aria-label="Ver frentes siguientes">
+                    &rarr;
+                </button>
+            </div>
         </section>
 
-        <!-- SECCIÓN LUGARES Y MAPA -->
-        <section id="lugares-y-mapa">
-            <h2 class="titulo">Lugares y mapa</h2>
+        <!-- Grid de clases. Cada tarjeta guarda sus datos en atributos data-* para el modal. -->
+        <section id="habilidades-y-poderes" class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Sistema de clases</p>
+                <h2 class="titulo">Habilidades y poderes</h2>
+                <p>
+                    Cada clase se inspira en Fate y define un estilo de combate distinto. Pulsa sobre una de ellas
+                    para ver su perfil completo.
+                </p>
+            </div>
+
+            <div class="clases-grid">
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Saber"
+                    data-class-description="Guerreros completos, resistentes y letales en duelo directo."
+                    data-class-stats="90,80,80,50,70,80">
+                    <img src="img/Icono-Saber.png" alt="Icono de la clase Saber">
+                    <h3 class="nombre-personaje">Saber</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Archer"
+                    data-class-description="Especialistas a distancia con gran precision, movilidad y sangre fria."
+                    data-class-stats="60,60,90,70,80,90">
+                    <img src="img/Icono-Archer.png" alt="Icono de la clase Archer">
+                    <h3 class="nombre-personaje">Archer</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Lancer"
+                    data-class-description="Velocidad brutal, tecnica agresiva y presion constante."
+                    data-class-stats="80,70,95,40,60,75">
+                    <img src="img/Icono-Lancer.png" alt="Icono de la clase Lancer">
+                    <h3 class="nombre-personaje">Lancer</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Rider"
+                    data-class-description="Clase versatil, ideal para control de campo y desplazamientos."
+                    data-class-stats="70,65,85,55,75,85">
+                    <img src="img/Icono-Rider.png" alt="Icono de la clase Rider">
+                    <h3 class="nombre-personaje">Rider</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Caster"
+                    data-class-description="Magia pura, rituales y noble phantasm devastador."
+                    data-class-stats="30,40,50,100,70,95">
+                    <img src="img/Icono-Caster.png" alt="Icono de la clase Caster">
+                    <h3 class="nombre-personaje">Caster</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Assassin"
+                    data-class-description="Golpe limpio, sigilo, infiltracion y precision quirurgica."
+                    data-class-stats="55,50,95,45,85,65">
+                    <img src="img/Icono-Assasin.png" alt="Icono de la clase Assassin">
+                    <h3 class="nombre-personaje">Assassin</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Berserker"
+                    data-class-description="Fuerza monstruosa a cambio de estabilidad y control."
+                    data-class-stats="100,90,70,30,20,80">
+                    <img src="img/Icono-Berserker.png" alt="Icono de la clase Berserker">
+                    <h3 class="nombre-personaje">Berserker</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Avenger"
+                    data-class-description="Clase de castigo y rencor, intensa y peligrosa cuando despierta."
+                    data-class-stats="75,70,75,80,40,90">
+                    <img src="img/Icono-Avenger.png" alt="Icono de la clase Avenger">
+                    <h3 class="nombre-personaje">Avenger</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Ruler"
+                    data-class-description="Equilibrio, defensa y autoridad sobre el conflicto."
+                    data-class-stats="80,85,70,75,90,70">
+                    <img src="img/Icono-Ruler.png" alt="Icono de la clase Ruler">
+                    <h3 class="nombre-personaje">Ruler</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Alter Ego"
+                    data-class-description="Clase inestable y especializada, con gran presencia magica."
+                    data-class-stats="65,60,80,85,65,75">
+                    <img src="img/Icono-AlterEgo.png" alt="Icono de la clase Alter Ego">
+                    <h3 class="nombre-personaje">Alter Ego</h3>
+                </button>
+
+                <button class="clase-card reveal-on-scroll" type="button" data-class-name="Foreigner"
+                    data-class-description="Presencia anomala, incomoda y poderosa, vinculada a lo desconocido."
+                    data-class-stats="50,55,70,90,60,85">
+                    <img src="img/Icono-Foreigner.png" alt="Icono de la clase Foreigner">
+                    <h3 class="nombre-personaje">Foreigner</h3>
+                </button>
+            </div>
+        </section>
+
+        <!-- Mapa simplificado de Axis en tres zonas. -->
+        <section id="lugares-y-mapa" class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Geografia del conflicto</p>
+                <h2 class="titulo">Lugares y mapa</h2>
+                <p>
+                    Axis se organiza en una gran ciudad oval dividida por clases sociales, atmosfera y peligro.
+                </p>
+            </div>
+
             <div id="mapa">
-                <div class="zona" id="zona-alta">
+                <article class="zona reveal-on-scroll" id="zona-alta">
                     <span class="zona-nombre">Zona Alta</span>
+                    <p class="zona-descripcion">Palacios, residencias nobles y plazas luminosas.</p>
                     <div class="ciudades">
-                        <span class="ciudad">Ciudad 1</span>
-                        <span class="ciudad">Ciudad 2</span>
-                        <span class="ciudad">Ciudad 3</span>
+                        <span class="ciudad">Helios</span>
+                        <span class="ciudad">Valmora</span>
+                        <span class="ciudad">Aurea</span>
                     </div>
-                </div>
-                <div class="zona" id="zona-media">
+                </article>
+
+                <article class="zona reveal-on-scroll" id="zona-media">
                     <span class="zona-nombre">Zona Media</span>
+                    <p class="zona-descripcion">Mercados, gremios y avenidas donde todo se mezcla.</p>
                     <div class="ciudades">
-                        <span class="ciudad">Ciudad 1</span>
-                        <span class="ciudad">Ciudad 2</span>
-                        <span class="ciudad">Ciudad 3</span>
+                        <span class="ciudad">Brisna</span>
+                        <span class="ciudad">Lyndor</span>
+                        <span class="ciudad">Senda Azul</span>
                     </div>
-                </div>
-                <div class="zona" id="zona-baja">
+                </article>
+
+                <article class="zona reveal-on-scroll" id="zona-baja">
                     <span class="zona-nombre">Zona Baja</span>
+                    <p class="zona-descripcion">Barrios densos, puertos y secretos que no ven la luz.</p>
                     <div class="ciudades">
-                        <span class="ciudad">Ciudad 1</span>
-                        <span class="ciudad">Ciudad 2</span>
-                        <span class="ciudad">Ciudad 3</span>
+                        <span class="ciudad">Carbona</span>
+                        <span class="ciudad">Muelle Gris</span>
+                        <span class="ciudad">Las Salinas</span>
                     </div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Estado de campana para dejar claro que la historia sigue viva y en movimiento. -->
+        <section class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Estado de campana</p>
+                <h2 class="titulo">Frente actual</h2>
+                <p>
+                    Este bloque os sirve para actualizar rapidamente el punto en el que esta la historia sin tocar el
+                    resto de la landing cada vez que avance la campana.
+                </p>
+            </div>
+
+            <div class="estado-campana-grid">
+                <article class="objetivo-principal-card reveal-on-scroll">
+                    <span class="estado-etiqueta ui">Objetivo actual</span>
+                    <h3 class="nombre-personaje">Defender el equilibrio de Axis</h3>
+                    <p>
+                        El grupo debe impedir que la expansion sobre Fate rompa el equilibrio interno de Axis antes de
+                        que la ciudad alta convierta la esperanza en un sacrificio irreversible.
+                    </p>
+                </article>
+
+                <div class="objetivos-secundarios-card reveal-on-scroll">
+                    <span class="estado-etiqueta ui">Objetivos secundarios</span>
+                    <ul class="objetivos-lista">
+                        <li>Investigar que rutas estan conectando la Zona Baja con la frontera de Fate.</li>
+                        <li>Decidir que faccion o barrio merece la ayuda inmediata del grupo.</li>
+                        <li>Localizar informacion sobre el siguiente punto de fractura entre ambos mundos.</li>
+                    </ul>
                 </div>
             </div>
         </section>
 
+        <!-- Ficha destacada inspirada en la hoja real del personaje de Axis. -->
+        <section class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Ficha destacada</p>
+                <h2 class="titulo">Roxxane Luxxwel</h2>
+                <p>
+                    Esta version web intenta acercarse mas a la estructura real de la ficha: retrato, datos base,
+                    parametros, gustos, afinidades, habilidades personales, relaciones, recursos e ilustracion extra.
+                </p>
+            </div>
+
+            <article class="ficha-web-axis reveal-on-scroll">
+                <div class="ficha-axis-hero">
+                    <div class="ficha-retrato ficha-retrato-axis" aria-hidden="true">
+                        <span class="nombre-personaje">RL</span>
+                    </div>
+
+                    <div class="ficha-axis-datos">
+                        <p class="ui ficha-badge">Axis Character Sheet</p>
+                        <h3 class="nombre-personaje">Roxxane Luxxwel</h3>
+                        <div class="ficha-axis-meta">
+                            <span><strong>Genero:</strong> Femenino</span>
+                            <span><strong>Edad:</strong> 25</span>
+                            <span><strong>Rango:</strong> Figura central</span>
+                            <span><strong>Nivel de agua:</strong> Estable</span>
+                            <span><strong>Estado:</strong> Critico narrativo</span>
+                        </div>
+                        <p class="ficha-axis-resumen">
+                            Presencia elegante y peligrosa a partes iguales, con una mezcla de carisma, presion
+                            narrativa y peso emocional que la convierte en una de las piezas mas visibles de Axis.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="ficha-axis-grid">
+                    <section class="ficha-bloque">
+                        <p class="ui ficha-bloque-etiqueta">Datos principales</p>
+                        <div class="ficha-tabla-simple">
+                            <div><span>Vida</span><strong>54</strong></div>
+                            <div><span>Energia</span><strong>8</strong></div>
+                            <div><span>Aguante</span><strong>6</strong></div>
+                            <div><span>Defensa</span><strong>Media</strong></div>
+                            <div><span>Posicion</span><strong>Alta</strong></div>
+                            <div><span>Presion</span><strong>Constante</strong></div>
+                        </div>
+                    </section>
+
+                    <section class="ficha-bloque">
+                        <p class="ui ficha-bloque-etiqueta">Parametros</p>
+                        <div class="ficha-stats-grid">
+                            <div><span>Fuerza</span><strong>5 / 5</strong></div>
+                            <div><span>Agilidad</span><strong>4 / 5</strong></div>
+                            <div><span>Inteligencia</span><strong>4 / 5</strong></div>
+                            <div><span>Voluntad</span><strong>4 / 5</strong></div>
+                            <div><span>Seduccion</span><strong>5 / 5</strong></div>
+                            <div><span>Presencia</span><strong>5 / 5</strong></div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="ficha-axis-grid">
+                    <section class="ficha-bloque">
+                        <p class="ui ficha-bloque-etiqueta">Gustos</p>
+                        <ul class="ficha-lista">
+                            <li>Vestirse bien y controlar la escena.</li>
+                            <li>Vestidos elegantes y atuendos con presencia.</li>
+                            <li>Dulces y pequenos caprichos visuales.</li>
+                            <li>La sensacion de control en una escena importante.</li>
+                            <li>Las personas capaces de seguirle el ritmo.</li>
+                            <li>Los vinculos que prometen estabilidad o poder.</li>
+                        </ul>
+                    </section>
+
+                    <section class="ficha-bloque">
+                        <p class="ui ficha-bloque-etiqueta">Afinidad / Compatibilidad</p>
+                        <div class="compatibilidad-grid">
+                            <div><span>Arthur</span><strong>1 / 10</strong></div>
+                            <div><span>Alexandria</span><strong>7 / 10</strong></div>
+                            <div><span>Alyssa</span><strong>8 / 10</strong></div>
+                            <div><span>Petra</span><strong>9 / 10</strong></div>
+                            <div><span>Edmund</span><strong>6 / 10</strong></div>
+                            <div><span>Hans</span><strong>5 / 10</strong></div>
+                        </div>
+                    </section>
+                </div>
+
+                <div class="ficha-axis-grid">
+                    <section class="ficha-bloque ficha-bloque-amplio">
+                        <p class="ui ficha-bloque-etiqueta">Habilidades personales</p>
+                        <div class="habilidad-web">
+                            <h4 class="nombre-personaje">Deseo Cumplido</h4>
+                            <p>
+                                Roxxane empuja las escenas importantes con una voluntad muy marcada, forzando el
+                                conflicto a girar en torno a su decision o su deseo inmediato.
+                            </p>
+                        </div>
+                        <div class="habilidad-web">
+                            <h4 class="nombre-personaje">Luchador Entrenado</h4>
+                            <p>
+                                Aunque la narrativa la muestre refinada, su presencia en combate tiene una base solida
+                                y sabe responder cuando la situacion exige iniciativa fisica.
+                            </p>
+                        </div>
+                        <div class="habilidad-web">
+                            <h4 class="nombre-personaje">Catolicismo</h4>
+                            <p>
+                                Su fe y sus referencias morales sirven como ancla interior, especialmente cuando el
+                                conflicto entre Axis y Fate empieza a erosionar certezas.
+                            </p>
+                        </div>
+                    </section>
+
+                    <section class="ficha-bloque">
+                        <p class="ui ficha-bloque-etiqueta">Recursos y notas</p>
+                        <div class="ficha-recurso destacado">
+                            <span>Dinero</span>
+                            <strong>Sin cifra cerrada</strong>
+                        </div>
+                        <div class="ficha-recurso">
+                            <span>Influencia</span>
+                            <strong>Alta</strong>
+                        </div>
+                        <div class="ficha-recurso">
+                            <span>Familia</span>
+                            <strong>Nucleo narrativo</strong>
+                        </div>
+                        <div class="ficha-recurso">
+                            <span>Estado emocional</span>
+                            <strong>Inestable</strong>
+                        </div>
+                    </section>
+                </div>
+
+                <section class="ficha-bloque">
+                    <p class="ui ficha-bloque-etiqueta">Relaciones</p>
+                    <div class="relaciones-web-grid">
+                        <article class="relacion-web-card">
+                            <div class="relacion-avatar" aria-hidden="true">AS</div>
+                            <div>
+                                <h4 class="nombre-personaje">Armado Salazar</h4>
+                                <p>Contacto de gran peso narrativo que conecta a Roxxane con decisiones de alto riesgo.</p>
+                            </div>
+                        </article>
+
+                        <article class="relacion-web-card">
+                            <div class="relacion-avatar" aria-hidden="true">AF</div>
+                            <div>
+                                <h4 class="nombre-personaje">Alyssa Fernbald</h4>
+                                <p>Relacion importante en el equilibrio emocional del personaje y en su historia familiar.</p>
+                            </div>
+                        </article>
+
+                        <article class="relacion-web-card">
+                            <div class="relacion-avatar" aria-hidden="true">PL</div>
+                            <div>
+                                <h4 class="nombre-personaje">Petra Luxxwel</h4>
+                                <p>Punto de apoyo y de conflicto, con implicaciones directas sobre legado y sangre.</p>
+                            </div>
+                        </article>
+
+                        <article class="relacion-web-card">
+                            <div class="relacion-avatar" aria-hidden="true">LH</div>
+                            <div>
+                                <h4 class="nombre-personaje">Liza Hardy</h4>
+                                <p>Vinculo turbulento de presencia fuerte, ideal para empujar escenas tensas y lecturas cruzadas.</p>
+                            </div>
+                        </article>
+
+                        <article class="relacion-web-card">
+                            <div class="relacion-avatar" aria-hidden="true">EC</div>
+                            <div>
+                                <h4 class="nombre-personaje">Earl Greer</h4>
+                                <p>Figura de presion social y politica, ligada a prestigio, juicio y fachada publica.</p>
+                            </div>
+                        </article>
+                    </div>
+                </section>
+
+                <section class="ficha-bloque">
+                    <p class="ui ficha-bloque-etiqueta">Tabla de habilidades</p>
+                    <div class="tabla-habilidades-axis">
+                        <div><span>Pelea</span><strong>4 / 2 / 2</strong></div>
+                        <div><span>Punteria</span><strong>4 / 2 / 2</strong></div>
+                        <div><span>Armas</span><strong>4 / 2 / 2</strong></div>
+                        <div><span>Atletismo</span><strong>4 / 2 / 2</strong></div>
+                        <div><span>Sigilo</span><strong>2 / 0 / 2</strong></div>
+                        <div><span>Reflejos</span><strong>4 / 1 / 3</strong></div>
+                        <div><span>Medicina</span><strong>2 / 0 / 2</strong></div>
+                        <div><span>Socializar</span><strong>8 / 4 / 4</strong></div>
+                        <div><span>Cocinar</span><strong>1 / 0 / 1</strong></div>
+                        <div><span>Determinar</span><strong>5 / 2 / 3</strong></div>
+                        <div><span>Conducir</span><strong>0 / 0 / 0</strong></div>
+                        <div><span>Artesania</span><strong>1 / 0 / 1</strong></div>
+                    </div>
+                </section>
+
+                <section class="ficha-bloque">
+                    <p class="ui ficha-bloque-etiqueta">Ilustracion secundaria</p>
+                    <div class="ficha-ilustracion-secundaria" aria-hidden="true">
+                        <span class="nombre-personaje">Roxxane</span>
+                    </div>
+                </section>
+            </article>
+        </section>
+
+        <!-- Acceso rapido al sistema de fichas para jugadores de Axis. -->
+        <section class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Zona de jugadores</p>
+                <h2 class="titulo">Fichas de personaje</h2>
+                <p>
+                    Hemos dejado preparada una zona conectable con Firebase para guardar y consultar personajes de
+                    Axis sin depender de contenido local temporal.
+                </p>
+            </div>
+
+            <div class="cta-fichas">
+                <a class="boton-hero ui" href="Ficha.html?mundo=Axis">Abrir fichas de Axis</a>
+            </div>
+        </section>
     </main>
 
-    <!-- FOOTER -->
-    <footer>
+    <!-- Creditos y enlaces finales. -->
+    <footer id="equipo-axis">
         <div id="footer-creditos">
-            <h3 class="titulo">Equipo Axis</h3>
+            <p class="ui subtitulo-seccion">Campana y autores</p>
+            <h2 class="titulo">Equipo Axis</h2>
             <ul>
-                <li>Jesús Rodriguez — Roxxane/Roxxton Luxxwell</li>
-                <li>Jesús Naranjo — Amy/Amanda Luxxwell</li>
-                <li>Alberto Burpe — Edmund/Robbert Violet</li>
-                <li>Manuel — Hank/Hans Howard</li>
-                <li>Enrrique Carrasco — Master/Halia Howard</li>
+                <li>Jesus Rodriguez - Roxxane / Roxxton Luxxwell</li>
+                <li>Jesus Naranjo - Amy / Amanda Luxxwell</li>
+                <li>Alberto Burpe - Edmund / Robbert Violet</li>
+                <li>Manuel - Hank / Hans Howard</li>
+                <li>Enrrique Carrasco - Master / Halia Howard</li>
             </ul>
         </div>
+
         <div id="footer-links">
-            <a class="ui" href="https://fategrandorder.fandom.com/wiki/Fate/Grand_Order_Wikia" target="_blank">Wiki de
-                Fate</a>
+            <a class="ui" href="https://fategrandorder.fandom.com/wiki/Fate/Grand_Order_Wikia" target="_blank"
+                rel="noopener noreferrer">
+                Wiki de Fate
+            </a>
+            <a class="ui" href="#axis-hero">Volver arriba</a>
         </div>
-        <div id="footer-top">
-            <a class="ui" href="#">↑ Volver arriba</a>
-        </div>
-        <p id="footer-copy">© 2025 Axis RPG Campaign</p>
+
+        <p id="footer-copy">&copy; 2026 Axis RPG Campaign</p>
     </footer>
 
-    <!-- JAVASCRIPT -->
-    <script src="JavaScript.js"></script>
+    <!-- Modal reutilizable que JS rellena con los datos de cada clase. -->
+    <div id="class-modal" class="modal" aria-hidden="true">
+        <div class="modal-overlay" data-close-modal="true"></div>
+        <div class="modal-contenido" role="dialog" aria-modal="true" aria-labelledby="modal-class-name">
+            <button id="modal-close" class="ui" type="button" aria-label="Cerrar modal">&times;</button>
+            <div class="modal-info">
+                <p class="ui subtitulo-seccion">Perfil de clase</p>
+                <h2 id="modal-class-name" class="nombre-personaje">Saber</h2>
+                <p id="modal-class-description"></p>
+                <ul id="modal-stats-list" class="stats-list"></ul>
+            </div>
+            <div class="modal-chart">
+                <canvas id="class-chart" width="360" height="360" aria-label="Grafico radar de estadisticas"></canvas>
+            </div>
+        </div>
+    </div>
 
+    <!-- JS compartido: menu, parallax, carrusel y modal. -->
+    <script src="JavaScript.js"></script>
 </body>
 
 </html>
