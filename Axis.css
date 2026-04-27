@@ -975,6 +975,14 @@ body.modal-activa {
     .tabla-habilidades-axis {
         grid-template-columns: 1fr;
     }
+
+    .ficha-stats-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .relaciones-web-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 }
 
 /* Ajustes de movil: menos padding y forma del mapa mas suave. */
@@ -992,15 +1000,131 @@ body.modal-activa {
         align-items: stretch;
     }
 
+    #hamburguesa {
+        top: 16px;
+        right: 16px;
+        width: 46px;
+        height: 46px;
+    }
+
+    #nav-enlaces {
+        width: min(320px, 100vw);
+        padding: 96px 20px 24px;
+    }
+
     .boton-hero {
         min-width: 0;
+    }
+
+    .personaje-card,
+    .frente-card,
+    .objetivo-principal-card,
+    .objetivos-secundarios-card,
+    .ficha-web-axis,
+    .ficha-bloque,
+    .modal-contenido {
+        padding-left: 18px;
+        padding-right: 18px;
     }
 
     #mapa {
         border-radius: 36px;
     }
 
+    .zona {
+        min-height: 150px;
+        padding: 22px 16px;
+    }
+
+    .ficha-web-axis {
+        gap: 18px;
+    }
+
+    .ficha-axis-meta {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .ficha-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .relaciones-web-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .relacion-web-card {
+        grid-template-columns: 1fr;
+    }
+
+    .ficha-ilustracion-secundaria {
+        min-height: 200px;
+    }
+
     .stats-list {
         grid-template-columns: 1fr;
+    }
+}
+
+/* Ajuste fino para moviles estrechos: reducimos anchos duros y mantenemos la lectura limpia. */
+@media (max-width: 520px) {
+    .seccion {
+        width: calc(100% - 24px);
+        padding: 60px 0;
+    }
+
+    .hero-contenido {
+        width: calc(100% - 24px);
+        padding: 28px 0;
+    }
+
+    #personajes-carrusel {
+        grid-auto-columns: minmax(240px, 88vw);
+        gap: 16px;
+    }
+
+    .carrusel-secundario {
+        grid-auto-columns: 88vw;
+        gap: 16px;
+    }
+
+    .personaje-card,
+    .frente-card {
+        min-height: auto;
+        padding: 22px 18px;
+        border-radius: 22px;
+    }
+
+    .clases-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .clase-card {
+        padding: 22px 14px;
+    }
+
+    .clase-card img {
+        width: 64px;
+        height: 64px;
+    }
+
+    .ficha-axis-datos h3 {
+        font-size: clamp(2.1rem, 9vw, 2.8rem);
+    }
+
+    .ficha-bloque,
+    .objetivo-principal-card,
+    .objetivos-secundarios-card {
+        border-radius: 20px;
+    }
+
+    .modal {
+        padding: 14px;
+    }
+
+    .modal-contenido {
+        padding: 20px 16px;
+        border-radius: 22px;
     }
 }

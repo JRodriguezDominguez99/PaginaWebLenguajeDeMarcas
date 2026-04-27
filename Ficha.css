@@ -417,3 +417,47 @@ body.js-reveal .reveal-on-scroll.revealed {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+/* En movil estrecho compactamos mas la UI para que el formulario siga siendo comodo. */
+@media (max-width: 520px) {
+    .fichas-hero {
+        padding: 48px 12px 96px;
+    }
+
+    .fichas-layout {
+        width: calc(100% - 20px);
+        margin-top: -32px;
+        gap: 18px;
+        padding-bottom: 64px;
+    }
+
+    .fichas-panel {
+        padding: 22px 16px;
+        border-radius: 22px;
+    }
+
+    .fichas-acciones {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .boton-fichas {
+        min-width: 0;
+    }
+
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-acciones {
+        flex-direction: column;
+    }
+
+    .boton-formulario {
+        width: 100%;
+    }
+
+    .character-stats {
+        grid-template-columns: 1fr;
+    }
+}

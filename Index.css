@@ -678,6 +678,74 @@ body.intro-completada #pantalla-seleccion {
     }
 }
 
+/* Ajustes extra para moviles compactos: menos ruido visual y paneles mas respirables. */
+@media (max-width: 560px) {
+    .intro-cinematica {
+        padding: 14px;
+    }
+
+    .intro-marco {
+        inset: 10px;
+    }
+
+    .intro-contenido {
+        width: 100%;
+        padding: 24px 16px 22px;
+        border-radius: 22px;
+    }
+
+    .intro-texto {
+        line-height: 1.65;
+    }
+
+    .intro-estados {
+        gap: 12px;
+        margin-top: 18px;
+    }
+
+    .intro-panel {
+        padding: 16px 14px 14px;
+        border-radius: 18px;
+    }
+
+    .intro-boton {
+        width: 100%;
+        min-width: 0;
+        margin-top: 22px;
+    }
+
+    #lado-axis,
+    #lado-fate {
+        padding: 38px 18px 32px;
+    }
+
+    .panel-cta {
+        width: 100%;
+        box-sizing: border-box;
+    }
+}
+
+/* En pantallas bajas dejamos que la intro respire mejor y pueda desplazarse si hace falta. */
+@media (max-height: 760px) {
+    body {
+        overflow-y: auto;
+    }
+
+    .intro-cinematica {
+        align-items: flex-start;
+        padding: 18px 14px;
+        overflow-y: auto;
+    }
+
+    .intro-contenido {
+        margin: 18px 0;
+    }
+
+    #pantalla-seleccion {
+        min-height: 100dvh;
+    }
+}
+
 /* Animaciones suaves de la intro. */
 @keyframes derivaAxis {
     from {
