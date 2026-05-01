@@ -252,46 +252,308 @@
             </div>
         </section>
 
-        <!-- Mapa simplificado de Axis en tres zonas. -->
+        <!-- Mapa interactivo de Axis inspirado en el tablero fisico de la partida. -->
         <section id="lugares-y-mapa" class="seccion reveal-on-scroll">
             <div class="seccion-encabezado reveal-on-scroll">
                 <p class="ui subtitulo-seccion">Geografia del conflicto</p>
                 <h2 class="titulo">Lugares y mapa</h2>
                 <p>
-                    Axis se organiza en una gran ciudad oval dividida por clases sociales, atmosfera y peligro.
+                    En lugar de un mapa generico por franjas, aqui mostramos un tablero mas cercano al de la campana:
+                    un nucleo central, anillos de expansion y varios puntos clave conectados entre si.
                 </p>
             </div>
 
-            <div id="mapa">
-                <article class="zona reveal-on-scroll" id="zona-alta">
-                    <span class="zona-nombre">Zona Alta</span>
-                    <p class="zona-descripcion">Palacios, residencias nobles y plazas luminosas.</p>
-                    <div class="ciudades">
-                        <span class="ciudad">Helios</span>
-                        <span class="ciudad">Valmora</span>
-                        <span class="ciudad">Aurea</span>
-                    </div>
-                </article>
+            <div class="axis-mapa-layout">
+                <div id="mapa" class="reveal-on-scroll">
+                    <!-- La propia imagen define ahora el tamano del mapa para que no se recorten zonas. -->
+                    <img class="mapa-imagen-real" src="img/MapaAxis.jpg" alt="Mapa horizontal de Axis con sus anillos, costa y localizaciones principales">
 
-                <article class="zona reveal-on-scroll" id="zona-media">
-                    <span class="zona-nombre">Zona Media</span>
-                    <p class="zona-descripcion">Mercados, gremios y avenidas donde todo se mezcla.</p>
-                    <div class="ciudades">
-                        <span class="ciudad">Brisna</span>
-                        <span class="ciudad">Lyndor</span>
-                        <span class="ciudad">Senda Azul</span>
-                    </div>
-                </article>
+                    <!-- Capa absoluta de hotspots. Asi recalculamos posiciones sobre la imagen completa. -->
+                    <div class="mapa-hotspots">
+                        <button
+                            type="button"
+                            class="mapa-punto activo"
+                            style="top: 13%; left: 61%;"
+                            data-map-id="palacio-axis"
+                            data-map-name="Palacio de Axis"
+                            data-map-zone="Nucleo alto"
+                            data-map-description="Centro politico del mundo luminoso. Desde aqui se ordenan las decisiones que pueden salvar Axis o empujarlo a devorar Fate del todo."
+                            data-map-tags="Gobierno,Nobleza,Riesgo maximo"
+                        >
+                            <span class="mapa-punto-icono">AX</span>
+                        </button>
 
-                <article class="zona reveal-on-scroll" id="zona-baja">
-                    <span class="zona-nombre">Zona Baja</span>
-                    <p class="zona-descripcion">Barrios densos, puertos y secretos que no ven la luz.</p>
-                    <div class="ciudades">
-                        <span class="ciudad">Carbona</span>
-                        <span class="ciudad">Muelle Gris</span>
-                        <span class="ciudad">Las Salinas</span>
+                        <button
+                            type="button"
+                            class="mapa-punto"
+                            style="top: 7%; left: 49%;"
+                            data-map-id="coliseo-celeste"
+                            data-map-name="Coliseo celeste"
+                            data-map-zone="Anillo alto"
+                            data-map-description="Recinto monumental donde se celebran pruebas, duelos y demostraciones de poder para la elite de Axis."
+                            data-map-tags="Arena,Prestigio,Eventos"
+                        >
+                            <span class="mapa-punto-icono">CC</span>
+                        </button>
+
+                        <button
+                            type="button"
+                            class="mapa-punto"
+                            style="top: 9%; left: 34%;"
+                            data-map-id="jardines-suspendidos"
+                            data-map-name="Jardines suspendidos"
+                            data-map-zone="Anillo alto"
+                            data-map-description="Un refugio bello y vigilado donde la aristocracia esconde pactos, alianzas y secretos familiares."
+                            data-map-tags="Descanso,Intriga,Contacto noble"
+                        >
+                            <span class="mapa-punto-icono">JS</span>
+                        </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 20%; left: 44%;"
+                        data-map-id="atrium-solar"
+                        data-map-name="Atrium solar"
+                        data-map-zone="Anillo alto"
+                        data-map-description="Complejo residencial y administrativo del anillo interior. Aqui se cierran pactos con una sonrisa impecable."
+                        data-map-tags="Residencia,Politica,Alianzas"
+                    >
+                        <span class="mapa-punto-icono">AS</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 19%; left: 72%;"
+                        data-map-id="basilica-cristal"
+                        data-map-name="Basilica de cristal"
+                        data-map-zone="Anillo alto"
+                        data-map-description="Santuario de piedra azulada y cristal donde la belleza del lugar tapa muy mal las tensiones que lo atraviesan."
+                        data-map-tags="Templo,Simbolo,Fe"
+                    >
+                        <span class="mapa-punto-icono">BC</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 27%; left: 27%;"
+                        data-map-id="oasis-occidental"
+                        data-map-name="Oasis occidental"
+                        data-map-zone="Anillo medio"
+                        data-map-description="Jardin de agua y descanso a las puertas del anillo noble. Suele usarse para reuniones discretas."
+                        data-map-tags="Agua,Refugio,Contacto"
+                    >
+                        <span class="mapa-punto-icono">OO</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 38%; left: 18%;"
+                        data-map-id="sanctum-faro"
+                        data-map-name="Sanctum del faro"
+                        data-map-zone="Anillo alto"
+                        data-map-description="Templo y torre de observacion donde los presagios sobre Fate llegan antes que a ningun otro lugar de Axis."
+                        data-map-tags="Culto,Vision,Alerta"
+                    >
+                        <span class="mapa-punto-icono">SF</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 31%; left: 60%;"
+                        data-map-id="mercado-anular"
+                        data-map-name="Mercado anular"
+                        data-map-zone="Zona media"
+                        data-map-description="Cruce de rutas, gremios y favores. Aqui se compra informacion tanto como armas o provisiones."
+                        data-map-tags="Comercio,Encuentros,Rumores"
+                    >
+                        <span class="mapa-punto-icono">MA</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 35%; left: 83%;"
+                        data-map-id="oasis-oriental"
+                        data-map-name="Oasis oriental"
+                        data-map-zone="Anillo medio"
+                        data-map-description="Gemelo del oasis occidental, pero mucho mas expuesto a espias, viajeros y rumores que vienen del borde exterior."
+                        data-map-tags="Agua,Rumores,Transito"
+                    >
+                        <span class="mapa-punto-icono">OR</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 49%; left: 23%;"
+                        data-map-id="barrio-espejo"
+                        data-map-name="Barrio del espejo"
+                        data-map-zone="Zona media"
+                        data-map-description="Calles densas y cambiantes donde las lealtades duran poco y todo el mundo sabe algo que no deberia."
+                        data-map-tags="Espionaje,Redes,Mercenarios"
+                    >
+                        <span class="mapa-punto-icono">BE</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 44%; left: 85%;"
+                        data-map-id="santuario-velado"
+                        data-map-name="Santuario velado"
+                        data-map-zone="Zona media"
+                        data-map-description="Plataforma ceremonial y punto de paso entre rutas. Tiene mas peso simbolico del que parece a simple vista."
+                        data-map-tags="Rito,Transicion,Misterio"
+                    >
+                        <span class="mapa-punto-icono">SV</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 54%; left: 73%;"
+                        data-map-id="forja-mareas"
+                        data-map-name="Forja de las mareas"
+                        data-map-zone="Zona media"
+                        data-map-description="Distrito de talleres y arsenales. Sus maestros sostienen el esfuerzo material de Axis mientras el frente se complica."
+                        data-map-tags="Armas,Industria,Refuerzos"
+                    >
+                        <span class="mapa-punto-icono">FM</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 58%; left: 43%;"
+                        data-map-id="cuevas-esquirla"
+                        data-map-name="Cuevas de esquirla"
+                        data-map-zone="Zona baja"
+                        data-map-description="Formacion rota y afilada donde se esconden restos, contrabandistas y cosas que nadie quiere catalogar."
+                        data-map-tags="Cueva,Restos,Ocultacion"
+                    >
+                        <span class="mapa-punto-icono">CE</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 76%; left: 58%;"
+                        data-map-id="puerto-salino"
+                        data-map-name="Puerto salino"
+                        data-map-zone="Zona baja"
+                        data-map-description="Muelle exterior por el que entran suministros y problemas. Muy util para huir, traficar o desaparecer."
+                        data-map-tags="Puerto,Contrabando,Escape"
+                    >
+                        <span class="mapa-punto-icono">PS</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 66%; left: 18%;"
+                        data-map-id="fisuras-violetas"
+                        data-map-name="Fisuras violetas"
+                        data-map-zone="Periferia contaminada"
+                        data-map-description="Zonas corrompidas que recuerdan demasiado a la referencia visual de tu mapa. Son heridas abiertas por donde Fate ya esta tocando Axis."
+                        data-map-tags="Corrupcion,Peligro,Frontera"
+                    >
+                        <span class="mapa-punto-icono">FV</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="mapa-punto"
+                        style="top: 72%; left: 44%;"
+                        data-map-id="gruta-litoral"
+                        data-map-name="Gruta litoral"
+                        data-map-zone="Costa exterior"
+                        data-map-description="Entrada rocosa junto a la playa, util como escondite, punto de embarque y acceso a rutas secundarias."
+                        data-map-tags="Costa,Escondite,Ruta"
+                    >
+                        <span class="mapa-punto-icono">GL</span>
+                    </button>
+
+                        <button
+                            type="button"
+                            class="mapa-punto"
+                            style="top: 64%; left: 88%;"
+                            data-map-id="paso-espuma"
+                            data-map-name="Paso de la espuma"
+                            data-map-zone="Costa exterior"
+                            data-map-description="Una franja de costa y playa que conecta la ciudad con el exterior. Abierta, vistosa y mucho menos segura de lo que parece."
+                            data-map-tags="Costa,Viaje,Emboscadas"
+                        >
+                            <span class="mapa-punto-icono">PE</span>
+                        </button>
                     </div>
-                </article>
+                </div>
+
+                <!-- Panel que se actualiza cuando el usuario pulsa un punto del mapa. -->
+                <aside class="mapa-detalle reveal-on-scroll" aria-live="polite">
+                    <span class="ui mapa-detalle-etiqueta">Punto seleccionado</span>
+                    <h3 id="mapa-titulo" class="nombre-personaje">Palacio de Axis</h3>
+                    <p id="mapa-zona" class="mapa-detalle-zona">Nucleo alto</p>
+                    <div class="mapa-contexto">
+                        <span class="mapa-contexto-chip contexto-centro">Centro</span>
+                        <span class="mapa-contexto-chip contexto-medio">Anillo medio</span>
+                        <span class="mapa-contexto-chip contexto-borde">Borde exterior</span>
+                    </div>
+                    <p id="mapa-descripcion" class="mapa-detalle-texto">
+                        Centro politico del mundo luminoso. Desde aqui se ordenan las decisiones que pueden salvar Axis
+                        o empujarlo a devorar Fate del todo.
+                    </p>
+                    <!-- Estado jugable de cada punto del mapa. Se guarda en localStorage. -->
+                    <div class="mapa-estado-bloque">
+                        <p class="ui mapa-estado-titulo">Estado de exploracion</p>
+                        <div class="mapa-estado-linea">
+                            <span id="mapa-estado-actual" class="mapa-estado-chip estado-inexplorada">Inexplorada</span>
+                            <span class="mapa-estado-ayuda">Marca la ciudad segun el avance de la partida.</span>
+                        </div>
+                        <div class="mapa-estado-acciones">
+                            <button type="button" class="mapa-estado-boton" data-map-status="inexplorada">Inexplorada</button>
+                            <button type="button" class="mapa-estado-boton" data-map-status="visitada">Visitada</button>
+                            <button type="button" class="mapa-estado-boton" data-map-status="completada">Completada</button>
+                        </div>
+                    </div>
+                    <div id="mapa-tags" class="mapa-tags">
+                        <span class="mapa-tag">Gobierno</span>
+                        <span class="mapa-tag">Nobleza</span>
+                        <span class="mapa-tag">Riesgo maximo</span>
+                    </div>
+                    <details class="mapa-leyenda" open>
+                        <summary class="ui mapa-leyenda-titulo">Leyenda del tablero</summary>
+                        <div class="mapa-leyenda-grid">
+                            <article class="mapa-leyenda-card">
+                                <span class="mapa-leyenda-icono icono-centro" aria-hidden="true"></span>
+                                <div>
+                                    <h4>Nucleo alto</h4>
+                                    <p>Poder y control.</p>
+                                </div>
+                            </article>
+
+                            <article class="mapa-leyenda-card">
+                                <span class="mapa-leyenda-icono icono-medio" aria-hidden="true"></span>
+                                <div>
+                                    <h4>Anillo medio</h4>
+                                    <p>Comercio y rutas.</p>
+                                </div>
+                            </article>
+
+                            <article class="mapa-leyenda-card">
+                                <span class="mapa-leyenda-icono icono-borde" aria-hidden="true"></span>
+                                <div>
+                                    <h4>Borde exterior</h4>
+                                    <p>Costa y corrupcion.</p>
+                                </div>
+                            </article>
+                        </div>
+                    </details>
+                </aside>
             </div>
         </section>
 
@@ -324,6 +586,85 @@
                         <li>Localizar informacion sobre el siguiente punto de fractura entre ambos mundos.</li>
                     </ul>
                 </div>
+            </div>
+        </section>
+
+        <!-- Registro vivo de la campana para dejar claro que Axis cambia sesion a sesion. -->
+        <section class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Registro de campana</p>
+                <h2 class="titulo">Ecos recientes</h2>
+                <p>
+                    Este bloque sirve como diario rapido del mundo: que ha pasado, que se ha desbloqueado y que
+                    amenaza deberia preocupar al grupo en la siguiente sesion.
+                </p>
+            </div>
+
+            <div class="axis-registro-grid">
+                <article class="axis-evento-card reveal-on-scroll">
+                    <span class="ui axis-evento-etiqueta">Ultima sesion</span>
+                    <h3 class="nombre-personaje">El borde de la ciudad respondio</h3>
+                    <p>
+                        Varias zonas de la periferia comenzaron a mostrar signos de rechazo a la expansion. Las
+                        fisuras violetas ya no son solo paisaje: ahora alteran rutas y decisiones.
+                    </p>
+                </article>
+
+                <article class="axis-evento-card reveal-on-scroll">
+                    <span class="ui axis-evento-etiqueta">Nuevo frente</span>
+                    <h3 class="nombre-personaje">La nobleza exige respuestas</h3>
+                    <p>
+                        El anillo alto quiere resultados rapidos y eso pone presion directa sobre el grupo. Cada
+                        victoria importa, pero cada retraso tambien deja una deuda politica.
+                    </p>
+                </article>
+
+                <article class="axis-evento-card reveal-on-scroll">
+                    <span class="ui axis-evento-etiqueta">Proxima amenaza</span>
+                    <h3 class="nombre-personaje">Una grieta aun mayor</h3>
+                    <p>
+                        Si nadie contiene la actividad en la costa, el siguiente desgarro entre Axis y Fate podria
+                        partir el mapa en dos ritmos distintos.
+                    </p>
+                </article>
+            </div>
+
+            <div class="axis-timeline reveal-on-scroll">
+                <article class="timeline-item-axis">
+                    <span class="timeline-punto-axis" aria-hidden="true"></span>
+                    <div class="timeline-contenido-axis">
+                        <p class="ui timeline-fecha-axis">Acto I</p>
+                        <h3>La ciudad aun brillaba</h3>
+                        <p>Axis se sostenia sobre esperanza, orden y una idea clara de final feliz.</p>
+                    </div>
+                </article>
+
+                <article class="timeline-item-axis">
+                    <span class="timeline-punto-axis" aria-hidden="true"></span>
+                    <div class="timeline-contenido-axis">
+                        <p class="ui timeline-fecha-axis">Acto II</p>
+                        <h3>La frontera empezo a ceder</h3>
+                        <p>Los barrios bajos y la costa empezaron a notar una presion que no parecia propia.</p>
+                    </div>
+                </article>
+
+                <article class="timeline-item-axis">
+                    <span class="timeline-punto-axis" aria-hidden="true"></span>
+                    <div class="timeline-contenido-axis">
+                        <p class="ui timeline-fecha-axis">Acto III</p>
+                        <h3>El grupo entro en juego</h3>
+                        <p>Las decisiones personales dejaron de ser pequeñas y pasaron a cambiar zonas enteras.</p>
+                    </div>
+                </article>
+
+                <article class="timeline-item-axis">
+                    <span class="timeline-punto-axis" aria-hidden="true"></span>
+                    <div class="timeline-contenido-axis">
+                        <p class="ui timeline-fecha-axis">Ahora</p>
+                        <h3>El equilibrio ya no aguanta solo</h3>
+                        <p>Axis necesita acciones concretas para no convertirse en un reflejo hambriento de Fate.</p>
+                    </div>
+                </article>
             </div>
         </section>
 

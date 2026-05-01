@@ -440,74 +440,382 @@ img {
     color: #13263e;
 }
 
-/* Seccion del mapa. */
+/* Seccion del mapa. Ahora funciona como tablero con hotspots y panel lateral. */
 #lugares-y-mapa {
     padding-bottom: 112px;
 }
 
-/* Forma general del mapa en tres franjas. */
-#mapa {
-    overflow: hidden;
+.axis-mapa-layout {
     display: grid;
-    grid-template-rows: repeat(3, minmax(160px, 1fr));
-    border-radius: 999px;
-    border: 5px solid rgba(201, 168, 76, 0.85);
-    box-shadow: 0 25px 60px rgba(19, 38, 62, 0.12);
+    grid-template-columns: minmax(0, 1.5fr) minmax(280px, 0.7fr);
+    gap: 16px;
+    align-items: start;
+    padding: 14px;
+    border-radius: 32px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.72) 0%, rgba(244, 234, 214, 0.82) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.16);
+    box-shadow: 0 24px 54px rgba(83, 63, 17, 0.12);
 }
 
-/* Cada franja del mapa. */
-.zona {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    text-align: center;
-    padding: 28px 20px;
+/* Contenedor del tablero con la imagen real del mapa como base. */
+#mapa {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 28px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(19, 38, 62, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.38);
+    isolation: isolate;
+}
+
+/* La imagen real define el tamano final del mapa para evitar recortes. */
+.mapa-imagen-real {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+/* Capa absoluta para colocar los botones encima de la imagen ya escalada. */
+.mapa-hotspots {
+    position: absolute;
+    inset: 0;
+}
+
+/* Las capas auxiliares de la version anterior ya no hacen falta al usar la foto real. */
+.mapa-mar,
+.mapa-playa,
+.mapa-anillo,
+.mapa-ruta {
+    display: none;
+}
+
+/* Cada punto representa una localizacion del tablero. */
+.mapa-punto {
+    position: absolute;
+    z-index: 4;
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border: 2px solid rgba(255, 255, 255, 0.72);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(20, 30, 48, 0.94) 0%, rgba(12, 18, 30, 0.98) 100%);
+    box-shadow: 0 16px 34px rgba(10, 18, 31, 0.26);
     color: white;
-    transition: filter 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
 }
 
-.zona:hover {
-    filter: brightness(1.06);
-    transform: scale(1.01);
+.mapa-punto:hover,
+.mapa-punto:focus-visible,
+.mapa-punto.activo {
+    transform: translate(-50%, -50%) scale(1.08);
+    border-color: rgba(201, 168, 76, 0.9);
+    box-shadow: 0 18px 40px rgba(10, 18, 31, 0.3);
 }
 
-#zona-alta {
-    background: linear-gradient(180deg, #98dfff 0%, #67c3ee 100%);
+.mapa-punto.activo {
+    background: linear-gradient(180deg, rgba(188, 95, 140, 0.96) 0%, rgba(118, 41, 79, 0.98) 100%);
 }
 
-#zona-media {
-    background: linear-gradient(180deg, #86c97e 0%, #679e63 100%);
+.mapa-punto.status-visitada {
+    border-color: rgba(74, 144, 217, 0.92);
 }
 
-#zona-baja {
-    background: linear-gradient(180deg, #a17561 0%, #7d5647 100%);
+.mapa-punto.status-completada {
+    border-color: rgba(124, 184, 124, 0.94);
+    box-shadow: 0 18px 40px rgba(56, 104, 56, 0.2);
 }
 
-.zona-nombre {
-    font-family: "IM Fell DW Pica SC", serif;
-    font-size: clamp(1.5rem, 3vw, 2.3rem);
+.mapa-punto.status-inexplorada {
+    border-color: rgba(255, 255, 255, 0.72);
 }
 
-.zona-descripcion {
+.mapa-punto-icono {
+    font-size: 0.64rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+/* Panel lateral para explicar lo seleccionado sin saturar el propio tablero. */
+.mapa-detalle {
+    position: relative;
+    display: grid;
+    align-content: start;
+    padding: 20px 18px;
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 239, 224, 0.94) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.18);
+    box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.44);
+    gap: 0;
+}
+
+.mapa-detalle::before {
+    content: "";
+    position: absolute;
+    left: -9px;
+    top: 28px;
+    width: 18px;
+    height: 18px;
+    border-radius: 6px;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.92) 0%, rgba(247, 239, 224, 0.94) 100%);
+    border-left: 1px solid rgba(201, 168, 76, 0.18);
+    border-bottom: 1px solid rgba(201, 168, 76, 0.18);
+    transform: rotate(45deg);
+}
+
+.mapa-detalle-etiqueta {
+    display: inline-flex;
+    margin-bottom: 10px;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(19, 38, 62, 0.08);
+    color: #13263e;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+}
+
+.mapa-detalle h3 {
     margin: 0;
-    max-width: 520px;
+    font-size: clamp(1.7rem, 3.4vw, 2.6rem);
+    color: #13263e;
 }
 
-.ciudades {
+.mapa-detalle-zona {
+    margin: 12px 0 0;
+    color: rgba(44, 44, 44, 0.72);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+.mapa-contexto {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
+    gap: 6px;
+    margin-top: 12px;
 }
 
-.ciudad {
-    padding: 7px 14px;
+.mapa-contexto-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 6px 10px;
     border-radius: 999px;
-    background-color: rgba(255, 255, 255, 0.22);
-    border: 1px solid rgba(255, 255, 255, 0.26);
-    backdrop-filter: blur(4px);
+    font-size: 0.65rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+}
+
+.contexto-centro {
+    background: rgba(201, 168, 76, 0.14);
+    color: #8a6b16;
+    border-color: rgba(201, 168, 76, 0.2);
+}
+
+.contexto-medio {
+    background: rgba(74, 144, 217, 0.12);
+    color: #1f5e92;
+    border-color: rgba(74, 144, 217, 0.18);
+}
+
+.contexto-borde {
+    background: rgba(173, 77, 120, 0.12);
+    color: #8e3157;
+    border-color: rgba(173, 77, 120, 0.16);
+}
+
+.mapa-detalle-texto {
+    margin: 14px 0 0;
+    line-height: 1.75;
+    font-size: 0.96rem;
+}
+
+.mapa-estado-bloque {
+    margin-top: 18px;
+    padding: 14px 14px 12px;
+    border-radius: 18px;
+    background: rgba(19, 38, 62, 0.05);
+    border: 1px solid rgba(19, 38, 62, 0.08);
+}
+
+.mapa-estado-titulo {
+    margin: 0 0 10px;
+    color: #13263e;
+}
+
+.mapa-estado-linea {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 14px;
+    align-items: center;
+}
+
+.mapa-estado-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 999px;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    border: 1px solid transparent;
+}
+
+.estado-inexplorada {
+    background: rgba(19, 38, 62, 0.08);
+    color: #173b59;
+    border-color: rgba(19, 38, 62, 0.12);
+}
+
+.estado-visitada {
+    background: rgba(74, 144, 217, 0.14);
+    color: #1f5e92;
+    border-color: rgba(74, 144, 217, 0.24);
+}
+
+.estado-completada {
+    background: rgba(124, 184, 124, 0.16);
+    color: #2f6e2f;
+    border-color: rgba(124, 184, 124, 0.26);
+}
+
+.mapa-estado-ayuda {
+    color: rgba(44, 44, 44, 0.72);
+    font-size: 0.84rem;
+}
+
+.mapa-estado-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.mapa-estado-boton {
+    padding: 8px 12px;
+    border-radius: 999px;
+    border: 1px solid rgba(19, 38, 62, 0.14);
+    background: rgba(255, 255, 255, 0.72);
+    color: #13263e;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-size: 0.67rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease;
+}
+
+.mapa-estado-boton:hover,
+.mapa-estado-boton:focus-visible,
+.mapa-estado-boton.activo {
+    transform: translateY(-1px);
+    border-color: rgba(201, 168, 76, 0.5);
+    background: rgba(255, 255, 255, 0.92);
+}
+
+.mapa-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.mapa-tag {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(19, 38, 62, 0.07);
+    color: #173b59;
+    border: 1px solid rgba(19, 38, 62, 0.08);
+    font-size: 0.66rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.mapa-leyenda {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(19, 38, 62, 0.08);
+}
+
+.mapa-leyenda-titulo {
+    margin: 0;
+    color: #13263e;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    list-style: none;
+}
+
+.mapa-leyenda-titulo::-webkit-details-marker {
+    display: none;
+}
+
+.mapa-leyenda-titulo::after {
+    content: "+";
+    font-size: 1rem;
+    color: rgba(19, 38, 62, 0.56);
+}
+
+.mapa-leyenda[open] .mapa-leyenda-titulo::after {
+    content: "-";
+}
+
+.mapa-leyenda-grid {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.mapa-leyenda-card {
+    display: grid;
+    grid-template-columns: 18px 1fr;
+    gap: 10px;
+    align-items: start;
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(19, 38, 62, 0.04);
+}
+
+.mapa-leyenda-icono {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    margin-top: 3px;
+}
+
+.icono-centro {
+    background: linear-gradient(180deg, #fef6dd 0%, #c9a84c 100%);
+}
+
+.icono-medio {
+    background: linear-gradient(180deg, #d8ecff 0%, #4a90d9 100%);
+}
+
+.icono-borde {
+    background: linear-gradient(180deg, #f2d2df 0%, #a54a70 100%);
+}
+
+.mapa-leyenda-card h4 {
+    margin: 0 0 6px;
+    color: #13263e;
+    font-size: 0.92rem;
+}
+
+.mapa-leyenda-card p {
+    margin: 0;
+    line-height: 1.5;
+    font-size: 0.84rem;
+    color: rgba(44, 44, 44, 0.78);
 }
 
 /* Bloque de estado de campana para mostrar en que punto narrativo esta Axis. */
@@ -556,6 +864,100 @@ img {
     padding-left: 18px;
     display: grid;
     gap: 14px;
+    line-height: 1.7;
+}
+
+/* Registro de Axis: eventos recientes y cronologia luminosa pero ya tensionada. */
+.axis-registro-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 18px;
+    margin-bottom: 26px;
+}
+
+.axis-evento-card {
+    padding: 26px 22px;
+    border-radius: 26px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(245, 235, 214, 0.96) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.24);
+    box-shadow: 0 18px 34px rgba(83, 63, 17, 0.12);
+}
+
+.axis-evento-etiqueta {
+    display: inline-flex;
+    margin-bottom: 14px;
+    padding: 7px 12px;
+    border-radius: 999px;
+    background: rgba(19, 38, 62, 0.08);
+    color: #13263e;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.74rem;
+}
+
+.axis-evento-card h3 {
+    margin: 0 0 10px;
+    font-size: 2rem;
+    color: #13263e;
+}
+
+.axis-evento-card p {
+    margin: 0;
+    line-height: 1.75;
+}
+
+.axis-timeline {
+    position: relative;
+    display: grid;
+    gap: 18px;
+    padding-left: 28px;
+}
+
+.axis-timeline::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 8px;
+    bottom: 8px;
+    width: 2px;
+    background: linear-gradient(180deg, rgba(201, 168, 76, 0.16) 0%, rgba(74, 144, 217, 0.44) 100%);
+}
+
+.timeline-item-axis {
+    position: relative;
+}
+
+.timeline-punto-axis {
+    position: absolute;
+    left: -28px;
+    top: 18px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: linear-gradient(180deg, #fef6dd 0%, #c9a84c 100%);
+    box-shadow: 0 0 0 6px rgba(201, 168, 76, 0.12);
+}
+
+.timeline-contenido-axis {
+    padding: 22px 22px 20px;
+    border-radius: 24px;
+    background: rgba(255, 255, 255, 0.72);
+    border: 1px solid rgba(19, 38, 62, 0.08);
+}
+
+.timeline-fecha-axis {
+    margin: 0 0 8px;
+    color: #173b59;
+}
+
+.timeline-contenido-axis h3 {
+    margin: 0 0 10px;
+    font-size: 1.85rem;
+    color: #13263e;
+}
+
+.timeline-contenido-axis p:last-child {
+    margin: 0;
     line-height: 1.7;
 }
 
@@ -965,6 +1367,10 @@ body.modal-activa {
         grid-template-columns: 1fr;
     }
 
+    .axis-registro-grid {
+        grid-template-columns: 1fr;
+    }
+
     .ficha-axis-hero,
     .ficha-axis-grid {
         grid-template-columns: 1fr;
@@ -982,6 +1388,10 @@ body.modal-activa {
 
     .relaciones-web-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .axis-mapa-layout {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -1028,12 +1438,28 @@ body.modal-activa {
     }
 
     #mapa {
-        border-radius: 36px;
+        border-radius: 30px;
     }
 
-    .zona {
-        min-height: 150px;
-        padding: 22px 16px;
+    .mapa-punto {
+        width: 38px;
+        height: 38px;
+        border-radius: 13px;
+    }
+
+    .mapa-detalle {
+        padding: 22px 18px;
+        border-radius: 24px;
+    }
+
+    .mapa-detalle::before {
+        display: none;
+    }
+
+    .mapa-estado-linea,
+    .mapa-estado-acciones {
+        flex-direction: column;
+        align-items: stretch;
     }
 
     .ficha-web-axis {
@@ -1079,6 +1505,10 @@ body.modal-activa {
         padding: 28px 0;
     }
 
+    #mapa {
+        border-radius: 24px;
+    }
+
     #personajes-carrusel {
         grid-auto-columns: minmax(240px, 88vw);
         gap: 16px;
@@ -1107,6 +1537,15 @@ body.modal-activa {
     .clase-card img {
         width: 64px;
         height: 64px;
+    }
+
+    .mapa-punto {
+        width: 32px;
+        height: 32px;
+    }
+
+    .mapa-punto-icono {
+        font-size: 0.54rem;
     }
 
     .ficha-axis-datos h3 {

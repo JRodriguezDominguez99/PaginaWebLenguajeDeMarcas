@@ -458,3 +458,123 @@ document.addEventListener('keydown', (evento) => {
         cerrarModalClase();
     }
 });
+
+// Mapa interactivo de Axis: cada punto actualiza una ficha lateral con su informacion.
+const mapaPuntos = document.querySelectorAll('.mapa-punto');
+const mapaTitulo = document.getElementById('mapa-titulo');
+const mapaZona = document.getElementById('mapa-zona');
+const mapaDescripcion = document.getElementById('mapa-descripcion');
+const mapaTags = document.getElementById('mapa-tags');
+const mapaEstadoActual = document.getElementById('mapa-estado-actual');
+const mapaEstadoBotones = document.querySelectorAll('[data-map-status]');
+
+if (mapaPuntos.length > 0 && mapaTitulo && mapaZona && mapaDescripcion && mapaTags && mapaEstadoActual) {
+    const mapaStorageKey = 'axis-map-status';
+    let estadoMapaGuardado = {};
+    let puntoSeleccionado = mapaPuntos[0];
+
+    try {
+        const contenidoGuardado = window.localStorage.getItem(mapaStorageKey);
+        estadoMapaGuardado = contenidoGuardado ? JSON.parse(contenidoGuardado) : {};
+    } catch (error) {
+        estadoMapaGuardado = {};
+    }
+
+    const normalizarEstadoMapa = (estado) => {
+        const estadosValidos = ['inexplorada', 'visitada', 'completada'];
+        return estadosValidos.includes(estado) ? estado : 'inexplorada';
+    };
+
+    const obtenerEstadoMapa = (punto) => {
+        const puntoId = punto.dataset.mapId || '';
+        return normalizarEstadoMapa(estadoMapaGuardado[puntoId] || 'inexplorada');
+    };
+
+    const guardarEstadoMapa = (punto, estado) => {
+        const puntoId = punto.dataset.mapId || '';
+
+        if (!puntoId) {
+            return;
+        }
+
+        estadoMapaGuardado[puntoId] = normalizarEstadoMapa(estado);
+        window.localStorage.setItem(mapaStorageKey, JSON.stringify(estadoMapaGuardado));
+    };
+
+    const aplicarEstadoVisualPunto = (punto) => {
+        const estado = obtenerEstadoMapa(punto);
+
+        punto.classList.remove('status-inexplorada', 'status-visitada', 'status-completada');
+        punto.classList.add(`status-${estado}`);
+    };
+
+    const refrescarControlesEstado = (punto) => {
+        const estado = obtenerEstadoMapa(punto);
+        const etiquetaEstado = {
+            inexplorada: 'Inexplorada',
+            visitada: 'Visitada',
+            completada: 'Completada'
+        };
+
+        mapaEstadoActual.className = `mapa-estado-chip estado-${estado}`;
+        mapaEstadoActual.textContent = etiquetaEstado[estado] || 'Inexplorada';
+
+        mapaEstadoBotones.forEach((boton) => {
+            const activo = boton.dataset.mapStatus === estado;
+            boton.classList.toggle('activo', activo);
+            boton.setAttribute('aria-pressed', String(activo));
+        });
+    };
+
+    const actualizarMapaAxis = (punto) => {
+        mapaPuntos.forEach((item) => {
+            item.classList.remove('activo');
+            item.setAttribute('aria-pressed', 'false');
+        });
+
+        punto.classList.add('activo');
+        punto.setAttribute('aria-pressed', 'true');
+
+        mapaTitulo.textContent = punto.dataset.mapName || 'Localizacion de Axis';
+        mapaZona.textContent = punto.dataset.mapZone || '';
+        mapaDescripcion.textContent = punto.dataset.mapDescription || '';
+
+        const etiquetas = (punto.dataset.mapTags || '')
+            .split(',')
+            .map((valor) => valor.trim())
+            .filter(Boolean);
+
+        mapaTags.innerHTML = '';
+
+        etiquetas.forEach((etiqueta) => {
+            const tag = document.createElement('span');
+            tag.className = 'mapa-tag';
+            tag.textContent = etiqueta;
+            mapaTags.appendChild(tag);
+        });
+
+        refrescarControlesEstado(punto);
+    };
+
+    mapaPuntos.forEach((punto) => {
+        aplicarEstadoVisualPunto(punto);
+
+        punto.addEventListener('click', () => {
+            puntoSeleccionado = punto;
+            actualizarMapaAxis(punto);
+        });
+    });
+
+    mapaEstadoBotones.forEach((boton) => {
+        boton.addEventListener('click', () => {
+            const nuevoEstado = boton.dataset.mapStatus || 'inexplorada';
+
+            guardarEstadoMapa(puntoSeleccionado, nuevoEstado);
+            aplicarEstadoVisualPunto(puntoSeleccionado);
+            refrescarControlesEstado(puntoSeleccionado);
+        });
+    });
+
+    // Dejamos la primera localizacion sincronizada con el estado que ya hubiera guardado el usuario.
+    actualizarMapaAxis(puntoSeleccionado);
+}
