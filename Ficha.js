@@ -1,20 +1,23 @@
 // Importamos Firebase desde CDN porque este proyecto es una landing sin backend propio.
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getApp, getApps, initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
     addDoc,
     collection,
     getDocs,
     getFirestore,
-    orderBy,
     query,
-    serverTimestamp
+    serverTimestamp,
+    where
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import {
+    getAuth,
+    onAuthStateChanged,
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-// Config local con placeholders para que solo haya que rellenarlo despues.
+// Config del proyecto y nombre de la coleccion donde se guardan las fichas.
 import { charactersCollectionName, firebaseConfig } from "./firebase-config.js";
 
 // Referencias principales de la interfaz.
-const firebaseStatus = document.getElementById("firebase-status");
 const formStatus = document.getElementById("form-status");
 const characterForm = document.getElementById("character-form");
 const charactersList = document.getElementById("characters-list");
@@ -22,7 +25,26 @@ const filterWorld = document.getElementById("filter-world");
 const worldSelect = document.getElementById("mundo");
 
 let firestoreDb = null;
+let firebaseAuth = null;
+let authUser = null;
 let cachedCharacters = [];
+
+// Ordena las fichas por fecha sin depender de indices extra de Firestore.
+const timestampToMillis = (value) => {
+    if (!value) {
+        return 0;
+    }
+
+    if (typeof value.toMillis === "function") {
+        return value.toMillis();
+    }
+
+    if (value.seconds) {
+        return Number(value.seconds) * 1000;
+    }
+
+    return 0;
+};
 
 // Activamos esta clase solo cuando el JS realmente ha arrancado.
 document.body.classList.add("js-reveal");
@@ -66,6 +88,8 @@ const getCharacterPayload = (form) => {
         rol: formData.get("rol")?.toString().trim() || "",
         origen: formData.get("origen")?.toString().trim() || "",
         descripcion: formData.get("descripcion")?.toString().trim() || "",
+        usuarioId: authUser?.uid || "",
+        usuarioEmail: authUser?.email || "",
         stats: {
             STR: Number(formData.get("str") || 0),
             CON: Number(formData.get("con") || 0),
@@ -106,6 +130,18 @@ const renderCharacters = () => {
         return;
     }
 
+    if (!authUser) {
+        charactersList.innerHTML = `
+            <article class="character-empty">
+                <h3 class="nombre-personaje">Archivo privado bloqueado</h3>
+                <p>
+                    Inicia sesion para ver unicamente las fichas guardadas en tu cuenta.
+                </p>
+            </article>
+        `;
+        return;
+    }
+
     const activeFilter = filterWorld?.value || "todos";
     const filteredCharacters = activeFilter === "todos"
         ? cachedCharacters
@@ -116,9 +152,9 @@ const renderCharacters = () => {
     if (filteredCharacters.length === 0) {
         charactersList.innerHTML = `
             <article class="character-empty">
-                <h3 class="nombre-personaje">Sin fichas visibles</h3>
+                <h3 class="nombre-personaje">Sin fichas en este filtro</h3>
                 <p>
-                    Todavia no hay personajes guardados para este filtro o Firebase sigue sin configurarse.
+                    Esta cuenta todavia no tiene personajes guardados para el mundo seleccionado.
                 </p>
             </article>
         `;
@@ -130,15 +166,16 @@ const renderCharacters = () => {
     });
 };
 
-// Lee todas las fichas desde Firestore.
+// Lee solo las fichas privadas de la cuenta autenticada.
 const loadCharacters = async () => {
-    if (!firestoreDb) {
+    if (!firestoreDb || !authUser) {
+        cachedCharacters = [];
         renderCharacters();
         return;
     }
 
     const charactersRef = collection(firestoreDb, charactersCollectionName);
-    const charactersQuery = query(charactersRef, orderBy("createdAt", "desc"));
+    const charactersQuery = query(charactersRef, where("usuarioId", "==", authUser.uid));
     const snapshot = await getDocs(charactersQuery);
 
     cachedCharacters = snapshot.docs.map((doc) => ({
@@ -146,29 +183,32 @@ const loadCharacters = async () => {
         ...doc.data()
     }));
 
+    cachedCharacters.sort((a, b) => timestampToMillis(b.createdAt) - timestampToMillis(a.createdAt));
+
     renderCharacters();
 };
 
 // Inicializacion principal de Firebase.
 const initializeFirebase = async () => {
     if (!isFirebaseConfigured) {
-        setMessageState(firebaseStatus, "Pendiente de configurar credenciales de Firebase.", "error");
         setMessageState(formStatus, "Completa firebase-config.js para activar el guardado real.", "error");
         renderCharacters();
         return;
     }
 
     try {
-        const app = initializeApp(firebaseConfig);
+        const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
         firestoreDb = getFirestore(app);
+        firebaseAuth = getAuth(app);
 
-        setMessageState(firebaseStatus, "Firebase conectado correctamente. Firestore listo para usar.", "ok");
         setMessageState(formStatus, "Formulario listo para guardar en Firestore.", "ok");
 
-        await loadCharacters();
+        onAuthStateChanged(firebaseAuth, async (user) => {
+            authUser = user;
+            await loadCharacters();
+        });
     } catch (error) {
         console.error("Error al iniciar Firebase:", error);
-        setMessageState(firebaseStatus, "No se ha podido iniciar Firebase. Revisa la configuracion.", "error");
         setMessageState(formStatus, "Firebase no ha arrancado. Mira la consola para ver el error.", "error");
     }
 };
@@ -180,6 +220,11 @@ if (characterForm) {
 
         if (!firestoreDb) {
             setMessageState(formStatus, "Todavia no hay conexion real con Firestore.", "error");
+            return;
+        }
+
+        if (!authUser) {
+            setMessageState(formStatus, "Inicia sesion antes de guardar una ficha para vincularla a tu cuenta.", "error");
             return;
         }
 

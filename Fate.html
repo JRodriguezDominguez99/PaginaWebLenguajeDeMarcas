@@ -15,6 +15,44 @@
 </head>
 
 <body>
+    <!-- Acceso global de cuenta para que el login viva en toda la web. -->
+    <div class="cuenta-global">
+        <button id="cuenta-toggle" class="ui cuenta-toggle" type="button" aria-expanded="false" aria-controls="cuenta-panel">
+            <span class="cuenta-toggle-label">Cuenta</span>
+            <span id="cuenta-pill" class="cuenta-pill">Invitado</span>
+        </button>
+
+        <section id="cuenta-panel" class="cuenta-panel" hidden>
+            <p class="ui cuenta-panel-etiqueta">Acceso privado</p>
+            <h2 class="titulo">Tu cuenta</h2>
+            <p id="auth-status" class="cuenta-estado">Todavia no has iniciado sesion.</p>
+
+            <form id="auth-form" class="auth-form-global">
+                <div class="campo">
+                    <label for="auth-email" class="ui">Correo</label>
+                    <input id="auth-email" name="auth-email" type="email" placeholder="tu-correo@ejemplo.com" autocomplete="email">
+                </div>
+
+                <div class="campo">
+                    <label for="auth-password" class="ui">Contrasena</label>
+                    <input id="auth-password" name="auth-password" type="password" placeholder="Minimo 6 caracteres" autocomplete="current-password">
+                </div>
+
+                <div class="auth-acciones">
+                    <button id="register-button" class="ui boton-formulario" type="button">Crear cuenta</button>
+                    <button id="login-button" class="ui boton-formulario boton-formulario-secundario" type="button">Iniciar sesion</button>
+                    <button id="google-button" class="ui boton-formulario boton-formulario-secundario" type="button">Entrar con Google</button>
+                    <button id="logout-button" class="ui boton-formulario boton-formulario-secundario" type="button">Cerrar sesion</button>
+                </div>
+
+                <p id="auth-message" class="cuenta-mensaje" aria-live="polite">
+                    Crea una cuenta o entra para vincular y proteger tus fichas.
+                </p>
+                <a class="ui cuenta-link" href="Ficha.html?mundo=Fate">Abrir archivo de fichas</a>
+            </form>
+        </section>
+    </div>
+
     <!-- Hero oscuro de Fate con una presentacion mas opresiva que la de Axis. -->
     <header id="fate-hero" data-parallax-hero="true">
         <!-- Fondo y niebla en capas para poder separarlos visualmente del contenido. -->
@@ -37,18 +75,52 @@
             <a class="ui" href="Ficha.html?mundo=Fate">Fichas</a>
         </nav>
 
+        <!-- Overlay del menu para que el panel se lea mejor y pueda cerrarse con un clic. -->
+        <div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
+
         <!-- Mensaje principal del hero. -->
         <div class="fate-hero-contenido">
-            <p class="ui fate-etiqueta">Mundo consumido por la niebla</p>
-            <h1 class="titulo">Fate</h1>
-            <p class="fate-hero-texto">
-                El mundo real se agrieta mientras Axis lo devora para sobrevivir. Aqui no hay servants:
-                solo facciones, miedo, memoria y grupos que pelean por decidir como debe morir o resistir Fate.
-            </p>
-            <div class="fate-hero-acciones">
-                <a class="boton-fate ui" href="#mundo-fate">Explorar el mundo</a>
-                <a class="boton-fate boton-fate-secundario ui" href="#facciones">Ver las facciones</a>
-                <a class="boton-fate boton-fate-secundario ui" href="Ficha.html?mundo=Fate">Guardar personaje</a>
+            <div class="fate-hero-layout">
+                <div class="fate-hero-copy">
+                    <p class="ui fate-etiqueta">Mundo consumido por la niebla</p>
+                    <h1 class="titulo">Fate</h1>
+                    <p class="fate-hero-texto">
+                        El mundo real se agrieta mientras Axis lo devora para sobrevivir. Aqui no hay servants:
+                        solo facciones, miedo, memoria y grupos que pelean por decidir como debe morir o resistir Fate.
+                    </p>
+                    <div class="fate-hero-acciones">
+                        <a class="boton-fate ui" href="#mundo-fate">Explorar el mundo</a>
+                        <a class="boton-fate boton-fate-secundario ui" href="#facciones">Ver las facciones</a>
+                        <a class="boton-fate boton-fate-secundario ui" href="Ficha.html?mundo=Fate">Guardar personaje</a>
+                    </div>
+                </div>
+
+                <aside class="fate-hero-side">
+                    <p class="ui fate-hero-side-label">Lectura del sistema</p>
+                    <div class="fate-hero-side-grid">
+                        <div class="fate-hero-side-card">
+                            <span>Niebla</span>
+                            <strong>81%</strong>
+                            <p>Rutas y memoria comprometidas.</p>
+                        </div>
+
+                        <div class="fate-hero-side-card">
+                            <span>Control</span>
+                            <strong>Inestable</strong>
+                            <p>Las facciones sostienen solo partes del mapa.</p>
+                        </div>
+
+                        <div class="fate-hero-side-card">
+                            <span>Presion de Axis</span>
+                            <strong>Activa</strong>
+                            <p>La linea de consumo sigue avanzando.</p>
+                        </div>
+                    </div>
+
+                    <p class="fate-hero-quote">
+                        "En Fate nadie gana el mundo. Como mucho, consigue que no desaparezca esta noche."
+                    </p>
+                </aside>
             </div>
         </div>
     </header>
@@ -104,54 +176,119 @@
             </div>
 
             <div class="carrusel-barra-fate">
-                <button class="carrusel-control-fate ui" type="button" data-carrusel-dir="-1"
-                    data-carrusel-target="fate-facciones-carrusel" aria-label="Ver facciones anteriores">
-                    &larr;
-                </button>
-
                 <div id="fate-facciones-carrusel" class="fate-cartas" data-reveal-children="true"
                     aria-label="Facciones de Fate">
-                <article class="fate-carta reveal-child">
+                <button class="fate-carta fate-carta-boton reveal-child activa" type="button" aria-pressed="true"
+                    data-faction-name="Black Rose"
+                    data-faction-role="Red clandestina"
+                    data-faction-pressure="Alta"
+                    data-faction-territory="Callejones, refugios y contrabando"
+                    data-faction-summary="Red clandestina que opera entre callejones, refugios y zonas de contrabando. Controlan informacion, rutas seguras y favores, y convierten el secreto en su principal arma."
+                    data-faction-tags="Sigilo,Tratos,Rutas seguras"
+                    data-faction-relations="Iron Chapel: tregua fragil|Ash Market: dependencia comercial|Fogbound Wardens: intercambio de rutas">
                     <span class="ui fate-carta-etiqueta">Faccion urbana</span>
                     <h3 class="nombre-personaje">Black Rose</h3>
                     <p>
                         Red clandestina que opera entre callejones, refugios y zonas de contrabando. Controlan
                         informacion, rutas seguras y favores, y convierten el secreto en su principal arma.
                     </p>
-                </article>
+                </button>
 
-                <article class="fate-carta reveal-child">
+                <button class="fate-carta fate-carta-boton reveal-child" type="button" aria-pressed="false"
+                    data-faction-name="Iron Chapel"
+                    data-faction-role="Orden religiosa"
+                    data-faction-pressure="Media"
+                    data-faction-territory="Enclaves, capillas y zonas de juicio"
+                    data-faction-summary="Orden severa que interpreta la caida de Fate como una prueba moral. Defienden enclaves, juzgan desertores y levantan disciplina donde el resto solo ve ruina."
+                    data-faction-tags="Fe,Disciplina,Refugios"
+                    data-faction-relations="Black Rose: tregua fragil|Ash Market: desconfianza abierta|Fogbound Wardens: cooperacion defensiva">
                     <span class="ui fate-carta-etiqueta">Faccion religiosa</span>
                     <h3 class="nombre-personaje">Iron Chapel</h3>
                     <p>
                         Orden severa que interpreta la caida de Fate como una prueba moral. Defienden enclaves,
                         juzgan desertores y levantan disciplina donde el resto solo ve ruina.
                     </p>
-                </article>
+                </button>
 
-                <article class="fate-carta reveal-child">
+                <button class="fate-carta fate-carta-boton reveal-child" type="button" aria-pressed="false"
+                    data-faction-name="Ash Market"
+                    data-faction-role="Mercado gris"
+                    data-faction-pressure="Critica"
+                    data-faction-territory="Mercados rotos, medicina y tecnologia"
+                    data-faction-summary="Mercado gris que trafica con reliquias, medicina, tecnologia rota y secretos. Nadie confia en ellos del todo, pero casi todos acaban necesitando algo que solo ellos pueden conseguir."
+                    data-faction-tags="Recursos,Traficos,Informacion"
+                    data-faction-relations="Black Rose: negocios frecuentes|Iron Chapel: tension moral|Fogbound Wardens: suministro puntual">
                     <span class="ui fate-carta-etiqueta">Faccion oportunista</span>
                     <h3 class="nombre-personaje">Ash Market</h3>
                     <p>
                         Mercado gris que trafica con reliquias, medicina, tecnologia rota y secretos. Nadie confia en
                         ellos del todo, pero casi todos acaban necesitando algo que solo ellos pueden conseguir.
                     </p>
-                </article>
+                </button>
 
-                <article class="fate-carta reveal-child">
+                <button class="fate-carta fate-carta-boton reveal-child" type="button" aria-pressed="false"
+                    data-faction-name="Fogbound Wardens"
+                    data-faction-role="Guardianes fronterizos"
+                    data-faction-pressure="Media"
+                    data-faction-territory="Rutas de niebla y pasos entre distritos"
+                    data-faction-summary="Guardianes de las zonas de niebla mas densas. No dominan grandes barrios, pero sostienen las ultimas rutas entre distritos y conocen el terreno mejor que nadie."
+                    data-faction-tags="Exploracion,Pasos,Resistencia"
+                    data-faction-relations="Black Rose: trueque logistico|Iron Chapel: apoyo defensivo|Ash Market: trato utilitarista">
                     <span class="ui fate-carta-etiqueta">Faccion fronteriza</span>
                     <h3 class="nombre-personaje">Fogbound Wardens</h3>
                     <p>
                         Guardianes de las zonas de niebla mas densas. No dominan grandes barrios, pero sostienen las
                         ultimas rutas entre distritos y conocen el terreno mejor que nadie.
                     </p>
-                </article>
+                </button>
+                </div>
+            </div>
+
+            <div class="faction-console reveal-on-scroll">
+                <div class="faction-console-head">
+                    <div>
+                        <p class="ui fate-carta-etiqueta">Dossier activo</p>
+                        <h3 id="faction-console-title" class="nombre-personaje">Black Rose</h3>
+                    </div>
+                    <span id="faction-console-pressure" class="faction-console-chip">Alta</span>
                 </div>
 
-                <button class="carrusel-control-fate ui" type="button" data-carrusel-dir="1"
-                    data-carrusel-target="fate-facciones-carrusel" aria-label="Ver facciones siguientes">
-                    &rarr;
-                </button>
+                <div class="faction-console-grid">
+                    <section class="faction-console-panel">
+                        <p class="ui faction-console-label">Perfil</p>
+                        <p id="faction-console-summary" class="faction-console-summary">
+                            Red clandestina que opera entre callejones, refugios y zonas de contrabando. Controlan informacion, rutas seguras y favores, y convierten el secreto en su principal arma.
+                        </p>
+                    </section>
+
+                    <section class="faction-console-panel">
+                        <p class="ui faction-console-label">Lectura rapida</p>
+                        <div class="faction-console-meta">
+                            <div>
+                                <span>Tipo</span>
+                                <strong id="faction-console-role">Red clandestina</strong>
+                            </div>
+                            <div>
+                                <span>Territorio</span>
+                                <strong id="faction-console-territory">Callejones, refugios y contrabando</strong>
+                            </div>
+                        </div>
+                        <div id="faction-console-tags" class="faction-console-tags">
+                            <span>Sigilo</span>
+                            <span>Tratos</span>
+                            <span>Rutas seguras</span>
+                        </div>
+                    </section>
+
+                    <section class="faction-console-panel faction-console-panel-wide">
+                        <p class="ui faction-console-label">Relaciones activas</p>
+                        <ul id="faction-console-relations" class="faction-console-relations">
+                            <li>Iron Chapel: tregua fragil.</li>
+                            <li>Ash Market: dependencia comercial.</li>
+                            <li>Fogbound Wardens: intercambio de rutas.</li>
+                        </ul>
+                    </section>
+                </div>
             </div>
         </section>
 
@@ -161,7 +298,7 @@
                 <h2 class="titulo">Tensiones activas</h2>
                 <p>
                     Estas lineas de presion ayudan a que Fate se sienta mas vivo: no solo hay facciones, tambien hay
-                    crisis simultaneas que cambian el tono de la campaña.
+                    crisis simultaneas que cambian el tono de la campana.
                 </p>
             </div>
 
@@ -186,6 +323,151 @@
             </div>
         </section>
 
+        <!-- Mapa original de Fate construido por codigo para dar geografia propia al mundo oscuro. -->
+        <section class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Cartografia viva</p>
+                <h2 class="titulo">Distritos de Fate</h2>
+                <p>
+                    En vez de un mapa real externo, construimos una geografia propia de Fate: sectores quebrados,
+                    rutas de niebla y zonas donde la absorcion de Axis ya se nota demasiado.
+                </p>
+            </div>
+
+            <div class="fate-map-layout">
+                <div class="fate-map-shell">
+                    <div class="fate-map-core" aria-hidden="true"></div>
+                    <button type="button" class="fate-zone active" style="top: 14%; left: 24%;"
+                        data-fate-zone-id="mercado-ceniza"
+                        data-fate-zone-name="Mercado de Ceniza"
+                        data-fate-zone-state="inestable"
+                        data-fate-zone-description="Centro irregular de trueques, medicinas y favores donde Ash Market gana poder cada vez que falla una ruta segura."
+                        data-fate-zone-tags="Recursos,Contrabando,Riesgo comercial">
+                        <span>MC</span>
+                    </button>
+
+                    <button type="button" class="fate-zone" style="top: 18%; left: 63%;"
+                        data-fate-zone-id="claustro-hierro"
+                        data-fate-zone-name="Claustro de Hierro"
+                        data-fate-zone-state="segura"
+                        data-fate-zone-description="Red de capillas y patios fortificados donde Iron Chapel levanta refugios, juicios y disciplina."
+                        data-fate-zone-tags="Refugio,Fe,Defensa">
+                        <span>CH</span>
+                    </button>
+
+                    <button type="button" class="fate-zone" style="top: 44%; left: 18%;"
+                        data-fate-zone-id="pasos-negros"
+                        data-fate-zone-name="Pasos Negros"
+                        data-fate-zone-state="comprometida"
+                        data-fate-zone-description="Tramo de callejones y accesos clandestinos donde Black Rose controla el movimiento y el silencio."
+                        data-fate-zone-tags="Sigilo,Rutas,Emboscada">
+                        <span>PN</span>
+                    </button>
+
+                    <button type="button" class="fate-zone" style="top: 47%; left: 49%;"
+                        data-fate-zone-id="nucleo-herido"
+                        data-fate-zone-name="Nucleo Herido"
+                        data-fate-zone-state="inestable"
+                        data-fate-zone-description="Centro urbano quebrado donde la memoria falla, los acuerdos duran poco y los apagones dejan huecos peligrosos."
+                        data-fate-zone-tags="Memoria,Caos,Centro">
+                        <span>NH</span>
+                    </button>
+
+                    <button type="button" class="fate-zone" style="top: 40%; left: 76%;"
+                        data-fate-zone-id="corredor-guardian"
+                        data-fate-zone-name="Corredor Guardian"
+                        data-fate-zone-state="segura"
+                        data-fate-zone-description="Linea de pasos sostenida por Fogbound Wardens para mantener abiertas las ultimas rutas entre distritos."
+                        data-fate-zone-tags="Exploracion,Pasos,Niebla">
+                        <span>CG</span>
+                    </button>
+
+                    <button type="button" class="fate-zone" style="top: 72%; left: 30%;"
+                        data-fate-zone-id="puerta-sumida"
+                        data-fate-zone-name="Puerta Sumida"
+                        data-fate-zone-state="perdida"
+                        data-fate-zone-description="Borde ya tocado por la absorcion. El paisaje empieza a parecerse demasiado a Axis."
+                        data-fate-zone-tags="Consumo,Perdida,Frontera">
+                        <span>PS</span>
+                    </button>
+
+                    <button type="button" class="fate-zone" style="top: 74%; left: 66%;"
+                        data-fate-zone-id="corona-niebla"
+                        data-fate-zone-name="Corona de Niebla"
+                        data-fate-zone-state="comprometida"
+                        data-fate-zone-description="Anillo exterior donde la niebla se vuelve espesa, cambia rutas y rompe cualquier sensacion de orientacion."
+                        data-fate-zone-tags="Niebla,Desorientacion,Periferia">
+                        <span>CN</span>
+                    </button>
+                </div>
+
+                <aside class="fate-map-console">
+                    <p class="ui fate-carta-etiqueta">Sector activo</p>
+                    <h3 id="fate-map-title" class="nombre-personaje">Mercado de Ceniza</h3>
+                    <p id="fate-map-description" class="fate-map-copy">
+                        Centro irregular de trueques, medicinas y favores donde Ash Market gana poder cada vez que falla una ruta segura.
+                    </p>
+                    <div class="fate-map-state-row">
+                        <span class="ui">Estado</span>
+                        <span id="fate-map-state" class="fate-map-state-chip">Inestable</span>
+                    </div>
+                    <div id="fate-map-tags" class="faction-console-tags">
+                        <span>Recursos</span>
+                        <span>Contrabando</span>
+                        <span>Riesgo comercial</span>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <!-- Parte de inteligencia para que Fate tenga informacion util sin duplicar el menu. -->
+        <section class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Inteligencia de campo</p>
+                <h2 class="titulo">Partes de la niebla</h2>
+                <p>
+                    En Fate no basta con saber quien manda. Tambien importa que se esta rompiendo, que zonas van a
+                    caer y donde todavia queda una ventana para intervenir antes de la siguiente sesion.
+                </p>
+            </div>
+
+            <div class="fate-dashboard">
+                <article class="fate-dashboard-panel reveal-on-scroll">
+                    <span class="ui fate-carta-etiqueta">Ultimo parte</span>
+                    <h3 class="nombre-personaje">Zonas en deterioro</h3>
+                    <ul class="fate-report-list">
+                        <li>El borde del mercado ya no sostiene el flujo de suministros con normalidad.</li>
+                        <li>Los pasos entre distritos pierden fiabilidad cada vez que cae la niebla densa.</li>
+                        <li>Los refugios religiosos comienzan a filtrar a quien dejan entrar.</li>
+                    </ul>
+                </article>
+
+                <article class="fate-dashboard-panel reveal-on-scroll">
+                    <span class="ui fate-carta-etiqueta">Ventanas de intervencion</span>
+                    <h3 class="nombre-personaje">Lo que aun puede salvarse</h3>
+                    <div class="fate-opportunity-grid">
+                        <div class="fate-opportunity-card">
+                            <span class="ui">Black Rose</span>
+                            <strong>Rutas negras</strong>
+                            <p>Si el grupo negocia pronto, todavia puede comprar tiempo en los pasos clandestinos.</p>
+                        </div>
+
+                        <div class="fate-opportunity-card">
+                            <span class="ui">Iron Chapel</span>
+                            <strong>Refugios seguros</strong>
+                            <p>Hay margen para convertir capillas menores en nodos de resistencia antes del cierre total.</p>
+                        </div>
+
+                        <div class="fate-opportunity-card">
+                            <span class="ui">Ash Market</span>
+                            <strong>Material util</strong>
+                            <p>El mercado aun suelta recursos valiosos, pero pronto subira el precio de todo lo esencial.</p>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </section>
+
         <!-- Seccion centrada en fenomenos, peligros y rarezas del mundo Fate. -->
         <section id="anomalias" class="fate-seccion reveal-on-scroll">
             <div class="fate-encabezado reveal-on-scroll">
@@ -198,24 +480,56 @@
             </div>
 
             <div class="anomalias-grid">
-                <article class="anomalia reveal-on-scroll">
+                <article class="anomalia reveal-on-scroll" data-anomalia-id="ecos-memoria">
                     <h3 class="nombre-personaje">Ecos de Memoria</h3>
                     <p>Calles que repiten escenas del pasado hasta quebrar la voluntad de quien las atraviesa.</p>
+                    <div class="anomalia-control">
+                        <span class="anomalia-chip" data-anomalia-chip>Media</span>
+                        <div class="anomalia-acciones">
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="leve">Leve</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="media">Media</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="critica">Critica</button>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="anomalia reveal-on-scroll">
+                <article class="anomalia reveal-on-scroll" data-anomalia-id="sombras-quietas">
                     <h3 class="nombre-personaje">Sombras Quietas</h3>
                     <p>Figuras inmoviles que aparecen al borde de la niebla y desaparecen cuando alguien las mira.</p>
+                    <div class="anomalia-control">
+                        <span class="anomalia-chip" data-anomalia-chip>Media</span>
+                        <div class="anomalia-acciones">
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="leve">Leve</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="media">Media</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="critica">Critica</button>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="anomalia reveal-on-scroll">
+                <article class="anomalia reveal-on-scroll" data-anomalia-id="zonas-muertas">
                     <h3 class="nombre-personaje">Zonas Muertas</h3>
                     <p>Lugares donde el sonido cae, el tiempo pesa y la presencia de Axis se nota como una fiebre.</p>
+                    <div class="anomalia-control">
+                        <span class="anomalia-chip" data-anomalia-chip>Media</span>
+                        <div class="anomalia-acciones">
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="leve">Leve</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="media">Media</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="critica">Critica</button>
+                        </div>
+                    </div>
                 </article>
 
-                <article class="anomalia reveal-on-scroll">
+                <article class="anomalia reveal-on-scroll" data-anomalia-id="lluvia-gris">
                     <h3 class="nombre-personaje">Lluvia Gris</h3>
                     <p>Una precipitacion fina que mancha, enfria y acelera la sensacion de agotamiento emocional.</p>
+                    <div class="anomalia-control">
+                        <span class="anomalia-chip" data-anomalia-chip>Media</span>
+                        <div class="anomalia-acciones">
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="leve">Leve</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="media">Media</button>
+                            <button type="button" class="ui anomalia-boton" data-anomalia-level="critica">Critica</button>
+                        </div>
+                    </div>
                 </article>
             </div>
         </section>
@@ -399,9 +713,9 @@
                         <div class="fate-secundarios-grid">
                             <div><span>Vida</span><strong>12</strong></div>
                             <div><span>Energia</span><strong>14</strong></div>
-                            <div><span>Daño fisico</span><strong>2</strong></div>
+                            <div><span>Dano fisico</span><strong>2</strong></div>
                             <div><span>Reduccion fisica</span><strong>1</strong></div>
-                            <div><span>Daño magico</span><strong>1</strong></div>
+                            <div><span>Dano magico</span><strong>1</strong></div>
                             <div><span>Acciones</span><strong>2</strong></div>
                         </div>
                     </section>
@@ -484,6 +798,66 @@
             </article>
         </section>
 
+        <!-- Zona preparada para mostrar la ficha del usuario actual cuando haya login real. -->
+        <section class="fate-seccion reveal-on-scroll">
+            <div class="fate-encabezado reveal-on-scroll">
+                <p class="ui fate-subtitulo">Mi ficha</p>
+                <h2 class="titulo">Tu presencia en Fate</h2>
+                <p>
+                    Esta seccion queda preparada para mostrar automaticamente la ficha del jugador que haya iniciado
+                    sesion, con su personaje, su faccion y su estado actual dentro del conflicto.
+                </p>
+            </div>
+
+            <article class="mi-ficha-fate reveal-on-scroll" data-mi-ficha-world="Fate">
+                <div class="mi-ficha-fate-hero">
+                    <div class="mi-ficha-retrato mi-ficha-retrato-fate" aria-hidden="true">
+                        <span id="fate-mi-ficha-avatar" class="nombre-personaje">UF</span>
+                    </div>
+
+                    <div class="mi-ficha-fate-datos">
+                        <p class="ui fate-carta-etiqueta">Jugador conectado</p>
+                        <h3 id="fate-mi-ficha-title" class="nombre-personaje">Tu ficha de Fate ira aqui</h3>
+                        <p id="fate-mi-ficha-summary">
+                            Cuando el login este conectado, esta tarjeta mostrara la ficha real del usuario actual con
+                            relaciones, resumen tecnico y situacion narrativa.
+                        </p>
+                        <div class="mi-ficha-fate-meta">
+                            <span><strong>Mundo:</strong> Fate</span>
+                            <span id="fate-mi-ficha-status"><strong>Estado:</strong> Sin vincular</span>
+                            <span id="fate-mi-ficha-record"><strong>Sesion:</strong> Pendiente</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mi-ficha-fate-grid">
+                    <section class="mi-ficha-fate-panel">
+                        <p class="ui fate-carta-etiqueta">Resumen tecnico</p>
+                        <div class="mi-ficha-fate-stats">
+                            <div><span>Vida</span><strong id="fate-mi-ficha-vida">--</strong></div>
+                            <div><span>Energia</span><strong id="fate-mi-ficha-energia">--</strong></div>
+                            <div><span>Faccion</span><strong id="fate-mi-ficha-faccion">--</strong></div>
+                            <div><span>Rango</span><strong id="fate-mi-ficha-rango">--</strong></div>
+                        </div>
+                    </section>
+
+                    <section class="mi-ficha-fate-panel">
+                        <p class="ui fate-carta-etiqueta">Estado narrativo</p>
+                        <ul id="fate-mi-ficha-list" class="fate-objetivos-lista">
+                            <li>Objetivo personal pendiente de sincronizar.</li>
+                            <li>Ultima zona visitada visible al iniciar sesion.</li>
+                            <li>Vinculos de faccion cargados cuando existan datos reales.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="fate-hero-acciones">
+                    <a class="boton-fate ui" href="Ficha.html?mundo=Fate">Abrir archivo de fichas</a>
+                    <a class="boton-fate boton-fate-secundario ui" href="#fate-hero">Volver arriba</a>
+                </div>
+            </article>
+        </section>
+
         <!-- Acceso rapido a la zona de fichas enfocada al mundo Fate. -->
         <section class="fate-seccion reveal-on-scroll">
             <div class="fate-encabezado reveal-on-scroll">
@@ -513,6 +887,8 @@
 
     <!-- JS compartido: menu y parallax. -->
     <script src="JavaScript.js"></script>
+    <script type="module" src="Cuenta.js"></script>
+    <script type="module" src="MiFicha.js"></script>
 </body>
 
 </html>

@@ -7,9 +7,35 @@ html {
 body {
     margin: 0;
     background:
-        radial-gradient(circle at top, rgba(92, 108, 148, 0.22), transparent 28%),
-        linear-gradient(180deg, #0f1220 0%, #15192a 52%, #0d101a 100%);
+        radial-gradient(circle at 50% 0%, rgba(92, 108, 148, 0.24), transparent 24%),
+        radial-gradient(circle at 10% 20%, rgba(128, 140, 184, 0.08), transparent 22%),
+        linear-gradient(180deg, #0d101a 0%, #15192a 38%, #101422 68%, #0a0d16 100%);
     color: #e6e2eb;
+}
+
+/* Capas ambientales para que Fate tenga mas atmosfera entre secciones. */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+body::before {
+    background:
+        radial-gradient(circle at 18% 14%, rgba(255, 255, 255, 0.04), transparent 16%),
+        radial-gradient(circle at 78% 20%, rgba(255, 255, 255, 0.03), transparent 18%),
+        radial-gradient(circle at 52% 74%, rgba(97, 106, 146, 0.08), transparent 24%);
+    filter: blur(10px);
+}
+
+body::after {
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.03) 0%, transparent 18%),
+        radial-gradient(circle at 50% 42%, rgba(201, 168, 76, 0.05), transparent 18%);
+    opacity: 0.9;
 }
 
 /* Evita que imagenes o elementos similares desborden. */
@@ -55,12 +81,13 @@ img {
         radial-gradient(circle at 50% 70%, rgba(255, 255, 255, 0.07), transparent 24%);
     filter: blur(12px);
     opacity: 0.9;
+    animation: fateFogDrift 16s ease-in-out infinite alternate;
 }
 
 /* Capa oscura final para asegurar contraste y dramatismo. */
 .fate-overlay {
     background:
-        linear-gradient(180deg, rgba(4, 6, 12, 0.28) 0%, rgba(4, 6, 12, 0.72) 100%);
+        linear-gradient(180deg, rgba(4, 6, 12, 0.18) 0%, rgba(4, 6, 12, 0.56) 52%, rgba(4, 6, 12, 0.82) 100%);
 }
 
 /* Boton del menu compartido, adaptado a la estetica de Fate. */
@@ -76,7 +103,7 @@ img {
     color: white;
     font-size: 1.6rem;
     cursor: pointer;
-    z-index: 30;
+    z-index: 2200;
     backdrop-filter: blur(10px);
     transition: background-color 0.25s ease, transform 0.25s ease;
 }
@@ -98,7 +125,7 @@ img {
     display: flex;
     flex-direction: column;
     gap: 18px;
-    z-index: 25;
+    z-index: 2150;
     transform: translateX(100%);
     transition: transform 0.35s ease;
     backdrop-filter: blur(16px);
@@ -107,6 +134,23 @@ img {
 
 #nav-enlaces.abierto {
     transform: translateX(0);
+}
+
+/* Overlay del menu para que el panel siempre se lea por delante del resto del mundo. */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2100;
+    background: rgba(4, 6, 12, 0.28);
+    backdrop-filter: blur(7px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.abierto {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 #nav-enlaces a {
@@ -132,10 +176,46 @@ img {
 .fate-hero-contenido {
     position: relative;
     z-index: 2;
-    width: min(820px, calc(100% - 40px));
-    text-align: center;
+    width: min(1120px, calc(100% - 40px));
     color: white;
-    padding: 48px 24px;
+    padding: 38px;
+    border-radius: 34px;
+    background:
+        linear-gradient(180deg, rgba(18, 23, 39, 0.86) 0%, rgba(10, 13, 22, 0.62) 100%);
+    border: 1px solid rgba(143, 152, 200, 0.16);
+    box-shadow: 0 28px 60px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(12px);
+    overflow: hidden;
+}
+
+.fate-hero-contenido::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 14%),
+        repeating-linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.03) 0,
+            rgba(255, 255, 255, 0.03) 1px,
+            transparent 1px,
+            transparent 7px
+        );
+    opacity: 0.45;
+    pointer-events: none;
+}
+
+.fate-hero-layout {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    gap: 28px;
+    align-items: center;
+}
+
+.fate-hero-copy {
+    text-align: left;
 }
 
 .fate-etiqueta,
@@ -152,11 +232,69 @@ img {
 }
 
 .fate-hero-texto {
-    max-width: 700px;
-    margin: 20px auto 0;
+    max-width: 680px;
+    margin: 20px 0 0;
     font-size: clamp(1rem, 2.2vw, 1.2rem);
     line-height: 1.8;
     color: rgba(240, 236, 246, 0.88);
+}
+
+.fate-hero-side {
+    padding: 22px;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(8, 10, 18, 0.44) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.fate-hero-side-label {
+    margin: 0 0 14px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: rgba(207, 212, 234, 0.82);
+}
+
+.fate-hero-side-grid {
+    display: grid;
+    gap: 12px;
+}
+
+.fate-hero-side-card {
+    padding: 16px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.fate-hero-side-card span {
+    display: inline-block;
+    margin-bottom: 8px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.7rem;
+    color: rgba(207, 212, 234, 0.82);
+}
+
+.fate-hero-side-card strong {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 1.65rem;
+    color: #f5f0f7;
+}
+
+.fate-hero-side-card p {
+    margin: 0;
+    line-height: 1.6;
+    color: rgba(230, 226, 235, 0.74);
+}
+
+.fate-hero-quote {
+    margin: 18px 0 0;
+    padding-top: 18px;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    line-height: 1.75;
+    color: rgba(230, 226, 235, 0.8);
+    font-style: italic;
 }
 
 /* Botones principales de entrada a secciones. */
@@ -207,6 +345,7 @@ img {
     width: min(1180px, calc(100% - 32px));
     margin: 0 auto;
     padding: 96px 0;
+    position: relative;
 }
 
 .fate-encabezado {
@@ -226,6 +365,17 @@ img {
     color: rgba(230, 226, 235, 0.82);
 }
 
+.fate-seccion::before {
+    content: "";
+    position: absolute;
+    top: 54px;
+    left: 0;
+    width: min(240px, 55%);
+    height: 1px;
+    background: linear-gradient(90deg, rgba(201, 168, 76, 0.46) 0%, rgba(255, 255, 255, 0) 100%);
+    opacity: 0.8;
+}
+
 /* Paneles introductorios del mundo Fate. */
 .fate-paneles {
     display: grid;
@@ -239,6 +389,26 @@ img {
     background: linear-gradient(180deg, rgba(33, 39, 61, 0.84) 0%, rgba(17, 21, 34, 0.9) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
     box-shadow: 0 22px 46px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+}
+
+.fate-panel::after,
+.fate-carta::after,
+.tension-card::after,
+.objetivo-fate-card::after,
+.fate-bitacora-card::after,
+.fate-bloque::after,
+.mi-ficha-fate-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(201, 168, 76, 0.42) 0%, rgba(255, 255, 255, 0) 72%);
+    opacity: 0.7;
+    pointer-events: none;
 }
 
 .fate-panel h3,
@@ -261,49 +431,30 @@ img {
 
 /* Cartas de personajes o arquetipos de Fate. */
 .carrusel-barra-fate {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 18px;
-}
-
-.carrusel-control-fate {
-    width: 52px;
-    height: 52px;
-    border: none;
-    border-radius: 50%;
-    background: #101525;
-    color: white;
-    font-size: 1.35rem;
-    cursor: pointer;
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.22);
-    transition: transform 0.25s ease, background-color 0.25s ease;
-}
-
-.carrusel-control-fate:hover,
-.carrusel-control-fate:focus-visible {
-    transform: translateY(-2px);
-    background: #080b14;
+    position: relative;
 }
 
 .fate-cartas {
     display: grid;
     grid-auto-flow: column;
-    grid-auto-columns: minmax(260px, 1fr);
-    gap: 18px;
+    grid-auto-columns: minmax(300px, 360px);
+    gap: 20px;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
     scroll-behavior: smooth;
-    padding: 10px 4px 24px;
+    padding: 12px 4px 8px;
+    cursor: grab;
+    scrollbar-width: none;
+    mask-image: linear-gradient(90deg, transparent 0%, black 4%, black 96%, transparent 100%);
+    -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 4%, black 96%, transparent 100%);
 }
 
 .fate-cartas::-webkit-scrollbar {
-    height: 10px;
+    display: none;
 }
 
-.fate-cartas::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.12);
-    border-radius: 999px;
+.fate-cartas.arrastrando {
+    cursor: grabbing;
 }
 
 .fate-carta {
@@ -314,12 +465,36 @@ img {
         linear-gradient(180deg, rgba(24, 28, 44, 0.95) 0%, rgba(13, 16, 26, 0.98) 100%);
     border: 1px solid rgba(144, 151, 191, 0.18);
     transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.fate-carta-boton {
+    appearance: none;
+    width: 100%;
+    text-align: left;
+    font: inherit;
+    color: inherit;
+    background: none;
+    border: 1px solid rgba(144, 151, 191, 0.18);
+    user-select: none;
 }
 
 .fate-carta:hover {
     transform: translateY(-8px);
     border-color: rgba(201, 168, 76, 0.35);
     box-shadow: 0 20px 38px rgba(0, 0, 0, 0.25);
+}
+
+.fate-carta.activa {
+    border-color: rgba(201, 168, 76, 0.42);
+    box-shadow: 0 20px 42px rgba(0, 0, 0, 0.28);
+}
+
+.fate-carta:focus-visible {
+    outline: 2px solid rgba(201, 168, 76, 0.7);
+    outline-offset: 3px;
 }
 
 .fate-carta-etiqueta {
@@ -331,6 +506,291 @@ img {
     color: #cfd4ea;
     font-size: 0.78rem;
     letter-spacing: 0.12em;
+    text-transform: uppercase;
+}
+
+/* Consola viva para que las facciones tengan una lectura mas fuerte y util. */
+.faction-console {
+    margin-top: 26px;
+    padding: 24px;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(18, 22, 36, 0.96) 0%, rgba(9, 12, 20, 0.99) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.14);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+}
+
+.faction-console::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(201, 168, 76, 0.78) 0%, rgba(143, 152, 200, 0.4) 38%, rgba(255, 255, 255, 0) 100%);
+}
+
+.faction-console-head {
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    gap: 18px;
+    margin-bottom: 18px;
+}
+
+.faction-console-head h3 {
+    margin: 0;
+    color: #f2edf6;
+    font-size: clamp(2.1rem, 4vw, 2.8rem);
+}
+
+.faction-console-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d7c281;
+}
+
+.faction-console-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 16px;
+}
+
+.faction-console-panel-wide {
+    grid-column: 1 / -1;
+}
+
+.faction-console-panel {
+    padding: 18px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(8, 10, 18, 0.5) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.faction-console-label {
+    margin: 0 0 12px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: rgba(207, 212, 234, 0.82);
+}
+
+.faction-console-summary {
+    margin: 0;
+    line-height: 1.78;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.faction-console-meta {
+    display: grid;
+    gap: 12px;
+}
+
+.faction-console-meta div {
+    display: grid;
+    gap: 6px;
+    padding: 14px 14px 12px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+}
+
+.faction-console-meta span {
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgba(207, 212, 234, 0.78);
+}
+
+.faction-console-meta strong {
+    color: #f2edf6;
+    font-size: 1rem;
+    line-height: 1.55;
+}
+
+.faction-console-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.faction-console-tags span {
+    display: inline-flex;
+    align-items: center;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    color: #d7c281;
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.08em;
+}
+
+.faction-console-relations {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 10px;
+    line-height: 1.72;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+/* Mapa original de Fate construido solo con CSS y hotspots. */
+.fate-map-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+    gap: 18px;
+    align-items: start;
+}
+
+.fate-map-shell {
+    position: relative;
+    min-height: 520px;
+    border-radius: 34px;
+    overflow: hidden;
+    border: 1px solid rgba(143, 152, 200, 0.16);
+    background:
+        radial-gradient(circle at 50% 46%, rgba(94, 102, 136, 0.48), transparent 18%),
+        radial-gradient(circle at 18% 26%, rgba(143, 152, 200, 0.12), transparent 18%),
+        radial-gradient(circle at 84% 72%, rgba(201, 168, 76, 0.08), transparent 20%),
+        linear-gradient(180deg, rgba(19, 23, 36, 0.98) 0%, rgba(10, 13, 22, 1) 100%);
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.24);
+}
+
+.fate-map-shell::before {
+    content: "";
+    position: absolute;
+    inset: 8% 10%;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow:
+        0 0 0 56px rgba(255, 255, 255, 0.03),
+        0 0 0 126px rgba(255, 255, 255, 0.02);
+}
+
+.fate-map-shell::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(135deg, transparent 0 48%, rgba(255, 255, 255, 0.04) 49%, transparent 50%) 0 0 / 180px 180px,
+        linear-gradient(0deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.03)) center / calc(100% - 80px) 1px no-repeat;
+    opacity: 0.46;
+    pointer-events: none;
+}
+
+.fate-map-core {
+    position: absolute;
+    inset: 50% auto auto 50%;
+    width: 110px;
+    height: 110px;
+    transform: translate(-50%, -50%) rotate(45deg);
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(201, 168, 76, 0.22) 0%, rgba(111, 125, 176, 0.2) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.22);
+    box-shadow: 0 0 40px rgba(201, 168, 76, 0.08);
+}
+
+.fate-zone {
+    position: absolute;
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    background: rgba(15, 19, 31, 0.9);
+    color: #f2edf6;
+    font: inherit;
+    cursor: pointer;
+    display: grid;
+    place-items: center;
+    box-shadow: 0 14px 26px rgba(0, 0, 0, 0.24);
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fate-zone:hover,
+.fate-zone:focus-visible,
+.fate-zone.active {
+    transform: translateY(-4px) scale(1.04);
+    border-color: rgba(201, 168, 76, 0.5);
+    box-shadow: 0 18px 32px rgba(0, 0, 0, 0.28);
+}
+
+.fate-zone span {
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.08em;
+}
+
+.fate-zone[data-fate-zone-state="segura"] {
+    background: rgba(24, 46, 39, 0.92);
+}
+
+.fate-zone[data-fate-zone-state="inestable"] {
+    background: rgba(54, 47, 24, 0.92);
+}
+
+.fate-zone[data-fate-zone-state="comprometida"] {
+    background: rgba(55, 32, 28, 0.94);
+}
+
+.fate-zone[data-fate-zone-state="perdida"] {
+    background: rgba(52, 18, 32, 0.94);
+}
+
+.fate-map-console {
+    padding: 24px;
+    border-radius: 30px;
+    background: linear-gradient(180deg, rgba(18, 22, 36, 0.96) 0%, rgba(9, 12, 20, 0.99) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.14);
+    box-shadow: 0 24px 50px rgba(0, 0, 0, 0.22);
+}
+
+.fate-map-console h3 {
+    margin: 0 0 14px;
+    color: #f2edf6;
+    font-size: clamp(2rem, 4vw, 2.7rem);
+}
+
+.fate-map-copy {
+    margin: 0 0 16px;
+    line-height: 1.78;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.fate-map-state-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.fate-map-state-row span:first-child {
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: rgba(207, 212, 234, 0.82);
+}
+
+.fate-map-state-chip {
+    display: inline-flex;
+    align-items: center;
+    padding: 10px 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
 }
 
@@ -346,6 +806,8 @@ img {
     background: linear-gradient(180deg, rgba(25, 29, 45, 0.88) 0%, rgba(10, 13, 22, 0.96) 100%);
     border: 1px solid rgba(144, 151, 191, 0.16);
     box-shadow: 0 18px 34px rgba(0, 0, 0, 0.18);
+    position: relative;
+    overflow: hidden;
 }
 
 .tension-card h3 {
@@ -360,6 +822,83 @@ img {
     color: rgba(230, 226, 235, 0.8);
 }
 
+/* Panel operativo para usar Fate como herramienta de campana. */
+.fate-dashboard {
+    display: grid;
+    grid-template-columns: minmax(0, 0.78fr) minmax(0, 1.22fr);
+    gap: 18px;
+}
+
+.fate-dashboard-panel {
+    padding: 26px 22px;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(23, 27, 42, 0.94) 0%, rgba(10, 13, 22, 0.98) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.14);
+    box-shadow: 0 22px 46px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.fate-dashboard-panel::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(201, 168, 76, 0.42) 0%, rgba(255, 255, 255, 0) 72%);
+    opacity: 0.7;
+}
+
+.fate-dashboard-panel h3 {
+    margin: 0 0 18px;
+    color: #f2edf6;
+    font-size: 2rem;
+}
+
+.fate-report-list {
+    margin: 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 14px;
+    line-height: 1.72;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.fate-opportunity-grid {
+    display: grid;
+    gap: 14px;
+}
+
+.fate-opportunity-card {
+    padding: 18px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(8, 10, 18, 0.46) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.fate-opportunity-card span {
+    display: inline-block;
+    margin-bottom: 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+    color: rgba(207, 212, 234, 0.82);
+}
+
+.fate-opportunity-card strong {
+    display: block;
+    margin-bottom: 8px;
+    color: #f2edf6;
+    font-size: 1.7rem;
+}
+
+.fate-opportunity-card p {
+    margin: 0;
+    line-height: 1.7;
+    color: rgba(230, 226, 235, 0.78);
+}
+
 /* Grid de anomalias con aspecto de registro de amenazas. */
 .anomalias-grid {
     display: grid;
@@ -371,7 +910,74 @@ img {
     padding: 22px 20px;
     border-left: 3px solid rgba(201, 168, 76, 0.55);
     border-radius: 18px;
-    background: rgba(255, 255, 255, 0.03);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(12, 15, 25, 0.72) 100%);
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    border-right: 1px solid rgba(255, 255, 255, 0.04);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.anomalia-control {
+    display: grid;
+    gap: 12px;
+    margin-top: 16px;
+}
+
+.anomalia-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-self: start;
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    font-family: "Orbitron", sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #d7c281;
+}
+
+.anomalia[data-anomalia-state="leve"] .anomalia-chip {
+    color: #99d3b0;
+    border-color: rgba(153, 211, 176, 0.3);
+    background: rgba(153, 211, 176, 0.08);
+}
+
+.anomalia[data-anomalia-state="media"] .anomalia-chip {
+    color: #d7c281;
+    border-color: rgba(215, 194, 129, 0.34);
+    background: rgba(215, 194, 129, 0.1);
+}
+
+.anomalia[data-anomalia-state="critica"] .anomalia-chip {
+    color: #d68a8a;
+    border-color: rgba(214, 138, 138, 0.34);
+    background: rgba(214, 138, 138, 0.1);
+}
+
+.anomalia-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.anomalia-boton {
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.04);
+    color: #e6e2eb;
+    padding: 10px 12px;
+    border-radius: 999px;
+    cursor: pointer;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.72rem;
+}
+
+.anomalia-boton.activo,
+.anomalia-boton:hover,
+.anomalia-boton:focus-visible {
+    border-color: rgba(201, 168, 76, 0.36);
+    background: rgba(255, 255, 255, 0.08);
 }
 
 /* Mapa conceptual de fronteras. */
@@ -389,6 +995,17 @@ img {
     flex-direction: column;
     justify-content: flex-end;
     box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+}
+
+.frontera::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0 0;
+    height: 42%;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(6, 8, 14, 0.28) 100%);
+    pointer-events: none;
 }
 
 .frontera-niebla {
@@ -416,6 +1033,8 @@ img {
     background: linear-gradient(180deg, rgba(24, 28, 44, 0.92) 0%, rgba(10, 13, 22, 0.98) 100%);
     border: 1px solid rgba(144, 151, 191, 0.16);
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.18);
+    position: relative;
+    overflow: hidden;
 }
 
 .objetivo-fate-card h3 {
@@ -453,6 +1072,8 @@ img {
     background: linear-gradient(180deg, rgba(24, 28, 44, 0.9) 0%, rgba(10, 13, 22, 0.98) 100%);
     border: 1px solid rgba(144, 151, 191, 0.14);
     box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
 }
 
 .fate-bitacora-card h3 {
@@ -502,7 +1123,7 @@ img {
 .timeline-contenido-fate {
     padding: 22px 22px 20px;
     border-radius: 24px;
-    background: rgba(255, 255, 255, 0.03);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(10, 13, 22, 0.74) 100%);
     border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
@@ -532,6 +1153,17 @@ img {
     background: linear-gradient(180deg, rgba(21, 25, 39, 0.94) 0%, rgba(9, 12, 20, 0.98) 100%);
     border: 1px solid rgba(144, 151, 191, 0.16);
     box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+}
+
+.ficha-web-fate::before,
+.mi-ficha-fate::before {
+    content: "";
+    position: absolute;
+    inset: 0 0 auto 0;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(201, 168, 76, 0.8) 0%, rgba(143, 152, 200, 0.42) 38%, rgba(255, 255, 255, 0) 100%);
 }
 
 .ficha-fate-hero {
@@ -565,6 +1197,14 @@ img {
     color: rgba(230, 226, 235, 0.82);
 }
 
+.ficha-fate-meta span,
+.mi-ficha-fate-meta span {
+    padding: 8px 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
 .ficha-fate-datos p:last-child {
     margin: 16px 0 0;
     line-height: 1.8;
@@ -582,6 +1222,8 @@ img {
     border-radius: 24px;
     background: rgba(255, 255, 255, 0.03);
     border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
 }
 
 .fate-secundarios-grid,
@@ -620,7 +1262,8 @@ img {
     align-items: start;
     padding: 18px;
     border-radius: 20px;
-    background: rgba(255, 255, 255, 0.03);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, rgba(10, 13, 22, 0.68) 100%);
+    border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .relacion-avatar-fate {
@@ -645,11 +1288,102 @@ img {
     color: rgba(230, 226, 235, 0.8);
 }
 
+/* Zona preparada para mostrar la ficha del usuario conectado en Fate. */
+.mi-ficha-fate {
+    display: grid;
+    gap: 18px;
+    padding: 28px;
+    border-radius: 30px;
+    background: linear-gradient(180deg, rgba(21, 25, 39, 0.94) 0%, rgba(10, 13, 22, 0.99) 100%);
+    border: 1px solid rgba(144, 151, 191, 0.14);
+    box-shadow: 0 24px 54px rgba(0, 0, 0, 0.22);
+    position: relative;
+    overflow: hidden;
+}
+
+.mi-ficha-fate-hero {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 20px;
+    align-items: center;
+}
+
+.mi-ficha-retrato {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.mi-ficha-retrato-fate {
+    background:
+        radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.18), transparent 18%),
+        linear-gradient(180deg, rgba(143, 152, 200, 0.24) 0%, rgba(8, 10, 18, 0.24) 100%),
+        linear-gradient(135deg, #333b58 0%, #151a28 100%);
+}
+
+.mi-ficha-fate-datos h3 {
+    margin: 12px 0;
+    font-size: clamp(2.1rem, 4.5vw, 3rem);
+    color: #f2edf6;
+}
+
+.mi-ficha-fate-datos p:last-of-type {
+    margin: 0;
+    line-height: 1.8;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.mi-ficha-fate-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin-top: 16px;
+    color: rgba(230, 226, 235, 0.82);
+}
+
+.mi-ficha-fate-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+}
+
+.mi-ficha-fate-panel {
+    padding: 22px 20px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.mi-ficha-fate-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.mi-ficha-fate-stats div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(230, 226, 235, 0.84);
+}
+
 /* Footer final en la misma linea estetica del resto. */
 .fate-footer {
-    padding: 72px 16px 42px;
+    padding: 56px 16px 72px;
     text-align: center;
-    background: linear-gradient(180deg, #0a0d16 0%, #080a12 100%);
+    background:
+        radial-gradient(circle at top, rgba(143, 152, 200, 0.08), transparent 28%),
+        linear-gradient(180deg, #0a0d16 0%, #080a12 100%);
     color: #f0ecf6;
 }
 
@@ -685,8 +1419,21 @@ img {
     transform: translateY(0);
 }
 
+/* Mientras el menu esta abierto bloqueamos el scroll del fondo. */
+body.menu-abierto {
+    overflow: hidden;
+}
+
 /* Ajustes de tablet y movil. */
 @media (max-width: 980px) {
+    .faction-console-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .fate-dashboard {
+        grid-template-columns: 1fr;
+    }
+
     .estado-fate-grid {
         grid-template-columns: 1fr;
     }
@@ -696,12 +1443,18 @@ img {
     }
 
     .ficha-fate-hero,
-    .ficha-fate-grid {
+    .ficha-fate-grid,
+    .mi-ficha-fate-hero,
+    .mi-ficha-fate-grid {
         grid-template-columns: 1fr;
     }
 
     .fate-cartas {
         grid-auto-columns: minmax(280px, 72vw);
+    }
+
+    .fate-hero-layout {
+        grid-template-columns: 1fr;
     }
 }
 
@@ -711,7 +1464,7 @@ img {
     }
 
     .fate-hero-contenido {
-        padding: 32px 18px;
+        padding: 28px 18px 24px;
     }
 
     .fate-hero-acciones {
@@ -735,16 +1488,13 @@ img {
         min-width: 0;
     }
 
-    .carrusel-barra-fate {
-        grid-template-columns: 1fr;
-    }
-
-    .carrusel-control-fate {
-        display: none;
-    }
-
     .estado-fate-grid {
         grid-template-columns: 1fr;
+    }
+
+    .faction-console-head {
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .ficha-fate-hero,
@@ -756,6 +1506,12 @@ img {
     }
 
     .ficha-fate-meta {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
+    .mi-ficha-fate-meta {
         flex-direction: column;
         gap: 8px;
         align-items: flex-start;
@@ -779,15 +1535,18 @@ img {
 
     .fate-hero-contenido {
         width: calc(100% - 24px);
-        padding: 28px 0;
+        padding: 28px 12px 18px;
     }
 
     .fate-panel,
     .fate-carta,
     .tension-card,
+    .fate-dashboard-panel,
+    .faction-console,
     .anomalia,
     .frontera,
     .objetivo-fate-card,
+    .mi-ficha-fate,
     .ficha-web-fate,
     .fate-bloque {
         padding-left: 18px;
@@ -796,8 +1555,10 @@ img {
     }
 
     .fate-cartas {
-        grid-auto-columns: 88vw;
+        grid-auto-columns: 86vw;
         gap: 16px;
+        mask-image: none;
+        -webkit-mask-image: none;
     }
 
     .fate-carta h3,
@@ -810,5 +1571,18 @@ img {
 
     .ficha-fate-datos h3 {
         font-size: clamp(2rem, 9vw, 2.7rem);
+    }
+
+    .mi-ficha-fate-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+@keyframes fateFogDrift {
+    0% {
+        transform: translate3d(-1.5%, 0, 0) scale(1);
+    }
+    100% {
+        transform: translate3d(1.5%, -1.5%, 0) scale(1.04);
     }
 }

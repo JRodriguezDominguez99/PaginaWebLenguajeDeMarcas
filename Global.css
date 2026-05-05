@@ -29,3 +29,193 @@
     font-weight: 400;
     font-style: normal;
 }
+
+/* Acceso global de cuenta para que el login exista en todas las paginas. */
+.cuenta-global {
+    position: fixed;
+    top: 18px;
+    left: 18px;
+    z-index: 1200;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.cuenta-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(10, 18, 31, 0.72);
+    color: white;
+    cursor: pointer;
+    box-shadow: 0 14px 34px rgba(10, 18, 31, 0.18);
+    backdrop-filter: blur(14px);
+}
+
+.cuenta-toggle-label {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.78rem;
+}
+
+.cuenta-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.12);
+    letter-spacing: 0.08em;
+    font-size: 0.7rem;
+}
+
+.cuenta-panel {
+    width: min(360px, calc(100vw - 28px));
+    padding: 20px;
+    border-radius: 24px;
+    background: rgba(247, 241, 232, 0.96);
+    border: 1px solid rgba(19, 38, 62, 0.1);
+    color: var(--color-texto);
+    box-shadow: 0 24px 46px rgba(10, 18, 31, 0.18);
+    backdrop-filter: blur(14px);
+}
+
+.cuenta-panel[hidden] {
+    display: none;
+}
+
+.cuenta-panel-etiqueta {
+    margin: 0 0 8px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    font-size: 0.74rem;
+    color: rgba(19, 38, 62, 0.7);
+}
+
+.cuenta-panel h2 {
+    margin: 0 0 12px;
+    font-size: clamp(1.8rem, 4vw, 2.3rem);
+}
+
+.cuenta-estado {
+    margin: 0 0 14px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(19, 38, 62, 0.06);
+    border: 1px solid rgba(19, 38, 62, 0.1);
+}
+
+.cuenta-estado.ok,
+.cuenta-mensaje.ok {
+    color: #2f6e2f;
+}
+
+.cuenta-estado.error,
+.cuenta-mensaje.error {
+    color: #8e3131;
+}
+
+.auth-form-global {
+    display: grid;
+    gap: 14px;
+}
+
+.auth-form-global .campo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.auth-form-global .campo label {
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+}
+
+.auth-form-global .campo input {
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(19, 38, 62, 0.12);
+    background: rgba(255, 255, 255, 0.92);
+    box-sizing: border-box;
+    color: var(--color-texto);
+    font: inherit;
+}
+
+.auth-form-global .auth-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.auth-form-global .boton-formulario {
+    border: none;
+    padding: 12px 16px;
+    border-radius: 999px;
+    background: #13263e;
+    color: white;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.auth-form-global .boton-formulario-secundario {
+    background: rgba(19, 38, 62, 0.12);
+    color: #13263e;
+}
+
+.cuenta-mensaje {
+    margin: 0;
+    line-height: 1.6;
+    color: rgba(44, 44, 44, 0.78);
+}
+
+.cuenta-link {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 4px;
+    color: #13263e;
+    text-decoration: none;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-size: 0.76rem;
+}
+
+.auth-form-global.logueado .campo,
+.auth-form-global.logueado #register-button,
+.auth-form-global.logueado #login-button,
+.auth-form-global.logueado #google-button {
+    display: none;
+}
+
+.auth-form-global #logout-button {
+    display: none;
+}
+
+.auth-form-global.logueado #logout-button {
+    display: inline-flex;
+}
+
+@media (max-width: 760px) {
+    .cuenta-global {
+        top: 12px;
+        left: 12px;
+        align-items: stretch;
+    }
+
+    .cuenta-toggle {
+        justify-content: space-between;
+    }
+
+    .cuenta-panel {
+        width: 100%;
+    }
+
+    .auth-form-global .auth-acciones {
+        flex-direction: column;
+    }
+}

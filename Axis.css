@@ -98,7 +98,7 @@ img {
     color: white;
     font-size: 1.6rem;
     cursor: pointer;
-    z-index: 30;
+    z-index: 2200;
     backdrop-filter: blur(8px);
     transition: background-color 0.25s ease, transform 0.25s ease;
 }
@@ -120,7 +120,7 @@ img {
     display: flex;
     flex-direction: column;
     gap: 18px;
-    z-index: 25;
+    z-index: 2150;
     transform: translateX(100%);
     transition: transform 0.35s ease;
     backdrop-filter: blur(14px);
@@ -129,6 +129,23 @@ img {
 
 #nav-enlaces.abierto {
     transform: translateX(0);
+}
+
+/* Overlay que apaga el fondo y hace que el menu se sienta realmente por delante. */
+.menu-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 2100;
+    background: rgba(8, 15, 27, 0.22);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+
+.menu-overlay.abierto {
+    opacity: 1;
+    pointer-events: auto;
 }
 
 /* Aspecto de los enlaces del menu. */
@@ -1153,6 +1170,103 @@ img {
     color: #13263e;
 }
 
+/* Zona preparada para mostrar la ficha del jugador logueado dentro de Axis. */
+.mi-ficha-axis {
+    display: grid;
+    gap: 22px;
+    padding: 30px;
+    border-radius: 32px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 229, 205, 0.98) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.24);
+    box-shadow: 0 24px 52px rgba(83, 63, 17, 0.12);
+}
+
+.mi-ficha-axis-hero {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 22px;
+    align-items: center;
+}
+
+.mi-ficha-retrato {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 4 / 5;
+    border-radius: 26px;
+    overflow: hidden;
+    border: 1px solid rgba(19, 38, 62, 0.1);
+}
+
+.mi-ficha-retrato-axis {
+    background:
+        radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.72), transparent 20%),
+        linear-gradient(180deg, rgba(74, 144, 217, 0.2) 0%, rgba(201, 168, 76, 0.18) 100%),
+        linear-gradient(135deg, #dbeaf4 0%, #f1dfc1 100%);
+}
+
+.mi-ficha-axis-datos h3 {
+    margin: 12px 0;
+    font-size: clamp(2.2rem, 4.5vw, 3.2rem);
+    color: #13263e;
+}
+
+.mi-ficha-axis-aviso {
+    margin: 0;
+    line-height: 1.8;
+}
+
+.mi-ficha-axis-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 16px;
+    margin-top: 16px;
+    color: rgba(44, 44, 44, 0.8);
+}
+
+.mi-ficha-axis-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 18px;
+}
+
+.mi-ficha-panel {
+    padding: 22px 20px;
+    border-radius: 22px;
+    background: rgba(255, 255, 255, 0.68);
+    border: 1px solid rgba(19, 38, 62, 0.08);
+}
+
+.mi-ficha-stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+    margin-top: 14px;
+}
+
+.mi-ficha-stats div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 12px 14px;
+    border-radius: 16px;
+    background: rgba(19, 38, 62, 0.06);
+}
+
+.mi-ficha-lista {
+    margin: 14px 0 0;
+    padding-left: 18px;
+    display: grid;
+    gap: 12px;
+    line-height: 1.72;
+}
+
+.mi-ficha-axis-acciones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px;
+}
+
 /* Pie final de la pagina. */
 footer {
     padding: 72px 16px 40px;
@@ -1340,6 +1454,11 @@ body.modal-activa {
     overflow: hidden;
 }
 
+/* Mientras el menu esta abierto bloqueamos el scroll del fondo. */
+body.menu-abierto {
+    overflow: hidden;
+}
+
 /* Ajustes de tablet: simplificamos el carrusel y el modal. */
 @media (max-width: 900px) {
     .carrusel-barra {
@@ -1372,7 +1491,9 @@ body.modal-activa {
     }
 
     .ficha-axis-hero,
-    .ficha-axis-grid {
+    .ficha-axis-grid,
+    .mi-ficha-axis-hero,
+    .mi-ficha-axis-grid {
         grid-template-columns: 1fr;
     }
 
@@ -1431,6 +1552,7 @@ body.modal-activa {
     .objetivo-principal-card,
     .objetivos-secundarios-card,
     .ficha-web-axis,
+    .mi-ficha-axis,
     .ficha-bloque,
     .modal-contenido {
         padding-left: 18px;
@@ -1466,13 +1588,27 @@ body.modal-activa {
         gap: 18px;
     }
 
+    .mi-ficha-axis-acciones {
+        flex-direction: column;
+    }
+
     .ficha-axis-meta {
         flex-direction: column;
         gap: 8px;
         align-items: flex-start;
     }
 
+    .mi-ficha-axis-meta {
+        flex-direction: column;
+        gap: 8px;
+        align-items: flex-start;
+    }
+
     .ficha-stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .mi-ficha-stats {
         grid-template-columns: 1fr;
     }
 

@@ -15,6 +15,44 @@
 </head>
 
 <body>
+    <!-- Acceso global de cuenta para que el jugador pueda entrar desde cualquier pagina. -->
+    <div class="cuenta-global">
+        <button id="cuenta-toggle" class="ui cuenta-toggle" type="button" aria-expanded="false" aria-controls="cuenta-panel">
+            <span class="cuenta-toggle-label">Cuenta</span>
+            <span id="cuenta-pill" class="cuenta-pill">Invitado</span>
+        </button>
+
+        <section id="cuenta-panel" class="cuenta-panel" hidden>
+            <p class="ui cuenta-panel-etiqueta">Acceso privado</p>
+            <h2 class="titulo">Tu cuenta</h2>
+            <p id="auth-status" class="cuenta-estado">Todavia no has iniciado sesion.</p>
+
+            <form id="auth-form" class="auth-form-global">
+                <div class="campo">
+                    <label for="auth-email" class="ui">Correo</label>
+                    <input id="auth-email" name="auth-email" type="email" placeholder="tu-correo@ejemplo.com" autocomplete="email">
+                </div>
+
+                <div class="campo">
+                    <label for="auth-password" class="ui">Contrasena</label>
+                    <input id="auth-password" name="auth-password" type="password" placeholder="Minimo 6 caracteres" autocomplete="current-password">
+                </div>
+
+                <div class="auth-acciones">
+                    <button id="register-button" class="ui boton-formulario" type="button">Crear cuenta</button>
+                    <button id="login-button" class="ui boton-formulario boton-formulario-secundario" type="button">Iniciar sesion</button>
+                    <button id="google-button" class="ui boton-formulario boton-formulario-secundario" type="button">Entrar con Google</button>
+                    <button id="logout-button" class="ui boton-formulario boton-formulario-secundario" type="button">Cerrar sesion</button>
+                </div>
+
+                <p id="auth-message" class="cuenta-mensaje" aria-live="polite">
+                    Crea una cuenta o entra para vincular y proteger tus fichas.
+                </p>
+                <a class="ui cuenta-link" href="Ficha.html?mundo=Axis">Abrir archivo de fichas</a>
+            </form>
+        </section>
+    </div>
+
     <!-- Hero principal con menu, fondo y mensaje de bienvenida. -->
     <header id="axis-hero" data-parallax-hero="true">
         <!-- Fondo y overlay separados para poder aplicar parallax y contraste. -->
@@ -35,6 +73,9 @@
             <a class="ui" href="Ficha.html?mundo=Axis">Fichas</a>
             <a class="ui" href="#equipo-axis">Equipo Axis</a>
         </nav>
+
+        <!-- Overlay del menu para reforzar el foco y dar una zona clara de cierre. -->
+        <div id="menu-overlay" class="menu-overlay" aria-hidden="true"></div>
 
         <!-- Contenido visible del hero. -->
         <div class="hero-contenido">
@@ -873,6 +914,66 @@
             </article>
         </section>
 
+        <!-- Zona preparada para cargar la ficha del jugador actual cuando el login este conectado. -->
+        <section class="seccion reveal-on-scroll">
+            <div class="seccion-encabezado reveal-on-scroll">
+                <p class="ui subtitulo-seccion">Mi ficha</p>
+                <h2 class="titulo">Tu lugar en Axis</h2>
+                <p>
+                    Este espacio queda reservado para la ficha del usuario conectado. De momento es una maqueta visual
+                    preparada para que Firebase y el login la rellenen con datos reales despues.
+                </p>
+            </div>
+
+            <article class="mi-ficha-axis reveal-on-scroll" data-mi-ficha-world="Axis">
+                <div class="mi-ficha-axis-hero">
+                    <div class="mi-ficha-retrato mi-ficha-retrato-axis" aria-hidden="true">
+                        <span id="axis-mi-ficha-avatar" class="nombre-personaje">MJ</span>
+                    </div>
+
+                    <div class="mi-ficha-axis-datos">
+                        <p class="ui ficha-badge">Jugador conectado</p>
+                        <h3 id="axis-mi-ficha-title" class="nombre-personaje">Tu personaje de Axis aparecera aqui</h3>
+                        <p id="axis-mi-ficha-summary" class="mi-ficha-axis-aviso">
+                            Cuando el sistema este enlazado, este bloque mostrara automaticamente nombre, rol, foto,
+                            resumen de stats y la situacion narrativa de tu ficha.
+                        </p>
+                        <div class="mi-ficha-axis-meta">
+                            <span><strong>Mundo:</strong> Axis</span>
+                            <span id="axis-mi-ficha-status"><strong>Estado:</strong> Pendiente de vincular</span>
+                            <span id="axis-mi-ficha-record"><strong>Ficha:</strong> En espera de datos</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mi-ficha-axis-grid">
+                    <section class="mi-ficha-panel">
+                        <p class="ui ficha-bloque-etiqueta">Resumen rapido</p>
+                        <div class="mi-ficha-stats">
+                            <div><span>Vida</span><strong id="axis-mi-ficha-vida">--</strong></div>
+                            <div><span>Energia</span><strong id="axis-mi-ficha-energia">--</strong></div>
+                            <div><span>Rol</span><strong id="axis-mi-ficha-rol">--</strong></div>
+                            <div><span>Origen</span><strong id="axis-mi-ficha-origen">--</strong></div>
+                        </div>
+                    </section>
+
+                    <section class="mi-ficha-panel">
+                        <p class="ui ficha-bloque-etiqueta">Situacion actual</p>
+                        <ul id="axis-mi-ficha-list" class="mi-ficha-lista">
+                            <li>Objetivo personal pendiente de sincronizar.</li>
+                            <li>Relacion principal pendiente de cargar.</li>
+                            <li>Ultima actualizacion visible cuando exista login real.</li>
+                        </ul>
+                    </section>
+                </div>
+
+                <div class="mi-ficha-axis-acciones">
+                    <a class="boton-hero ui" href="Ficha.html?mundo=Axis">Abrir archivo de fichas</a>
+                    <a class="boton-hero boton-secundario ui" href="#lugares-y-mapa">Volver al mapa</a>
+                </div>
+            </article>
+        </section>
+
         <!-- Acceso rapido al sistema de fichas para jugadores de Axis. -->
         <section class="seccion reveal-on-scroll">
             <div class="seccion-encabezado reveal-on-scroll">
@@ -934,6 +1035,8 @@
 
     <!-- JS compartido: menu, parallax, carrusel y modal. -->
     <script src="JavaScript.js"></script>
+    <script type="module" src="Cuenta.js"></script>
+    <script type="module" src="MiFicha.js"></script>
 </body>
 
 </html>

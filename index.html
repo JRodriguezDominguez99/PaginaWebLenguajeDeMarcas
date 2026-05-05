@@ -14,6 +14,44 @@
 </head>
 
 <body>
+    <!-- Acceso global a la cuenta para no depender solo de la pagina de fichas. -->
+    <div class="cuenta-global">
+        <button id="cuenta-toggle" class="ui cuenta-toggle" type="button" aria-expanded="false" aria-controls="cuenta-panel">
+            <span class="cuenta-toggle-label">Cuenta</span>
+            <span id="cuenta-pill" class="cuenta-pill">Invitado</span>
+        </button>
+
+        <section id="cuenta-panel" class="cuenta-panel" hidden>
+            <p class="ui cuenta-panel-etiqueta">Acceso privado</p>
+            <h2 class="titulo">Tu cuenta</h2>
+            <p id="auth-status" class="cuenta-estado">Todavia no has iniciado sesion.</p>
+
+            <form id="auth-form" class="auth-form-global">
+                <div class="campo">
+                    <label for="auth-email" class="ui">Correo</label>
+                    <input id="auth-email" name="auth-email" type="email" placeholder="tu-correo@ejemplo.com" autocomplete="email">
+                </div>
+
+                <div class="campo">
+                    <label for="auth-password" class="ui">Contrasena</label>
+                    <input id="auth-password" name="auth-password" type="password" placeholder="Minimo 6 caracteres" autocomplete="current-password">
+                </div>
+
+                <div class="auth-acciones">
+                    <button id="register-button" class="ui boton-formulario" type="button">Crear cuenta</button>
+                    <button id="login-button" class="ui boton-formulario boton-formulario-secundario" type="button">Iniciar sesion</button>
+                    <button id="google-button" class="ui boton-formulario boton-formulario-secundario" type="button">Entrar con Google</button>
+                    <button id="logout-button" class="ui boton-formulario boton-formulario-secundario" type="button">Cerrar sesion</button>
+                </div>
+
+                <p id="auth-message" class="cuenta-mensaje" aria-live="polite">
+                    Crea una cuenta o entra para vincular y proteger tus fichas.
+                </p>
+                <a class="ui cuenta-link" href="Ficha.html">Abrir archivo de fichas</a>
+            </form>
+        </section>
+    </div>
+
     <!-- Intro cinematica inicial para presentar el cruce entre ambos mundos antes de mostrar la seleccion. -->
     <div id="intro-cinematica" class="intro-cinematica" aria-hidden="true">
         <div class="intro-fondo intro-fondo-axis" aria-hidden="true"></div>
@@ -98,6 +136,7 @@
 
     <!-- JS compartido: aqui controla el fade antes de la redireccion. -->
     <script src="JavaScript.js"></script>
+    <script type="module" src="Cuenta.js"></script>
 </body>
 
 </html>

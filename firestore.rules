@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helpers reutilizables para que las reglas sean mas faciles de leer.
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    function validWorld(world) {
+      return world in ['Axis', 'Fate'];
+    }
+
+    function validString(value, min, max) {
+      return value is string && value.size() >= min && value.size() <= max;
+    }
+
+    function validOptionalString(value, max) {
+      return value == '' || (value is string && value.size() <= max);
+    }
+
+    function validStat(value) {
+      return value is int && value >= 0 && value <= 100;
+    }
+
+    function validStats(stats) {
+      return stats is map
+        && stats.keys().hasOnly(['STR', 'CON', 'AGI', 'MGI', 'LCK', 'NP'])
+        && validStat(stats.STR)
+        && validStat(stats.CON)
+        && validStat(stats.AGI)
+        && validStat(stats.MGI)
+        && validStat(stats.LCK)
+        && validStat(stats.NP);
+    }
+
+    // Validacion principal del documento "personaje".
+    function validCharacterDocument(data) {
+      return data.keys().hasOnly([
+          'mundo',
+          'jugador',
+          'contacto',
+          'grupo',
+          'nombre',
+          'rol',
+          'origen',
+          'descripcion',
+          'usuarioId',
+          'usuarioEmail',
+          'stats',
+          'createdAt'
+        ])
+        && validWorld(data.mundo)
+        && validString(data.jugador, 1, 80)
+        && validOptionalString(data.contacto, 120)
+        && validOptionalString(data.grupo, 120)
+        && validString(data.nombre, 1, 80)
+        && validString(data.rol, 1, 80)
+        && validOptionalString(data.origen, 120)
+        && validOptionalString(data.descripcion, 1200)
+        && validString(data.usuarioId, 1, 128)
+        && validString(data.usuarioEmail, 3, 200)
+        && validStats(data.stats);
+    }
+
+    match /personajes/{personajeId} {
+      // Solo el propietario puede leer sus fichas.
+      allow get, list: if isOwner(resource.data.usuarioId);
+
+      // Solo se puede crear una ficha si el usuario autenticado la vincula a si mismo.
+      allow create: if signedIn()
+        && request.resource.data.usuarioId == request.auth.uid
+        && request.resource.data.usuarioEmail == request.auth.token.email
+        && validCharacterDocument(request.resource.data);
+
+      // Solo el propietario puede actualizar o borrar su propia ficha.
+      allow update, delete: if isOwner(resource.data.usuarioId)
+        && request.resource.data.usuarioId == resource.data.usuarioId
+        && request.resource.data.usuarioEmail == resource.data.usuarioEmail
+        && validCharacterDocument(request.resource.data);
+    }
+
+    // Todo lo demas queda cerrado por defecto.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

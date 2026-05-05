@@ -15,14 +15,52 @@
 </head>
 
 <body>
+    <!-- Acceso global de cuenta para que el login quede arriba y no cargue la pagina. -->
+    <div class="cuenta-global">
+        <button id="cuenta-toggle" class="ui cuenta-toggle" type="button" aria-expanded="false" aria-controls="cuenta-panel">
+            <span class="cuenta-toggle-label">Cuenta</span>
+            <span id="cuenta-pill" class="cuenta-pill">Invitado</span>
+        </button>
+
+        <section id="cuenta-panel" class="cuenta-panel" hidden>
+            <p class="ui cuenta-panel-etiqueta">Acceso privado</p>
+            <h2 class="titulo">Tu cuenta</h2>
+            <p id="auth-status" class="cuenta-estado">Todavia no has iniciado sesion.</p>
+
+            <form id="auth-form" class="auth-form-global">
+                <div class="campo">
+                    <label for="auth-email" class="ui">Correo</label>
+                    <input id="auth-email" name="auth-email" type="email" placeholder="tu-correo@ejemplo.com" autocomplete="email">
+                </div>
+
+                <div class="campo">
+                    <label for="auth-password" class="ui">Contrasena</label>
+                    <input id="auth-password" name="auth-password" type="password" placeholder="Minimo 6 caracteres" autocomplete="current-password">
+                </div>
+
+                <div class="auth-acciones">
+                    <button id="register-button" class="ui boton-formulario" type="button">Crear cuenta</button>
+                    <button id="login-button" class="ui boton-formulario boton-formulario-secundario" type="button">Iniciar sesion</button>
+                    <button id="google-button" class="ui boton-formulario boton-formulario-secundario" type="button">Entrar con Google</button>
+                    <button id="logout-button" class="ui boton-formulario boton-formulario-secundario" type="button">Cerrar sesion</button>
+                </div>
+
+                <p id="auth-message" class="cuenta-mensaje" aria-live="polite">
+                    Crea una cuenta o entra para vincular y proteger tus fichas.
+                </p>
+                <a class="ui cuenta-link" href="#character-form">Ir al formulario</a>
+            </form>
+        </section>
+    </div>
+
     <!-- Hero simple para presentar la zona de gestion de fichas. -->
     <header class="fichas-hero">
         <div class="fichas-hero-contenido">
-            <p class="ui fichas-etiqueta">Firebase + Firestore</p>
+            <p class="ui fichas-etiqueta">Archivo personal</p>
             <h1 class="titulo">Archivo de Personajes</h1>
             <p class="fichas-texto">
-                Aqui podremos guardar y consultar personajes de Axis y Fate. La estructura ya queda preparada para
-                conectar con Firebase y almacenar fichas reales.
+                Guarda tus personajes de Axis y Fate en una zona privada ligada a tu cuenta para consultarlos cuando
+                vuelvas a la campana.
             </p>
             <div class="fichas-acciones">
                 <a class="ui boton-fichas" href="Axis.html">Volver a Axis</a>
@@ -32,26 +70,13 @@
     </header>
 
     <main class="fichas-layout">
-        <!-- Panel con estado de conexion para saber si Firebase esta configurado. -->
-        <section class="fichas-panel reveal-on-scroll">
-            <p class="ui fichas-subtitulo">Estado</p>
-            <h2 class="titulo">Conexion con Firebase</h2>
-            <p id="firebase-status" class="estado-firebase">
-                Pendiente de configurar credenciales de Firebase.
-            </p>
-            <p class="nota-firebase">
-                Este estado cambiara automaticamente cuando se rellene bien el archivo de configuracion y Firestore
-                este disponible.
-            </p>
-        </section>
-
         <!-- Formulario principal para guardar una ficha de personaje. -->
-        <section class="fichas-panel reveal-on-scroll">
+        <section class="fichas-panel fichas-panel-ancho reveal-on-scroll">
             <p class="ui fichas-subtitulo">Formulario</p>
             <h2 class="titulo">Guardar personaje</h2>
             <p class="form-intro">
-                Empieza completando los datos del jugador. Ese bloque identifica quien crea la ficha antes de pasar a
-                los datos del personaje.
+                La cuenta se gestiona desde el acceso superior. Aqui solo te concentras en rellenar y guardar la ficha
+                del personaje.
             </p>
 
             <!-- Resumen visual fijo para que esta parte se identifique aunque falle el JS del reveal. -->
@@ -166,7 +191,7 @@
             <div class="cabecera-listado">
                 <div>
                     <p class="ui fichas-subtitulo">Listado</p>
-                    <h2 class="titulo">Personajes guardados</h2>
+                    <h2 class="titulo">Tus personajes</h2>
                 </div>
 
                 <div class="campo filtro-campo">
@@ -181,10 +206,9 @@
 
             <div id="characters-list" class="characters-list">
                 <article class="character-empty">
-                    <h3 class="nombre-personaje">Sin fichas todavia</h3>
+                    <h3 class="nombre-personaje">Tu archivo esta vacio</h3>
                     <p>
-                        Cuando Firebase este configurado y se guarde la primera ficha, apareceran aqui las tarjetas de
-                        los personajes.
+                        Inicia sesion y guarda una ficha para empezar a llenar tu archivo personal.
                     </p>
                 </article>
             </div>
@@ -192,6 +216,7 @@
     </main>
 
     <!-- Script principal de la zona de fichas con integracion preparada para Firebase. -->
+    <script type="module" src="Cuenta.js"></script>
     <script type="module" src="Ficha.js"></script>
 </body>
 

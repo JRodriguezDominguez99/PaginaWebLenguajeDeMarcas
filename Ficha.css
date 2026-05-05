@@ -89,7 +89,7 @@ body {
     margin: -72px auto 0;
     padding: 0 0 88px;
     display: grid;
-    grid-template-columns: 1fr 1.2fr;
+    grid-template-columns: 1fr;
     gap: 24px;
     position: relative;
     z-index: 2;
@@ -151,30 +151,6 @@ body {
 
 .fichas-panel-ancho {
     grid-column: 1 / -1;
-}
-
-/* Estado visual del panel de Firebase. */
-.estado-firebase {
-    margin: 0;
-    padding: 14px 16px;
-    border-radius: 18px;
-    background: rgba(201, 168, 76, 0.12);
-    border: 1px solid rgba(201, 168, 76, 0.28);
-}
-
-.estado-firebase.ok {
-    background: rgba(124, 184, 124, 0.14);
-    border-color: rgba(124, 184, 124, 0.34);
-}
-
-.estado-firebase.error {
-    background: rgba(175, 79, 79, 0.12);
-    border-color: rgba(175, 79, 79, 0.28);
-}
-
-.nota-firebase {
-    margin-bottom: 0;
-    color: rgba(44, 44, 44, 0.76);
 }
 
 /* Formulario principal. */
@@ -327,7 +303,7 @@ body {
     margin-bottom: 14px;
     padding: 7px 12px;
     border-radius: 999px;
-    background: rgba(135, 206, 235, 0.18);
+    background: rgba(19, 38, 62, 0.08);
     color: #173b59;
     letter-spacing: 0.12em;
     text-transform: uppercase;
@@ -379,7 +355,6 @@ body.js-reveal .reveal-on-scroll.revealed {
 @media (max-width: 980px) {
     .fichas-layout {
         margin-top: -52px;
-        grid-template-columns: 1fr;
     }
 }
 

@@ -1,22 +1,34 @@
-// Menu lateral de Axis. Solo se activa si la pagina actual tiene esos elementos.
+// Menu lateral compartido. Ahora usa overlay y bloquea el scroll para que se sienta mas estable.
 const navEnlaces = document.getElementById('nav-enlaces');
 const hamburguesa = document.getElementById('hamburguesa');
+const menuOverlay = document.getElementById('menu-overlay');
 
 if (navEnlaces && hamburguesa) {
-    hamburguesa.addEventListener('click', () => {
+    const setMenuState = (abierto) => {
         // La clase .abierto muestra u oculta visualmente el panel.
-        const abierto = navEnlaces.classList.toggle('abierto');
+        navEnlaces.classList.toggle('abierto', abierto);
+        menuOverlay?.classList.toggle('abierto', abierto);
+        document.body.classList.toggle('menu-abierto', abierto);
 
         // aria-expanded ayuda a accesibilidad y refleja el estado actual del boton.
         hamburguesa.setAttribute('aria-expanded', String(abierto));
+    };
+
+    hamburguesa.addEventListener('click', (evento) => {
+        evento.stopPropagation();
+        setMenuState(!navEnlaces.classList.contains('abierto'));
     });
 
     // Si el usuario pulsa una opcion del menu, lo cerramos automaticamente.
     navEnlaces.querySelectorAll('a').forEach((enlace) => {
         enlace.addEventListener('click', () => {
-            navEnlaces.classList.remove('abierto');
-            hamburguesa.setAttribute('aria-expanded', 'false');
+            setMenuState(false);
         });
+    });
+
+    // Si existe overlay, tambien sirve como superficie clara para cerrar el menu.
+    menuOverlay?.addEventListener('click', () => {
+        setMenuState(false);
     });
 
     // Si se pulsa fuera del panel y del boton, cerramos el menu.
@@ -30,10 +42,17 @@ if (navEnlaces && hamburguesa) {
         const menuAbierto = navEnlaces.classList.contains('abierto');
         const clickDentroDelMenu = navEnlaces.contains(objetivo);
         const clickEnBoton = hamburguesa.contains(objetivo);
+        const clickEnOverlay = menuOverlay ? menuOverlay.contains(objetivo) : false;
 
-        if (menuAbierto && !clickDentroDelMenu && !clickEnBoton) {
-            navEnlaces.classList.remove('abierto');
-            hamburguesa.setAttribute('aria-expanded', 'false');
+        if (menuAbierto && !clickDentroDelMenu && !clickEnBoton && !clickEnOverlay) {
+            setMenuState(false);
+        }
+    });
+
+    // Escape cierra antes el menu lateral si esta abierto.
+    document.addEventListener('keydown', (evento) => {
+        if (evento.key === 'Escape' && navEnlaces.classList.contains('abierto')) {
+            setMenuState(false);
         }
     });
 }
@@ -223,6 +242,12 @@ if (carruseles.length > 0) {
         }, { passive: false });
 
         carrusel.addEventListener('pointerdown', (evento) => {
+            const objetivo = evento.target;
+
+            if (objetivo instanceof HTMLElement && objetivo.closest('button, a, input, textarea, select, label')) {
+                return;
+            }
+
             pulsando = true;
             inicioX = evento.clientX;
             scrollInicial = carrusel.scrollLeft;
@@ -577,4 +602,203 @@ if (mapaPuntos.length > 0 && mapaTitulo && mapaZona && mapaDescripcion && mapaTa
 
     // Dejamos la primera localizacion sincronizada con el estado que ya hubiera guardado el usuario.
     actualizarMapaAxis(puntoSeleccionado);
+}
+
+// Consola de facciones de Fate: al pulsar una faccion, actualizamos el dossier inferior.
+const factionCards = document.querySelectorAll('.fate-carta[data-faction-name]');
+const factionConsoleTitle = document.getElementById('faction-console-title');
+const factionConsolePressure = document.getElementById('faction-console-pressure');
+const factionConsoleSummary = document.getElementById('faction-console-summary');
+const factionConsoleRole = document.getElementById('faction-console-role');
+const factionConsoleTerritory = document.getElementById('faction-console-territory');
+const factionConsoleTags = document.getElementById('faction-console-tags');
+const factionConsoleRelations = document.getElementById('faction-console-relations');
+
+if (
+    factionCards.length > 0 &&
+    factionConsoleTitle &&
+    factionConsolePressure &&
+    factionConsoleSummary &&
+    factionConsoleRole &&
+    factionConsoleTerritory &&
+    factionConsoleTags &&
+    factionConsoleRelations
+) {
+    const factionConsoleStorageKey = 'fate-active-faction';
+
+    const updateFactionConsole = (card) => {
+        factionCards.forEach((item) => {
+            item.classList.remove('activa');
+            item.setAttribute('aria-pressed', 'false');
+        });
+
+        card.classList.add('activa');
+        card.setAttribute('aria-pressed', 'true');
+
+        factionConsoleTitle.textContent = card.dataset.factionName || 'Faccion';
+        factionConsolePressure.textContent = card.dataset.factionPressure || 'Media';
+        factionConsoleSummary.textContent = card.dataset.factionSummary || '';
+        factionConsoleRole.textContent = card.dataset.factionRole || '--';
+        factionConsoleTerritory.textContent = card.dataset.factionTerritory || '--';
+
+        const tags = (card.dataset.factionTags || '')
+            .split(',')
+            .map((value) => value.trim())
+            .filter(Boolean);
+
+        factionConsoleTags.innerHTML = '';
+
+        tags.forEach((tagText) => {
+            const tag = document.createElement('span');
+            tag.textContent = tagText;
+            factionConsoleTags.appendChild(tag);
+        });
+
+        const relations = (card.dataset.factionRelations || '')
+            .split('|')
+            .map((value) => value.trim())
+            .filter(Boolean);
+
+        factionConsoleRelations.innerHTML = '';
+
+        relations.forEach((relationText) => {
+            const item = document.createElement('li');
+            item.textContent = `${relationText}.`;
+            factionConsoleRelations.appendChild(item);
+        });
+
+        if (card.dataset.factionName) {
+            window.localStorage.setItem(factionConsoleStorageKey, card.dataset.factionName);
+        }
+    };
+
+    factionCards.forEach((card) => {
+        card.addEventListener('click', () => {
+            updateFactionConsole(card);
+        });
+
+        card.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                updateFactionConsole(card);
+            }
+        });
+    });
+
+    const savedFactionName = window.localStorage.getItem(factionConsoleStorageKey);
+    const initialFaction = Array.from(factionCards).find((card) => card.dataset.factionName === savedFactionName) || factionCards[0];
+
+    updateFactionConsole(initialFaction);
+}
+
+// Mapa de Fate: actualiza la consola lateral con el distrito seleccionado.
+const fateZones = document.querySelectorAll('.fate-zone');
+const fateMapTitle = document.getElementById('fate-map-title');
+const fateMapDescription = document.getElementById('fate-map-description');
+const fateMapState = document.getElementById('fate-map-state');
+const fateMapTags = document.getElementById('fate-map-tags');
+
+if (fateZones.length > 0 && fateMapTitle && fateMapDescription && fateMapState && fateMapTags) {
+    const updateFateMap = (zone) => {
+        fateZones.forEach((item) => item.classList.remove('active'));
+        zone.classList.add('active');
+
+        fateMapTitle.textContent = zone.dataset.fateZoneName || 'Distrito de Fate';
+        fateMapDescription.textContent = zone.dataset.fateZoneDescription || '';
+
+        const stateLabels = {
+            segura: 'Segura',
+            inestable: 'Inestable',
+            comprometida: 'Comprometida',
+            perdida: 'Perdida'
+        };
+
+        const zoneState = zone.dataset.fateZoneState || 'inestable';
+        fateMapState.textContent = stateLabels[zoneState] || 'Inestable';
+
+        const tags = (zone.dataset.fateZoneTags || '')
+            .split(',')
+            .map((value) => value.trim())
+            .filter(Boolean);
+
+        fateMapTags.innerHTML = '';
+
+        tags.forEach((tagText) => {
+            const tag = document.createElement('span');
+            tag.textContent = tagText;
+            fateMapTags.appendChild(tag);
+        });
+    };
+
+    fateZones.forEach((zone) => {
+        zone.addEventListener('click', () => {
+            updateFateMap(zone);
+        });
+    });
+
+    updateFateMap(fateZones[0]);
+}
+
+// Anomalias de Fate: cada amenaza puede marcarse con un nivel guardado en localStorage.
+const fateAnomalias = document.querySelectorAll('.anomalia[data-anomalia-id]');
+
+if (fateAnomalias.length > 0) {
+    const anomalyStorageKey = 'fate-anomaly-status';
+    let savedAnomalies = {};
+
+    try {
+        const storedValue = window.localStorage.getItem(anomalyStorageKey);
+        savedAnomalies = storedValue ? JSON.parse(storedValue) : {};
+    } catch (error) {
+        savedAnomalies = {};
+    }
+
+    const normalizeAnomalyLevel = (value) => {
+        const validLevels = ['leve', 'media', 'critica'];
+        return validLevels.includes(value) ? value : 'media';
+    };
+
+    const anomalyLabels = {
+        leve: 'Leve',
+        media: 'Media',
+        critica: 'Critica'
+    };
+
+    const saveAnomalies = () => {
+        window.localStorage.setItem(anomalyStorageKey, JSON.stringify(savedAnomalies));
+    };
+
+    const updateAnomalyCard = (card, level) => {
+        const normalizedLevel = normalizeAnomalyLevel(level);
+        const chip = card.querySelector('[data-anomalia-chip]');
+        const buttons = card.querySelectorAll('[data-anomalia-level]');
+
+        card.dataset.anomaliaState = normalizedLevel;
+
+        if (chip) {
+            chip.textContent = anomalyLabels[normalizedLevel] || 'Media';
+        }
+
+        buttons.forEach((button) => {
+            const active = button.dataset.anomaliaLevel === normalizedLevel;
+            button.classList.toggle('activo', active);
+            button.setAttribute('aria-pressed', String(active));
+        });
+    };
+
+    fateAnomalias.forEach((card) => {
+        const anomalyId = card.dataset.anomaliaId || '';
+        const storedLevel = normalizeAnomalyLevel(savedAnomalies[anomalyId] || 'media');
+
+        updateAnomalyCard(card, storedLevel);
+
+        card.querySelectorAll('[data-anomalia-level]').forEach((button) => {
+            button.addEventListener('click', () => {
+                const nextLevel = normalizeAnomalyLevel(button.dataset.anomaliaLevel || 'media');
+                savedAnomalies[anomalyId] = nextLevel;
+                updateAnomalyCard(card, nextLevel);
+                saveAnomalies();
+            });
+        });
+    });
 }
