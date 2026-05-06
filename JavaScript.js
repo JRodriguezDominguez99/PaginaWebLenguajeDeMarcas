@@ -613,6 +613,10 @@ const factionConsoleRole = document.getElementById('faction-console-role');
 const factionConsoleTerritory = document.getElementById('faction-console-territory');
 const factionConsoleTags = document.getElementById('faction-console-tags');
 const factionConsoleRelations = document.getElementById('faction-console-relations');
+const factionNetworkNodes = document.querySelectorAll('.faction-node[data-network-faction]');
+const networkFocusTitle = document.getElementById('network-focus-title');
+const networkFocusSummary = document.getElementById('network-focus-summary');
+const networkFocusRelations = document.getElementById('network-focus-relations');
 
 if (
     factionCards.length > 0 &&
@@ -625,6 +629,12 @@ if (
     factionConsoleRelations
 ) {
     const factionConsoleStorageKey = 'fate-active-faction';
+    const factionNarrativeMap = {
+        'Black Rose': 'Opera desde las sombras y se apoya en dos ejes: lo que compra a Ash Market y las rutas que los Wardens aun pueden sostener. Con Iron Chapel la relacion se parece mas a una pelea aplazada que a una paz real.',
+        'Iron Chapel': 'Su autoridad moral le permite contener distritos enteros, pero vive en conflicto con Black Rose y apenas tolera el pragmatismo de Ash Market. Solo con los Wardens mantiene una alianza limpia.',
+        'Ash Market': 'Sostiene media ciudad con recursos, informacion y suministros. Eso le da influencia sobre todos, pero tambien lo convierte en objetivo de chantaje, necesidad y rivalidad constante.',
+        'Fogbound Wardens': 'No dominan el centro politico, pero sin sus rutas y pasos la red de Fate colapsaria mucho antes. Son el unico nodo que puede cooperar con todos sin dejar de desconfiar de todos.'
+    };
 
     const updateFactionConsole = (card) => {
         factionCards.forEach((item) => {
@@ -667,6 +677,26 @@ if (
             factionConsoleRelations.appendChild(item);
         });
 
+        // La red de facciones se sincroniza con el dossier para que ambas lecturas apunten al mismo foco.
+        if (factionNetworkNodes.length > 0 && networkFocusTitle && networkFocusSummary && networkFocusRelations) {
+            const activeName = card.dataset.factionName || '';
+
+            factionNetworkNodes.forEach((node) => {
+                node.classList.toggle('active', node.dataset.networkFaction === activeName);
+                node.setAttribute('aria-pressed', String(node.dataset.networkFaction === activeName));
+            });
+
+            networkFocusTitle.textContent = activeName;
+            networkFocusSummary.textContent = factionNarrativeMap[activeName] || 'Sin lectura narrativa disponible.';
+            networkFocusRelations.innerHTML = '';
+
+            relations.forEach((relationText) => {
+                const item = document.createElement('li');
+                item.textContent = `${relationText}.`;
+                networkFocusRelations.appendChild(item);
+            });
+        }
+
         if (card.dataset.factionName) {
             window.localStorage.setItem(factionConsoleStorageKey, card.dataset.factionName);
         }
@@ -689,6 +719,30 @@ if (
     const initialFaction = Array.from(factionCards).find((card) => card.dataset.factionName === savedFactionName) || factionCards[0];
 
     updateFactionConsole(initialFaction);
+
+    // Los nodos de la red pueden activar la misma faccion que las tarjetas del carrusel.
+    factionNetworkNodes.forEach((node) => {
+        node.addEventListener('click', () => {
+            const targetName = node.dataset.networkFaction || '';
+            const linkedCard = Array.from(factionCards).find((card) => card.dataset.factionName === targetName);
+
+            if (linkedCard) {
+                updateFactionConsole(linkedCard);
+
+                // Centramos la tarjeta solo dentro del carrusel horizontal, sin mover la pagina hacia arriba.
+                const carrusel = linkedCard.parentElement;
+
+                if (carrusel instanceof HTMLElement) {
+                    const destino = linkedCard.offsetLeft - ((carrusel.clientWidth - linkedCard.clientWidth) / 2);
+
+                    carrusel.scrollTo({
+                        left: Math.max(0, destino),
+                        behavior: 'smooth'
+                    });
+                }
+            }
+        });
+    });
 }
 
 // Mapa de Fate: actualiza la consola lateral con el distrito seleccionado.

@@ -185,7 +185,7 @@
                     data-faction-territory="Callejones, refugios y contrabando"
                     data-faction-summary="Red clandestina que opera entre callejones, refugios y zonas de contrabando. Controlan informacion, rutas seguras y favores, y convierten el secreto en su principal arma."
                     data-faction-tags="Sigilo,Tratos,Rutas seguras"
-                    data-faction-relations="Iron Chapel: tregua fragil|Ash Market: dependencia comercial|Fogbound Wardens: intercambio de rutas">
+                    data-faction-relations="Iron Chapel: conflicto frio|Ash Market: dependencia de suministros|Fogbound Wardens: alianza de rutas">
                     <span class="ui fate-carta-etiqueta">Faccion urbana</span>
                     <h3 class="nombre-personaje">Black Rose</h3>
                     <p>
@@ -201,7 +201,7 @@
                     data-faction-territory="Enclaves, capillas y zonas de juicio"
                     data-faction-summary="Orden severa que interpreta la caida de Fate como una prueba moral. Defienden enclaves, juzgan desertores y levantan disciplina donde el resto solo ve ruina."
                     data-faction-tags="Fe,Disciplina,Refugios"
-                    data-faction-relations="Black Rose: tregua fragil|Ash Market: desconfianza abierta|Fogbound Wardens: cooperacion defensiva">
+                    data-faction-relations="Black Rose: conflicto frio|Ash Market: hostilidad doctrinal|Fogbound Wardens: alianza defensiva">
                     <span class="ui fate-carta-etiqueta">Faccion religiosa</span>
                     <h3 class="nombre-personaje">Iron Chapel</h3>
                     <p>
@@ -217,7 +217,7 @@
                     data-faction-territory="Mercados rotos, medicina y tecnologia"
                     data-faction-summary="Mercado gris que trafica con reliquias, medicina, tecnologia rota y secretos. Nadie confia en ellos del todo, pero casi todos acaban necesitando algo que solo ellos pueden conseguir."
                     data-faction-tags="Recursos,Traficos,Informacion"
-                    data-faction-relations="Black Rose: negocios frecuentes|Iron Chapel: tension moral|Fogbound Wardens: suministro puntual">
+                    data-faction-relations="Black Rose: dependencia mutua|Iron Chapel: rivalidad moral|Fogbound Wardens: trato utilitario">
                     <span class="ui fate-carta-etiqueta">Faccion oportunista</span>
                     <h3 class="nombre-personaje">Ash Market</h3>
                     <p>
@@ -233,7 +233,7 @@
                     data-faction-territory="Rutas de niebla y pasos entre distritos"
                     data-faction-summary="Guardianes de las zonas de niebla mas densas. No dominan grandes barrios, pero sostienen las ultimas rutas entre distritos y conocen el terreno mejor que nadie."
                     data-faction-tags="Exploracion,Pasos,Resistencia"
-                    data-faction-relations="Black Rose: trueque logistico|Iron Chapel: apoyo defensivo|Ash Market: trato utilitarista">
+                    data-faction-relations="Black Rose: alianza de rutas|Iron Chapel: pacto de defensa|Ash Market: trato utilitario">
                     <span class="ui fate-carta-etiqueta">Faccion fronteriza</span>
                     <h3 class="nombre-personaje">Fogbound Wardens</h3>
                     <p>
@@ -283,13 +283,110 @@
                     <section class="faction-console-panel faction-console-panel-wide">
                         <p class="ui faction-console-label">Relaciones activas</p>
                         <ul id="faction-console-relations" class="faction-console-relations">
-                            <li>Iron Chapel: tregua fragil.</li>
-                            <li>Ash Market: dependencia comercial.</li>
-                            <li>Fogbound Wardens: intercambio de rutas.</li>
+                            <li>Iron Chapel: conflicto frio.</li>
+                            <li>Ash Market: dependencia de suministros.</li>
+                            <li>Fogbound Wardens: alianza de rutas.</li>
                         </ul>
                     </section>
                 </div>
             </div>
+
+            <!-- Red de facciones: lectura visual del equilibrio politico de Fate. -->
+            <section class="faction-network reveal-on-scroll" aria-labelledby="faction-network-title">
+                <div class="faction-network-copy">
+                    <p class="ui fate-carta-etiqueta">Red activa</p>
+                    <h3 id="faction-network-title" class="titulo">Mapa de relaciones</h3>
+                    <p>
+                        Esta red resume quien sostiene a quien, donde hay treguas fragiles y que lazos estan a un
+                        paso de romperse. Al pulsar una faccion, la red y el dossier se sincronizan.
+                    </p>
+                </div>
+
+                <div class="faction-network-layout">
+                    <div class="faction-network-board">
+                        <div class="faction-network-rings" aria-hidden="true"></div>
+
+                        <!-- SVG de conexiones: asi las lineas se ajustan mucho mejor a la red que con bloques rotados. -->
+                        <svg class="faction-network-links" viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">
+                            <line class="faction-link-svg faction-link-tension" x1="27" y1="24" x2="67" y2="24"></line>
+                            <line class="faction-link-svg faction-link-dependence" x1="27" y1="24" x2="28" y2="68"></line>
+                            <line class="faction-link-svg faction-link-alliance" x1="27" y1="24" x2="69" y2="68"></line>
+                            <line class="faction-link-svg faction-link-tension" x1="67" y1="24" x2="28" y2="68"></line>
+                            <line class="faction-link-svg faction-link-alliance" x1="67" y1="24" x2="69" y2="68"></line>
+                            <line class="faction-link-svg faction-link-dependence" x1="28" y1="68" x2="69" y2="68"></line>
+                        </svg>
+
+                        <button type="button" class="faction-node faction-node-active"
+                            data-network-faction="Black Rose"
+                            style="top: 24%; left: 27%;">
+                            <span class="ui">BR</span>
+                            <strong>Black Rose</strong>
+                        </button>
+
+                        <button type="button" class="faction-node"
+                            data-network-faction="Iron Chapel"
+                            style="top: 24%; left: 67%;">
+                            <span class="ui">IC</span>
+                            <strong>Iron Chapel</strong>
+                        </button>
+
+                        <button type="button" class="faction-node"
+                            data-network-faction="Ash Market"
+                            style="top: 68%; left: 28%;">
+                            <span class="ui">AM</span>
+                            <strong>Ash Market</strong>
+                        </button>
+
+                        <button type="button" class="faction-node"
+                            data-network-faction="Fogbound Wardens"
+                            style="top: 68%; left: 69%;">
+                            <span class="ui">FW</span>
+                            <strong>Fogbound Wardens</strong>
+                        </button>
+                    </div>
+
+                    <aside class="faction-network-panel">
+                        <p class="ui faction-console-label">Enlace seleccionado</p>
+                        <h4 id="network-focus-title" class="nombre-personaje">Black Rose</h4>
+                        <p id="network-focus-summary" class="faction-network-summary">
+                            Opera con dependencia comercial hacia Ash Market, mantiene una tregua fragil con Iron Chapel
+                            y solo coopera con los Wardens cuando las rutas peligran.
+                        </p>
+
+                        <div class="faction-network-legend">
+                            <div class="faction-network-legend-item">
+                                <span class="faction-network-dot faction-network-dot-alliance" aria-hidden="true"></span>
+                                <div>
+                                    <strong>Cooperacion</strong>
+                                    <p>Intercambio estable o apoyo tactico.</p>
+                                </div>
+                            </div>
+
+                            <div class="faction-network-legend-item">
+                                <span class="faction-network-dot faction-network-dot-tension" aria-hidden="true"></span>
+                                <div>
+                                    <strong>Tension</strong>
+                                    <p>Intereses cruzados, tregua o desconfianza.</p>
+                                </div>
+                            </div>
+
+                            <div class="faction-network-legend-item">
+                                <span class="faction-network-dot faction-network-dot-dependence" aria-hidden="true"></span>
+                                <div>
+                                    <strong>Dependencia</strong>
+                                    <p>Un actor necesita al otro para sostenerse.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <ul id="network-focus-relations" class="faction-console-relations">
+                            <li>Iron Chapel: conflicto frio.</li>
+                            <li>Ash Market: dependencia de suministros.</li>
+                            <li>Fogbound Wardens: alianza de rutas.</li>
+                        </ul>
+                    </aside>
+                </div>
+            </section>
         </section>
 
         <section class="fate-seccion reveal-on-scroll">

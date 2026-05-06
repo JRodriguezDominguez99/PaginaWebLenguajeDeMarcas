@@ -76,8 +76,15 @@ if (!cuentaToggle || !cuentaPanel || !authForm || !authStatus || !authMessage) {
         password: authPassword?.value || ""
     });
 
-    cuentaToggle.addEventListener("click", () => {
+    cuentaToggle.addEventListener("click", (event) => {
+        // Frenamos la burbuja para que otros listeners globales no roben este clic.
+        event.stopPropagation();
         toggleCuentaPanel();
+    });
+
+    cuentaPanel.addEventListener("click", (event) => {
+        // Permite interactuar dentro del panel sin que nada externo lo cierre o bloquee.
+        event.stopPropagation();
     });
 
     document.addEventListener("click", (event) => {

@@ -58,7 +58,6 @@ img {
     justify-content: center;
     min-height: 100vh;
     overflow: hidden;
-    isolation: isolate;
 }
 
 /* Capas del hero colocadas por detras del contenido. */
@@ -66,6 +65,7 @@ img {
 .hero-overlay {
     position: absolute;
     inset: 0;
+    z-index: 0;
 }
 
 /* El fondo se mueve con una variable CSS que actualiza JavaScript. */

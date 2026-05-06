@@ -3,47 +3,43 @@
 
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Axis & Fate</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
-        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+DW+Pica+SC&family=Orbitron:wght@400..900&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=IM+Fell+DW+Pica+SC:ital@0;1&family=Orbitron:wght@400..900&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="Global.css">
     <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
-    <!-- Acceso global a la cuenta para no depender solo de la pagina de fichas. -->
+    <!-- Acceso global a la cuenta -->
     <div class="cuenta-global">
         <button id="cuenta-toggle" class="ui cuenta-toggle" type="button" aria-expanded="false" aria-controls="cuenta-panel">
             <span class="cuenta-toggle-label">Cuenta</span>
             <span id="cuenta-pill" class="cuenta-pill">Invitado</span>
         </button>
-
         <section id="cuenta-panel" class="cuenta-panel" hidden>
             <p class="ui cuenta-panel-etiqueta">Acceso privado</p>
             <h2 class="titulo">Tu cuenta</h2>
             <p id="auth-status" class="cuenta-estado">Todavia no has iniciado sesion.</p>
-
             <form id="auth-form" class="auth-form-global">
                 <div class="campo">
                     <label for="auth-email" class="ui">Correo</label>
                     <input id="auth-email" name="auth-email" type="email" placeholder="tu-correo@ejemplo.com" autocomplete="email">
                 </div>
-
                 <div class="campo">
                     <label for="auth-password" class="ui">Contrasena</label>
                     <input id="auth-password" name="auth-password" type="password" placeholder="Minimo 6 caracteres" autocomplete="current-password">
                 </div>
-
                 <div class="auth-acciones">
                     <button id="register-button" class="ui boton-formulario" type="button">Crear cuenta</button>
                     <button id="login-button" class="ui boton-formulario boton-formulario-secundario" type="button">Iniciar sesion</button>
                     <button id="google-button" class="ui boton-formulario boton-formulario-secundario" type="button">Entrar con Google</button>
                     <button id="logout-button" class="ui boton-formulario boton-formulario-secundario" type="button">Cerrar sesion</button>
                 </div>
-
                 <p id="auth-message" class="cuenta-mensaje" aria-live="polite">
                     Crea una cuenta o entra para vincular y proteger tus fichas.
                 </p>
@@ -52,89 +48,94 @@
         </section>
     </div>
 
-    <!-- Intro cinematica inicial para presentar el cruce entre ambos mundos antes de mostrar la seleccion. -->
+    <!-- INTRO: minimalista, impacto visual puro -->
     <div id="intro-cinematica" class="intro-cinematica" aria-hidden="true">
-        <div class="intro-fondo intro-fondo-axis" aria-hidden="true"></div>
-        <div class="intro-fondo intro-fondo-fate" aria-hidden="true"></div>
-        <div class="intro-niebla" aria-hidden="true"></div>
-        <div class="intro-reticula" aria-hidden="true"></div>
-        <div class="intro-linea-central" aria-hidden="true"></div>
-        <div class="intro-marco" aria-hidden="true">
-            <span class="marco-esquina esquina-superior-izquierda"></span>
-            <span class="marco-esquina esquina-superior-derecha"></span>
-            <span class="marco-esquina esquina-inferior-izquierda"></span>
-            <span class="marco-esquina esquina-inferior-derecha"></span>
-        </div>
-        <div class="intro-particulas" aria-hidden="true">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
-
+        <div class="intro-bg" aria-hidden="true"></div>
+        <div class="intro-noise" aria-hidden="true"></div>
+        <div class="intro-linea" aria-hidden="true"></div>
         <div class="intro-contenido">
-            <p class="ui intro-etiqueta">Campana de rol</p>
-            <h1 class="titulo">Axis & Fate</h1>
-            <p class="ui intro-capitulo">World Select / Prologue</p>
-            <p class="intro-texto">
-                Dos mundos se rozan. Uno promete esperanza. El otro se niega a desaparecer.
-            </p>
-            <div class="intro-estados" aria-hidden="true">
-                <div class="intro-panel intro-panel-axis">
-                    <span class="ui intro-panel-etiqueta">Axis</span>
-                    <strong class="nombre-personaje">Hope Signal</strong>
-                    <span class="intro-barra"><span></span></span>
-                </div>
-                <div class="intro-vs ui">VS</div>
-                <div class="intro-panel intro-panel-fate">
-                    <span class="ui intro-panel-etiqueta">Fate</span>
-                    <strong class="nombre-personaje">Fog Pressure</strong>
-                    <span class="intro-barra"><span></span></span>
-                </div>
-            </div>
-            <div class="intro-ui-franja" aria-hidden="true">
-                <span class="ui">WORLD GATE INITIALIZING</span>
-                <span class="intro-loading"><span></span></span>
-                <span class="ui">PRESS ENTER</span>
-            </div>
-            <button id="intro-skip" class="ui intro-boton" type="button">Entrar</button>
+            <p class="ui intro-kicker">Campana de rol &nbsp;·&nbsp; Prologue</p>
+            <h1 class="titulo intro-titulo">
+                <span class="intro-titulo-axis">Axis</span>
+                <em class="intro-titulo-sep" aria-hidden="true">&amp;</em>
+                <span class="intro-titulo-fate">Fate</span>
+            </h1>
+            <p class="intro-tagline">Dos mundos. Un conflicto.</p>
+            <button id="intro-skip" class="ui intro-boton" type="button">
+                <span>Entrar</span>
+                <svg class="intro-boton-flecha" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                    <path d="M5 12h14M13 6l6 6-6 6"/>
+                </svg>
+            </button>
+            <p class="ui intro-hint" aria-hidden="true">o pulsa <kbd>Enter</kbd></p>
         </div>
     </div>
 
-    <!-- Pantalla inicial de seleccion. Cada mitad es un enlace completo. -->
+    <!-- SELECCION DE MUNDO -->
     <main id="pantalla-seleccion">
-        <a id="lado-axis" href="Axis.html">
-            <span class="panel-etiqueta ui">Mundo luminoso</span>
-            <h1 class="titulo">Axis</h1>
-            <p class="panel-texto">
-                Esperanza, fantasia heroica y la promesa de un final mejor.
-            </p>
-            <span class="panel-cta ui">Entrar en Axis</span>
-            <div class="panel-detalles" aria-hidden="true">
-                <span class="panel-chip ui">Heroismo</span>
-                <span class="panel-chip ui">Clases</span>
-                <span class="panel-chip ui">Esperanza</span>
+
+        <a id="lado-axis" href="Axis.html" aria-label="Entrar en el mundo Axis">
+            <div class="panel-bg panel-bg-axis" aria-hidden="true"></div>
+            <div class="panel-vignette" aria-hidden="true"></div>
+            <span class="panel-marca" aria-hidden="true">AXIS</span>
+            <div class="panel-ui">
+                <div class="panel-ui-top">
+                    <span class="ui panel-clase">Mundo luminoso</span>
+                    <span class="panel-separador" aria-hidden="true"></span>
+                </div>
+                <h2 class="titulo panel-nombre">Axis</h2>
+                <p class="panel-lema">Esperanza, fantasia heroica<br>y la promesa de un final mejor.</p>
+                <div class="panel-stats" aria-hidden="true">
+                    <div class="panel-stat">
+                        <span class="ui panel-stat-label">Hope</span>
+                        <div class="panel-stat-barra"><div class="panel-stat-fill" style="--fill: 78%"></div></div>
+                    </div>
+                    <div class="panel-stat">
+                        <span class="ui panel-stat-label">Riesgo</span>
+                        <div class="panel-stat-barra"><div class="panel-stat-fill" style="--fill: 44%"></div></div>
+                    </div>
+                </div>
+                <div class="panel-cta-wrap">
+                    <span class="ui panel-cta">Entrar</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6"/>
+                    </svg>
+                </div>
             </div>
         </a>
 
-        <a id="lado-fate" href="Fate.html">
-            <span class="panel-etiqueta ui">Mundo en ruinas</span>
-            <h1 class="titulo">Fate</h1>
-            <p class="panel-texto">
-                Niebla, facciones y una realidad que se resiste a desaparecer.
-            </p>
-            <span class="panel-cta ui">Entrar en Fate</span>
-            <div class="panel-detalles" aria-hidden="true">
-                <span class="panel-chip ui">Niebla</span>
-                <span class="panel-chip ui">Facciones</span>
-                <span class="panel-chip ui">Ruina</span>
+        <a id="lado-fate" href="Fate.html" aria-label="Entrar en el mundo Fate">
+            <div class="panel-bg panel-bg-fate" aria-hidden="true"></div>
+            <div class="panel-vignette" aria-hidden="true"></div>
+            <span class="panel-marca" aria-hidden="true">FATE</span>
+            <div class="panel-ui">
+                <div class="panel-ui-top">
+                    <span class="ui panel-clase">Mundo en ruinas</span>
+                    <span class="panel-separador" aria-hidden="true"></span>
+                </div>
+                <h2 class="titulo panel-nombre">Fate</h2>
+                <p class="panel-lema">Niebla, facciones y una realidad<br>que se resiste a desaparecer.</p>
+                <div class="panel-stats" aria-hidden="true">
+                    <div class="panel-stat">
+                        <span class="ui panel-stat-label">Fog</span>
+                        <div class="panel-stat-barra"><div class="panel-stat-fill" style="--fill: 91%"></div></div>
+                    </div>
+                    <div class="panel-stat">
+                        <span class="ui panel-stat-label">Control</span>
+                        <div class="panel-stat-barra"><div class="panel-stat-fill" style="--fill: 28%"></div></div>
+                    </div>
+                </div>
+                <div class="panel-cta-wrap">
+                    <span class="ui panel-cta">Entrar</span>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                        <path d="M5 12h14M13 6l6 6-6 6"/>
+                    </svg>
+                </div>
             </div>
         </a>
+
     </main>
 
-    <!-- JS compartido: aqui controla el fade antes de la redireccion. -->
     <script src="JavaScript.js"></script>
     <script type="module" src="Cuenta.js"></script>
 </body>
