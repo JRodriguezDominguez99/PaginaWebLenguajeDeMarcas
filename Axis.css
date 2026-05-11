@@ -269,59 +269,214 @@ img {
     position: relative;
 }
 
-/* Contenedor del carrusel con flechas a ambos lados. */
-.carrusel-barra {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
+/* ── SHOWCASE CARRUSEL ─────────────────────────────────────── */
+
+.showcase-carrusel {
+    position: relative;
+    overflow: hidden;
+    padding: 40px 0 64px;
+}
+
+/* Track: las tarjetas se posicionan con JS mediante transform */
+.showcase-track {
+    display: flex;
+    gap: 0;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: transform;
     align-items: center;
-    gap: 18px;
 }
 
-.carrusel-control {
-    width: 52px;
-    height: 52px;
-    border: none;
-    border-radius: 50%;
-    background: #13263e;
-    color: white;
-    font-size: 1.35rem;
-    cursor: pointer;
-    box-shadow: 0 12px 25px rgba(19, 38, 62, 0.18);
-    transition: transform 0.25s ease, background-color 0.25s ease;
+/* Cada item ocupa un ancho fijo; JS calcula el offset */
+.showcase-item {
+    flex: 0 0 clamp(260px, 55vw, 520px);
+    margin: 0 clamp(12px, 2vw, 24px);
+    transition:
+        transform 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        opacity 0.55s cubic-bezier(0.16, 1, 0.3, 1),
+        filter 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+
+    /* Estado por defecto: laterales pequenos y desvanecidos */
+    opacity: 0.38;
+    transform: scale(0.88);
+    filter: blur(1.5px) saturate(0.7);
+    pointer-events: none;
 }
 
-.carrusel-control:hover,
-.carrusel-control:focus-visible {
-    transform: translateY(-2px);
-    background: #0b1829;
+/* La tarjeta activa: grande, nítida, interactiva */
+.showcase-item.activo {
+    opacity: 1;
+    transform: scale(1);
+    filter: none;
+    pointer-events: auto;
+    cursor: default;
 }
 
-/* Lista horizontal de tarjetas con scroll suave. */
-#personajes-carrusel {
-    display: grid;
-    grid-auto-flow: column;
-    grid-auto-columns: clamp(280px, 46vw, 420px);
-    gap: 22px;
-    overflow-x: auto;
-    scroll-snap-type: x mandatory;
-    scroll-padding-inline: 6px;
-    scroll-behavior: smooth;
-    padding: 12px 6px 24px;
-    cursor: grab;
+/* Interior de la tarjeta */
+.showcase-card-inner {
+    padding: clamp(24px, 4vw, 40px);
+    border-radius: 24px;
+    background: linear-gradient(160deg, rgba(255,255,255,0.97) 0%, rgba(250,242,225,0.97) 100%);
+    border: 1px solid rgba(201, 168, 76, 0.32);
+    box-shadow:
+        0 8px 0 rgba(201, 168, 76, 0.12),
+        0 24px 60px rgba(83, 63, 17, 0.14);
+    transition: box-shadow 0.35s;
+    height: 100%;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
 }
 
-#personajes-carrusel::-webkit-scrollbar {
-    height: 10px;
+.showcase-item.activo .showcase-card-inner {
+    box-shadow:
+        0 8px 0 rgba(201, 168, 76, 0.22),
+        0 32px 80px rgba(83, 63, 17, 0.22);
 }
 
-#personajes-carrusel::-webkit-scrollbar-thumb {
-    background: rgba(19, 38, 62, 0.25);
+/* Fila superior: numero + rol */
+.showcase-card-top {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 20px;
+}
+
+.personaje-numero {
+    font-size: 0.62rem;
+    letter-spacing: 0.22em;
+    color: rgba(201, 168, 76, 0.8);
+    font-family: "Orbitron", sans-serif;
+    flex-shrink: 0;
+}
+
+.personaje-rol {
+    display: inline-block;
+    padding: 5px 12px;
     border-radius: 999px;
+    background: rgba(135, 206, 235, 0.18);
+    color: #173b59;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
-#personajes-carrusel.arrastrando {
-    cursor: grabbing;
-    user-select: none;
+/* Nombre grande */
+.showcase-nombre {
+    margin: 0 0 16px;
+    font-size: clamp(1.8rem, 4vw, 2.8rem);
+    line-height: 1;
+}
+
+/* Descripcion */
+.showcase-desc {
+    margin: 0 0 24px;
+    line-height: 1.7;
+    color: var(--color-texto);
+    font-size: 0.95rem;
+    flex: 1;
+}
+
+/* Linea separadora */
+.showcase-linea {
+    height: 1px;
+    background: linear-gradient(90deg, rgba(201,168,76,0.4) 0%, transparent 100%);
+    margin-bottom: 20px;
+}
+
+/* Footer: clase + mundo */
+.showcase-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.showcase-clase {
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #13263e;
+    font-weight: 700;
+}
+
+.showcase-mundo {
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(19, 38, 62, 0.45);
+}
+
+/* ── NAVEGACION DEL SHOWCASE ── */
+
+.showcase-nav {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 12px 20px;
+}
+
+/* Flechas: sutiles, sin caja */
+.showcase-flecha {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(19, 38, 62, 0.15);
+    background: rgba(255,255,255,0.7);
+    color: #13263e;
+    cursor: pointer;
+    backdrop-filter: blur(8px);
+    transition: border-color 0.25s, background 0.25s, transform 0.25s;
+}
+
+.showcase-flecha svg {
+    width: 16px;
+    height: 16px;
+}
+
+.showcase-flecha:hover,
+.showcase-flecha:focus-visible {
+    border-color: rgba(19, 38, 62, 0.4);
+    background: white;
+    transform: scale(1.08);
+    outline: none;
+}
+
+/* Puntos de navegacion */
+.showcase-puntos {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.showcase-punto {
+    width: 8px;
+    height: 8px;
+    border-radius: 999px;
+    border: none;
+    background: rgba(19, 38, 62, 0.2);
+    cursor: pointer;
+    padding: 0;
+    transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s;
+}
+
+.showcase-punto.activo {
+    width: 28px;
+    background: #13263e;
+}
+
+.showcase-punto:hover:not(.activo) {
+    background: rgba(19, 38, 62, 0.45);
 }
 
 /* Variante reutilizable del carrusel horizontal para otras secciones narrativas. */
@@ -1459,15 +1614,8 @@ body.menu-abierto {
     overflow: hidden;
 }
 
-/* Ajustes de tablet: simplificamos el carrusel y el modal. */
+/* Ajustes de tablet */
 @media (max-width: 900px) {
-    .carrusel-barra {
-        grid-template-columns: 1fr;
-    }
-
-    .carrusel-control {
-        display: none;
-    }
 
     .modal-contenido {
         grid-template-columns: 1fr;
@@ -1701,5 +1849,180 @@ body.menu-abierto {
     .modal-contenido {
         padding: 20px 16px;
         border-radius: 22px;
+    }
+}
+
+
+/* ── SHOWCASE RESPONSIVO ── */
+@media (max-width: 900px) {
+    .showcase-item {
+        flex: 0 0 clamp(240px, 72vw, 440px);
+    }
+}
+
+@media (max-width: 600px) {
+    .showcase-item {
+        flex: 0 0 88vw;
+        margin: 0 10px;
+        opacity: 0.3;
+        transform: scale(0.9);
+    }
+
+    .showcase-item.activo {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    .showcase-nav {
+        gap: 14px;
+    }
+
+    .showcase-nombre {
+        font-size: clamp(1.6rem, 7vw, 2.2rem);
+    }
+}
+
+/* ── MEJORAS DE RESPONSIVIDAD GENERAL ── */
+@media (max-width: 900px) {
+    /* Hero */
+    .hero-contenido h1 {
+        font-size: clamp(3.5rem, 12vw, 6rem);
+    }
+
+    /* Seccion padding mas compacto */
+    .seccion {
+        width: min(90%, 960px);
+    }
+
+    /* Clases grid */
+    .clases-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    /* Hero titulo */
+    .hero-contenido h1 {
+        font-size: clamp(3rem, 15vw, 5rem);
+    }
+
+    /* Texto hero mas legible */
+    .hero-texto {
+        font-size: 0.95rem;
+    }
+
+    /* Nav menu */
+    #nav-enlaces a {
+        font-size: 1.1rem;
+        padding: 14px 0;
+    }
+
+    /* Footer */
+    #footer-creditos,
+    #footer-links {
+        padding: 24px 18px;
+    }
+
+    /* Modal */
+    .modal {
+        padding: 10px;
+        align-items: flex-end;
+    }
+
+    .modal-contenido {
+        border-radius: 20px 20px 0 0;
+        max-height: 90dvh;
+        overflow-y: auto;
+    }
+
+    /* Clases grid en movil: 2 columnas siempre */
+    .clases-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .clase-card {
+        padding: 18px 10px;
+    }
+
+    /* Seccion encabezado */
+    .seccion-encabezado h2 {
+        font-size: clamp(2.2rem, 10vw, 3.5rem);
+    }
+}
+
+@media (max-width: 400px) {
+    .showcase-item {
+        flex: 0 0 92vw;
+        margin: 0 6px;
+    }
+
+    .showcase-card-inner {
+        padding: 20px 16px;
+    }
+
+    .hero-acciones {
+        gap: 10px;
+    }
+
+    .boton-hero {
+        padding: 12px 18px;
+        font-size: 0.72rem;
+    }
+}
+
+
+/* ── LANDSCAPE MOVIL (altura < 500px) ─────────────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+
+    /* Hero: ya no necesita 100vh en landscape, dejamos que el contenido mande */
+    #axis-hero {
+        min-height: auto;
+        padding: 60px 0 40px;
+    }
+
+    .hero-contenido {
+        padding: 20px 18px;
+    }
+
+    .hero-contenido h1 {
+        font-size: clamp(2.8rem, 10vw, 4.5rem);
+        margin-bottom: 8px;
+    }
+
+    .hero-texto {
+        font-size: 0.88rem;
+        margin-bottom: 14px;
+    }
+
+    .hero-acciones {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    /* Menu nav: se hace scrollable en lugar de desbordarse */
+    #nav-enlaces {
+        height: 100dvh;
+        overflow-y: auto;
+        padding: 72px 20px 20px;
+    }
+
+    /* Secciones con menos padding vertical */
+    .seccion {
+        padding: 48px 0;
+    }
+}
+
+/* ── LANDSCAPE TABLET (altura < 700px) ────────────────────────────────────── */
+@media (max-height: 700px) and (min-width: 600px) and (orientation: landscape) {
+
+    #axis-hero {
+        min-height: auto;
+        padding: 80px 0 60px;
+    }
+
+    .hero-contenido h1 {
+        font-size: clamp(3.5rem, 9vw, 5.5rem);
     }
 }

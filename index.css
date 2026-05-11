@@ -616,3 +616,37 @@ body.intro-completada #pantalla-seleccion {
         min-height: 100dvh;
     }
 }
+
+/* Landscape movil: paneles lado a lado aunque la pantalla sea baja */
+@media (max-height: 500px) and (orientation: landscape) {
+    #pantalla-seleccion {
+        flex-direction: row;
+        min-height: 100dvh;
+    }
+
+    #lado-axis,
+    #lado-fate {
+        min-height: 100dvh;
+    }
+
+    .intro-titulo {
+        font-size: clamp(3.5rem, 14vw, 7rem);
+    }
+
+    .intro-tagline {
+        font-size: 0.95rem;
+        margin-top: 12px;
+    }
+
+    .intro-boton {
+        margin-top: 28px;
+    }
+
+    .panel-ui {
+        padding: 0 24px 32px;
+    }
+
+    .panel-nombre {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+    }
+}

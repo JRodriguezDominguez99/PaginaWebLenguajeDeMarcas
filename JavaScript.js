@@ -296,6 +296,202 @@ if (carruseles.length > 0) {
     });
 }
 
+// ── SHOWCASE CARRUSEL (reemplaza el carrusel de flechas en Axis) ──────────────
+(function () {
+    const showcase = document.getElementById('personajes-carrusel');
+    if (!showcase) return;
+
+    const track = showcase.querySelector('.showcase-track');
+    const items = Array.from(showcase.querySelectorAll('.showcase-item'));
+    const puntos = Array.from(showcase.querySelectorAll('.showcase-punto'));
+    const btnPrev = showcase.querySelector('.showcase-flecha-prev');
+    const btnNext = showcase.querySelector('.showcase-flecha-next');
+
+    if (!track || items.length === 0) return;
+
+    let indiceActual = 0;
+    let startX = 0;
+    let arrastrando = false;
+
+    function calcularOffset(indice) {
+        // Centramos el item activo en el contenedor
+        const anchoContenedor = showcase.clientWidth;
+        const anchoItem = items[0].offsetWidth + parseFloat(getComputedStyle(items[0]).marginLeft) * 2;
+        const centro = anchoContenedor / 2;
+        return -(indice * anchoItem) + centro - anchoItem / 2;
+    }
+
+    function irA(indice, forzar) {
+        const total = items.length;
+        indiceActual = ((indice % total) + total) % total;
+
+        track.style.transform = `translateX(${calcularOffset(indiceActual)}px)`;
+
+        items.forEach((item, i) => {
+            item.classList.toggle('activo', i === indiceActual);
+        });
+
+        puntos.forEach((p, i) => {
+            const esActivo = i === indiceActual;
+            p.classList.toggle('activo', esActivo);
+            p.setAttribute('aria-selected', String(esActivo));
+        });
+
+        if (btnPrev) btnPrev.disabled = false;
+        if (btnNext) btnNext.disabled = false;
+    }
+
+    // Inicializar
+    irA(0, true);
+
+    // Flechas
+    if (btnPrev) btnPrev.addEventListener('click', () => irA(indiceActual - 1));
+    if (btnNext) btnNext.addEventListener('click', () => irA(indiceActual + 1));
+
+    // Puntos
+    puntos.forEach((punto) => {
+        punto.addEventListener('click', () => irA(Number(punto.dataset.target)));
+    });
+
+    // Teclado (cuando el foco esta dentro del showcase)
+    showcase.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); irA(indiceActual - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); irA(indiceActual + 1); }
+    });
+
+    // Swipe tactil / arrastre
+    showcase.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('button')) return;
+        arrastrando = true;
+        startX = e.clientX;
+        showcase.setPointerCapture(e.pointerId);
+    });
+
+    showcase.addEventListener('pointerup', (e) => {
+        if (!arrastrando) return;
+        arrastrando = false;
+        const diff = e.clientX - startX;
+        if (Math.abs(diff) > 50) irA(indiceActual + (diff < 0 ? 1 : -1));
+    });
+
+    showcase.addEventListener('pointercancel', () => { arrastrando = false; });
+
+    // Scroll sobre el carrusel: avanza tarjetas. Si ya esta al limite, deja pasar el scroll.
+    let scrollCooldown = false;
+
+    showcase.addEventListener('wheel', (e) => {
+        // Solo interceptamos scroll vertical con intención clara (ignoramos trackpad horizontal)
+        if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+        if (Math.abs(e.deltaY) < 8) return;
+
+        const haciaDerecha = e.deltaY > 0;
+        const esUltimo = indiceActual === items.length - 1;
+        const esPrimero = indiceActual === 0;
+
+        // Si el scroll va más allá del límite, dejamos pasar el evento a la página
+        if ((haciaDerecha && esUltimo) || (!haciaDerecha && esPrimero)) return;
+
+        // En cualquier otro caso, consumimos el scroll y avanzamos tarjeta
+        e.preventDefault();
+
+        // Cooldown para que un scroll rápido no salte varias tarjetas a la vez
+        if (scrollCooldown) return;
+        scrollCooldown = true;
+        setTimeout(() => { scrollCooldown = false; }, 550);
+
+        irA(indiceActual + (haciaDerecha ? 1 : -1));
+    }, { passive: false });
+
+    // Recalcular al redimensionar
+    window.addEventListener('resize', () => irA(indiceActual, true));
+})();
+
+// ── SHOWCASE GENÉRICO: inicializa cualquier .showcase-carrusel de la pagina ────
+// Esto cubre tanto personajes como frentes (y cualquiera que se añada en el futuro)
+document.querySelectorAll('.showcase-carrusel').forEach((showcase) => {
+    // El de personajes ya tiene su propio bloque arriba; lo saltamos
+    if (showcase.id === 'personajes-carrusel') return;
+
+    const track = showcase.querySelector('.showcase-track');
+    const items = Array.from(showcase.querySelectorAll('.showcase-item'));
+    const puntos = Array.from(showcase.querySelectorAll('.showcase-punto'));
+    const btnPrev = showcase.querySelector('.showcase-flecha-prev');
+    const btnNext = showcase.querySelector('.showcase-flecha-next');
+
+    if (!track || items.length === 0) return;
+
+    let indiceActual = 0;
+    let startX = 0;
+    let arrastrando = false;
+    let scrollCooldown = false;
+
+    function calcularOffset(indice) {
+        const anchoContenedor = showcase.clientWidth;
+        const anchoItem = items[0].offsetWidth + parseFloat(getComputedStyle(items[0]).marginLeft) * 2;
+        return -(indice * anchoItem) + anchoContenedor / 2 - anchoItem / 2;
+    }
+
+    function irA(indice) {
+        const total = items.length;
+        indiceActual = ((indice % total) + total) % total;
+        track.style.transform = `translateX(${calcularOffset(indiceActual)}px)`;
+
+        items.forEach((item, i) => item.classList.toggle('activo', i === indiceActual));
+        puntos.forEach((p, i) => {
+            const esActivo = i === indiceActual;
+            p.classList.toggle('activo', esActivo);
+            p.setAttribute('aria-selected', String(esActivo));
+        });
+    }
+
+    irA(0);
+
+    if (btnPrev) btnPrev.addEventListener('click', () => irA(indiceActual - 1));
+    if (btnNext) btnNext.addEventListener('click', () => irA(indiceActual + 1));
+    puntos.forEach((p) => p.addEventListener('click', () => irA(Number(p.dataset.target))));
+
+    showcase.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') { e.preventDefault(); irA(indiceActual - 1); }
+        if (e.key === 'ArrowRight') { e.preventDefault(); irA(indiceActual + 1); }
+    });
+
+    // Swipe
+    showcase.addEventListener('pointerdown', (e) => {
+        if (e.target.closest('button')) return;
+        arrastrando = true;
+        startX = e.clientX;
+        showcase.setPointerCapture(e.pointerId);
+    });
+    showcase.addEventListener('pointerup', (e) => {
+        if (!arrastrando) return;
+        arrastrando = false;
+        const diff = e.clientX - startX;
+        if (Math.abs(diff) > 50) irA(indiceActual + (diff < 0 ? 1 : -1));
+    });
+    showcase.addEventListener('pointercancel', () => { arrastrando = false; });
+
+    // Scroll para avanzar tarjetas, con passthrough en los limites
+    showcase.addEventListener('wheel', (e) => {
+        if (Math.abs(e.deltaY) < Math.abs(e.deltaX)) return;
+        if (Math.abs(e.deltaY) < 8) return;
+
+        const haciaDerecha = e.deltaY > 0;
+        const esUltimo = indiceActual === items.length - 1;
+        const esPrimero = indiceActual === 0;
+
+        if ((haciaDerecha && esUltimo) || (!haciaDerecha && esPrimero)) return;
+
+        e.preventDefault();
+        if (scrollCooldown) return;
+        scrollCooldown = true;
+        setTimeout(() => { scrollCooldown = false; }, 550);
+
+        irA(indiceActual + (haciaDerecha ? 1 : -1));
+    }, { passive: false });
+
+    window.addEventListener('resize', () => irA(indiceActual));
+});
+
 // Referencias del modal de clases.
 const modal = document.getElementById('class-modal');
 const modalClose = document.getElementById('modal-close');

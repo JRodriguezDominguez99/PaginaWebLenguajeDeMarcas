@@ -436,3 +436,25 @@ body.js-reveal .reveal-on-scroll.revealed {
         grid-template-columns: 1fr;
     }
 }
+
+/* ── LANDSCAPE MOVIL ───────────────────────────────────────────────────────── */
+@media (max-height: 500px) and (orientation: landscape) {
+
+    .fichas-hero {
+        padding: 48px 18px 60px;
+    }
+
+    .fichas-hero h1 {
+        font-size: clamp(2.5rem, 10vw, 4rem);
+    }
+
+    .fichas-acciones {
+        flex-direction: row;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .fichas-layout {
+        margin-top: -24px;
+    }
+}

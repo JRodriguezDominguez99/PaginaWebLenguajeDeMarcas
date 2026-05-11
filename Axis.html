@@ -103,57 +103,103 @@
                 </p>
             </div>
 
-            <div class="carrusel-barra">
-                <!-- Estos botones desplazan horizontalmente el carrusel con JS. -->
-                <button class="carrusel-control ui" type="button" data-carrusel-dir="-1"
-                    data-carrusel-target="personajes-carrusel"
-                    aria-label="Ver personajes anteriores">
-                    &larr;
-                </button>
+            <!-- Carrusel showcase: tarjeta central grande, laterales desvanecidas -->
+            <div class="showcase-carrusel" id="personajes-carrusel" role="region" aria-label="Listado de personajes">
+                <div class="showcase-track" id="showcase-track">
 
-                <div id="personajes-carrusel" aria-label="Listado de personajes" data-reveal-children="true">
-                    <article class="personaje-card reveal-child">
-                        <span class="personaje-rol ui">Jesus Rodriguez / Waton</span>
-                        <h3 class="nombre-personaje">Roxxane Luxxwel</h3>
-                        <p>
-                            Presencia radiante del grupo, elegante y decidida, con energia de heroina destinada a
-                            cambiar el curso de la campana.
-                        </p>
+                    <article class="personaje-card showcase-item" data-index="0">
+                        <div class="showcase-card-inner">
+                            <div class="showcase-card-top">
+                                <span class="personaje-numero ui">01</span>
+                                <span class="personaje-rol ui">Jesus Rodriguez / Waton</span>
+                            </div>
+                            <h3 class="nombre-personaje showcase-nombre">Roxxane Luxxwel</h3>
+                            <p class="showcase-desc">
+                                Presencia radiante del grupo, elegante y decidida, con energia de heroina destinada a
+                                cambiar el curso de la campana.
+                            </p>
+                            <div class="showcase-linea" aria-hidden="true"></div>
+                            <div class="showcase-footer">
+                                <span class="ui showcase-clase">Saber</span>
+                                <span class="ui showcase-mundo">Axis &middot; Protagonista</span>
+                            </div>
+                        </div>
                     </article>
 
-                    <article class="personaje-card reveal-child">
-                        <span class="personaje-rol ui">Jesus Naranjo</span>
-                        <h3 class="nombre-personaje">Ami</h3>
-                        <p>
-                            Pieza emocional del equipo, siempre cerca del conflicto principal y de las decisiones que
-                            pueden romper o salvar el futuro.
-                        </p>
+                    <article class="personaje-card showcase-item" data-index="1">
+                        <div class="showcase-card-inner">
+                            <div class="showcase-card-top">
+                                <span class="personaje-numero ui">02</span>
+                                <span class="personaje-rol ui">Jesus Naranjo</span>
+                            </div>
+                            <h3 class="nombre-personaje showcase-nombre">Ami</h3>
+                            <p class="showcase-desc">
+                                Pieza emocional del equipo, siempre cerca del conflicto principal y de las decisiones que
+                                pueden romper o salvar el futuro.
+                            </p>
+                            <div class="showcase-linea" aria-hidden="true"></div>
+                            <div class="showcase-footer">
+                                <span class="ui showcase-clase">Caster</span>
+                                <span class="ui showcase-mundo">Axis &middot; Apoyo</span>
+                            </div>
+                        </div>
                     </article>
 
-                    <article class="personaje-card reveal-child">
-                        <span class="personaje-rol ui">Manuel</span>
-                        <h3 class="nombre-personaje">Hans</h3>
-                        <p>
-                            Fuerza contenida, humor seco y mirada practica. Un personaje que equilibra el grupo cuando
-                            todo empieza a ir demasiado lejos.
-                        </p>
+                    <article class="personaje-card showcase-item" data-index="2">
+                        <div class="showcase-card-inner">
+                            <div class="showcase-card-top">
+                                <span class="personaje-numero ui">03</span>
+                                <span class="personaje-rol ui">Manuel</span>
+                            </div>
+                            <h3 class="nombre-personaje showcase-nombre">Hans</h3>
+                            <p class="showcase-desc">
+                                Fuerza contenida, humor seco y mirada practica. Un personaje que equilibra el grupo cuando
+                                todo empieza a ir demasiado lejos.
+                            </p>
+                            <div class="showcase-linea" aria-hidden="true"></div>
+                            <div class="showcase-footer">
+                                <span class="ui showcase-clase">Lancer</span>
+                                <span class="ui showcase-mundo">Axis &middot; Vanguardia</span>
+                            </div>
+                        </div>
                     </article>
 
-                    <article class="personaje-card reveal-child">
-                        <span class="personaje-rol ui">Alberto Burpe</span>
-                        <h3 class="nombre-personaje">Edmund d' Tula</h3>
-                        <p>
-                            Figura noble y misteriosa, marcada por el peso de las decisiones dificiles y por un pasado
-                            que todavia no ha dicho su ultima palabra.
-                        </p>
+                    <article class="personaje-card showcase-item" data-index="3">
+                        <div class="showcase-card-inner">
+                            <div class="showcase-card-top">
+                                <span class="personaje-numero ui">04</span>
+                                <span class="personaje-rol ui">Alberto Burpe</span>
+                            </div>
+                            <h3 class="nombre-personaje showcase-nombre">Edmund d'Tula</h3>
+                            <p class="showcase-desc">
+                                Figura noble y misteriosa, marcada por el peso de las decisiones dificiles y por un pasado
+                                que todavia no ha dicho su ultima palabra.
+                            </p>
+                            <div class="showcase-linea" aria-hidden="true"></div>
+                            <div class="showcase-footer">
+                                <span class="ui showcase-clase">Archer</span>
+                                <span class="ui showcase-mundo">Axis &middot; Estratega</span>
+                            </div>
+                        </div>
                     </article>
+
                 </div>
 
-                <button class="carrusel-control ui" type="button" data-carrusel-dir="1"
-                    data-carrusel-target="personajes-carrusel"
-                    aria-label="Ver personajes siguientes">
-                    &rarr;
-                </button>
+                <!-- Navegacion: flechas sutiles + puntos -->
+                <div class="showcase-nav" aria-label="Navegacion del carrusel">
+                    <button class="showcase-flecha showcase-flecha-prev ui" type="button" aria-label="Personaje anterior">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                    </button>
+                    <div class="showcase-puntos" role="tablist">
+                        <button class="showcase-punto activo" type="button" role="tab" aria-selected="true" data-target="0" aria-label="Personaje 1"></button>
+                        <button class="showcase-punto" type="button" role="tab" aria-selected="false" data-target="1" aria-label="Personaje 2"></button>
+                        <button class="showcase-punto" type="button" role="tab" aria-selected="false" data-target="2" aria-label="Personaje 3"></button>
+                        <button class="showcase-punto" type="button" role="tab" aria-selected="false" data-target="3" aria-label="Personaje 4"></button>
+                    </div>
+                    <button class="showcase-flecha showcase-flecha-next ui" type="button" aria-label="Personaje siguiente">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                    </button>
+                </div>
             </div>
         </section>
 
